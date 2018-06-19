@@ -1,0 +1,51 @@
+import blocks = require('./../blocks.js');
+import Link = require('./Link.js');
+
+class Block {
+    template: BlockTemplate;
+    x: number = 0;
+    y: number = 0;
+    tag: object;
+    tagValues: any = {};
+    inputLinks: Array<Link> = [];
+    values: any = {};
+    id: number;
+
+    constructor(key: string, x = 0, y = 0) {
+        this.template = blocks[key];
+        this.x = x;
+        this.y = y;
+        if (this.template.tags) {
+            for (let tagInfo of this.template.tags) {
+                this.tagValues[tagInfo.key] = tagInfo.defaultValue;
+            }
+        }
+    }
+    addLink(inputKey: string, outBlock: Block, outKey: string) {
+        this.inputLinks.push(new Link(this, inputKey, outBlock, outKey));
+    }
+    exec(): Promise<any> {
+        if (Object.keys(this.values).length) {
+            return Promise.resolve(this.values);
+        }
+        var inputs = {};
+        
+        var promises = this.inputLinks.map(link => 
+            link.outBlock.exec()
+            .then(results => {
+                inputs[link.inputKey] = link.outBlock.values[link.outKey];
+            })
+        );
+
+        return Promise.all(promises)
+        .then(() => this.template.exec(inputs, this))
+        .then(results => {
+            for (var i in results) {
+                this.values[i] = results[i];
+            }
+            return Promise.resolve(results);
+        });
+    }
+}
+
+export = Block;

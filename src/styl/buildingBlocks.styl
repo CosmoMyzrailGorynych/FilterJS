@@ -1,0 +1,16 @@
+.Tabs
+    list-style none
+    display flex
+    flex-flow row wrap
+    border 1px solid borders
+    margin 0
+    padding 0
+    li, .aTab
+        flex 1 1 auto
+        text-align center
+        padding 0.5rem 1rem
+        &+li
+            border-left 1px solid borders
+        cursor pointer
+        &.active
+            font-weight bold

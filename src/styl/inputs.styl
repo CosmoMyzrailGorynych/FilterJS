@@ -1,0 +1,20 @@
+input, button, textarea, select
+    line-height 1.5rem
+    padding 0.5rem 1rem
+    border 1px solid borders
+    box-sizing border-box
+    background bgColor
+    font inherit
+    color inherit
+    border-radius br
+    box-shadow 0 -2px 1px borders inset
+input[type="color"]
+    border 0
+button, select
+    box-shadow 0 2px 1px borders inset
+    border 1px solid borders
+    border-top-color lighten(borders, 10%)
+    border-bottom-color mix(black, borders, 50%)
+    cursor pointer
+    &:hover
+        background mix(bgColor, borders, 80%)

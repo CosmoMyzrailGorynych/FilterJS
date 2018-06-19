@@ -1,0 +1,59 @@
+editor-screen
+    display flex
+    flex 1 1 auto
+    flex-flow column nowrap
+    height 100%
+    & > .Tabs
+        flex 0 0 auto
+    preview-panel
+        grid-column 1 / 1
+        grid-row 1 / 1
+    components-palette
+        grid-column 1 / 1
+        grid-row 2 / 2 
+    .split
+        grid-column 1 / 1
+        grid-row 3 / 3
+        display flex
+        flex-flow row nowrap
+        button
+            flex 1 1 50%
+            border 0
+            border-radius 0
+            & + button
+                margin-left 1px
+    graph-editor 
+        grid-column 2 / 2
+        grid-row 1 / span 3
+#theEditingPanel
+    grid-template-columns 16rem 1fr
+    grid-template-rows @grid-template-columns
+    components-palette, canvas.aPreview
+        background bgColor
+#theOutputScreen
+    grid-template-rows 1fr 3rem
+    button
+        grid-row 2 / 2
+        border-radius 0
+        border 0
+    .anOutput
+        grid-column 1 / span 3
+        align-self center
+        justify-self center
+        overflow auto
+        max-width 100%
+        max-height 100%
+        min-width 100%
+        min-height 100%
+        text-align center
+        padding 1rem
+        box-sizing border-box
+        canvas
+            box-shadow 0 0.25rem 0.5rem rgba(#00, 0.35)
+#theEditingPanel, #theOutputScreen
+    display grid
+    grid-gap 1px
+    height 100%
+    background borders
+    flex 1 1 auto
+    position relative

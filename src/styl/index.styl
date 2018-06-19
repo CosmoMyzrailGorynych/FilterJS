@@ -1,0 +1,40 @@
+black = rgb(6, 9, 12)
+ltBlack = lighten(black, 3%)
+dkGrey = lighten(black, 15%)
+ltGrey = #dedede
+red = rgb(209, 74, 66)
+green = rgb(128, 152, 72)
+magenta = #ff209e
+yellow = #e8c547
+paleViolet = rgb(132, 121, 150)
+paleBlue = rgb(136, 183, 181)
+
+// Setting aliases
+bgColor = black
+blocks = ltBlack
+borders = dkGray = dkGrey
+textColor = ltGrey
+pixels = red
+canvas = green
+channel = magenta
+color = paleViolet
+number = paleBlue
+bool = yellow
+
+br = 0.5rem
+
+body, html
+    font-family sans-serif
+    background bgColor
+    padding 0
+    margin 0
+    color textColor
+    line-height 1.5
+    position relative
+    height 100%
+
+@require './buildingBlocks.styl'
+@require './typography.styl'
+@require './inputs.styl'
+
+@require './tags/**/*.styl'

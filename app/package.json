@@ -1,0 +1,18 @@
+{
+  "name": "FilterJS",
+  "description": "Generate textures with JS power!",
+  "version": "0.0.0",
+  "main": "index.html",
+  "dependencies": {
+    "fs-extra": "^6.0.0",
+    "mersenne-twister": "^1.1.0"
+  },
+  "window": {
+    "title": "FilterJS",
+    "fullscreen": false,
+    "show": true,
+    "width": 800,
+    "height": 640
+  },
+  "stylintrc": ".stylintrc"
+}

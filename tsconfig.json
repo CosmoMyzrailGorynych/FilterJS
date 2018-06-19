@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "removeComments": true,
+        "sourceMap": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "esnext",
+        "types": [
+            "node"
+        ],
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "lib": ["dom", "esnext"]
+    }
+}

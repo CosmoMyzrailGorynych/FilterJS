@@ -1,0 +1,143 @@
+var grayscale = <BlockTemplate>{
+    nameLoc: 'blocks.processing.grayscale.name',
+    name: 'To Grayscale',
+    inputs: [{
+        key: 'input',
+        type: 'pixels',
+        name: 'Input',
+        nameLoc: 'blocks.processing.grayscale.input'
+    }],
+    outputs: [{
+        key: 'output',
+        type: 'pixels',
+        name: 'Output',
+        nameLoc: 'blocks.processing.grayscale.output',
+    }],
+    tags: [{
+        key: 'calcLuminescence',
+        defaultValue: true,
+        tag: 'bool-input',
+        label: 'Use Luminescence'
+    }],
+    exec(inputs, block) {
+        return new Promise((resolve, reject) => {
+            var inp = inputs.input,
+                out = document.createElement('canvas').getContext('2d')
+                      .createImageData(inp.width, inp.height);
+            if (block.tagValues['calcLuminescence']) {
+                for (let x = 0; x < inp.width; x++) {
+                    for (let y = 0; y < inp.height; y++) {
+                        let p = (y*inp.width + x)*4,
+                            a = 0.2126*inp.data[p] + 0.7152*inp.data[p+1] + 0.0722*inp.data[p+2];
+                        out.data[p] = a;
+                        out.data[p+1] = a;
+                        out.data[p+2] = a;
+                        out.data[p+3] = inp.data[p+3];
+                    }
+                }
+            } else {
+                for (let x = 0; x < inp.width; x++) {
+                    for (let y = 0; y < inp.height; y++) {
+                        let p = (y*inp.width + x)*4,
+                            a = (inp.data[p] + inp.data[p+1] + inp.data[p+2]) / 3;
+                        out.data[p] = a;
+                        out.data[p+1] = a;
+                        out.data[p+2] = a;
+                        out.data[p+3] = inp.data[p+3];
+                    }
+                }
+            }
+            resolve({
+                output: out
+            });
+        });
+    }
+};
+
+const computeMaxAtPoint = (input: ImageData, x: number, y: number) => {
+    var p = (input.width * y + x)*4;
+    return Math.max(input.data[p], input.data[p+1], input.data[p+2]);
+}
+
+var computeNormals = <BlockTemplate>{
+    nameLoc: 'blocks.processing.computeNormals.name',
+    name: 'Normal',
+    inputs: [{
+        key: 'height',
+        type: 'pixels',
+        name: 'Height',
+        nameLoc: 'blocks.processing.computeNormals.inputHeight'
+    }, {
+        key: 'intensity',
+        type: 'number',
+        name: 'Intensity',
+        nameLoc: 'blocks.processing.computeNormals.inputIntensity',
+        optional: true
+    }],
+    outputs: [{
+        key: 'normals',
+        type: 'pixels',
+        name: 'Normals',
+        nameLoc: 'blocks.processing.computeNormals.outputNormals',
+    }],
+    exec(inputs, block) {
+        return new Promise((resolve, reject) => {
+            var inp = inputs.height,
+                out = document.createElement('canvas').getContext('2d')
+                      .createImageData(inp.width, inp.height),
+                intensity = inputs.intensity || 1;
+            for (let x = 1; x < inp.width - 1; x++) {
+                for (let y = 1; y < inp.height - 1; y++) {
+                    var p = (x + y*inp.width) * 4;
+                    out.data[p] = 127 + (computeMaxAtPoint(inp, x-1, y) - computeMaxAtPoint(inp, x+1, y)) * intensity;
+                    out.data[p+1] = 127 + (computeMaxAtPoint(inp, x, y-1) - computeMaxAtPoint(inp, x, y+1)) * intensity;
+                    out.data[p+2] = 255;
+                    out.data[p+3] = 255;
+                }
+            }
+            // work with edges
+            for (let y = 0; y < inp.height; y++) {
+                var p = y*inp.width*4; // left edge
+                out.data[p] = 127 + (computeMaxAtPoint(inp, 0, y) - computeMaxAtPoint(inp, 1, y)) * intensity
+                if (y > 0 && y < inp.height -1) {
+                    out.data[p+1] = 127 + (computeMaxAtPoint(inp, 0, y-1) - computeMaxAtPoint(inp, 1, y+1)) * intensity;
+                }
+                out.data[p+2] = 255;
+                out.data[p+3] = 255;
+
+                var p = ((y+1)*inp.width - 1)*4; // right edge
+                out.data[p] = 127 + (computeMaxAtPoint(inp, inp.width-2, y) - computeMaxAtPoint(inp, inp.width-1, y)) * intensity
+                if (y > 0 && y < inp.height -1) {
+                    out.data[p+1] = 127 + (computeMaxAtPoint(inp, inp.width-1, y-1) - computeMaxAtPoint(inp, inp.width-1, y+1)) * intensity;
+                }
+                out.data[p+2] = 255;
+                out.data[p+3] = 255;
+            }
+            for (let x = 0; x < inp.width; x++) {
+                var p = x*4; // top edge
+                if (x > 0 && x < inp.width - 1) {
+                    out.data[p] = 127 + (computeMaxAtPoint(inp, x-1, 0) - computeMaxAtPoint(inp, x+1, 1)) * intensity;
+                }
+                out.data[p+1] = 127 + (computeMaxAtPoint(inp, x, 0) - computeMaxAtPoint(inp, x, 1)) * intensity;
+                out.data[p+2] = 255;
+                out.data[p+3] = 255;
+
+                var p = (inp.width*(inp.height-1) + x)*4; // bottom edge
+                if (x > 0 && x < inp.width - 1) {
+                    out.data[p] = 127 + (computeMaxAtPoint(inp, x-1, inp.height-1) - computeMaxAtPoint(inp, x+1, inp.height-1)) * intensity;
+                }
+                out.data[p+1] = 127 + (computeMaxAtPoint(inp, x, inp.height-2) - computeMaxAtPoint(inp, x, inp.height-1)) * intensity;
+                out.data[p+2] = 255;
+                out.data[p+3] = 255;
+            }
+            resolve({
+                normals: out
+            });
+        });
+    }
+};
+
+module.exports = {
+    grayscale,
+    computeNormals
+};
