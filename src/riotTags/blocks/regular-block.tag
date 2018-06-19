@@ -21,7 +21,7 @@ regular-block(
                 onmousedown="{tryStartOutputPin}"
                 onmouseup="{tryConnectOutputPin}"
                 class="{output.type} {optional: output.optional}"
-                title="{input.hint}"
+                title="{output.hint}"
                 data-key="{output.key}" data-type="{output.type}"
             )
                 span {output.name}
