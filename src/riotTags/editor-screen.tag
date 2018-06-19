@@ -18,7 +18,7 @@ editor-screen
         div.split
             button Save
             button(onclick="{render}") Render
-        graph-editor(graph="{filter.graph}" view="{filter.view}")
+        graph-editor(graph="{filter.graph}" view="{filter.view}" ref="graphEditor")
     #theOutputScreen(show="{tab === 'output'}" )
         // .anOriginal
         .anOutput(ref="output")
@@ -99,6 +99,7 @@ editor-screen
                 this.filter = glob.filter = new Filter('New filter');
                 this.loadSampleImage();
                 this.update();
+                this.refs.graphEditor.updateLinks();
             }
         };
         this.copyToClipboard = e => {
@@ -148,11 +149,14 @@ editor-screen
             e.target.value = '';
         };
         this.finishLoadFilter = e => {
+            this.filter = glob.filter = new Filter('New filter');
             fs.readFile(e.target.value, {
                 encoding: 'utf8'
             })
             .then(data => {
-                this.Filter.fromJSON(data);
+                this.filter.fromJSON(data);
+                this.update();
+                this.refs.graphEditor.updateLinks();
             });
             e.target.value = '';
         };

@@ -18,6 +18,14 @@ graph-editor(style="background-position: {this.view.x + this.width/2}px {this.vi
     script.
         this.blocks = this.opts.graph;
         this.view = this.opts.view;
+        this.on('update', () => {
+            if (this.blocks !== this.opts.graph) {
+                this.blocks = this.opts.graph;
+            }
+            if (this.view !== this.opts.view) {
+                this.view = this.opts.view;
+            }
+        });
         var cx, cpx;
         const palette = require('./js/palette.js');
 

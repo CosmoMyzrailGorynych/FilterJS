@@ -118,6 +118,8 @@ class Filter {
             }
         }
         this.lastId = filter.lastId;
+        var output = this.graph[0];
+        this.exec = () => output.exec();
     }
 }
 

@@ -10,6 +10,11 @@ components-palette
             span {block.name}
     script.
         this.filter = this.opts.filter;
+        this.on('update', () => {
+            if (this.filter !== this.opts.filter) {
+                this.filter = this.opts.filter;
+            }
+        });
         this.blocks = require('./js/blocks.js')
         this.addBlock = e => {
             this.filter.addBlock(e.item.blockName, (Math.round(-this.filter.view.x / 20) * 20), Math.round(-this.filter.view.y / 20) * 20);
