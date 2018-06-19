@@ -2,7 +2,7 @@ import blocks = require('./../blocks.js');
 import Link = require('./Link.js');
 
 class Block {
-    template: BlockTemplate;
+    template: IBlockTemplate;
     x: number = 0;
     y: number = 0;
     tag: object;
@@ -16,7 +16,7 @@ class Block {
         this.x = x;
         this.y = y;
         if (this.template.tags) {
-            for (let tagInfo of this.template.tags) {
+            for (const tagInfo of this.template.tags) {
                 this.tagValues[tagInfo.key] = tagInfo.defaultValue;
             }
         }
@@ -28,10 +28,9 @@ class Block {
         if (Object.keys(this.values).length) {
             return Promise.resolve(this.values);
         }
-        var inputs = {};
-        
-        var promises = this.inputLinks.map(link => 
-            link.outBlock.exec()
+        const inputs = {};
+
+        const promises = this.inputLinks.map(link => link.outBlock.exec()
             .then(results => {
                 inputs[link.inputKey] = link.outBlock.values[link.outKey];
             })
@@ -40,8 +39,10 @@ class Block {
         return Promise.all(promises)
         .then(() => this.template.exec(inputs, this))
         .then(results => {
-            for (var i in results) {
-                this.values[i] = results[i];
+            for (const i in results) {
+                if (results.hasOwnProperty(i)) {
+                    this.values[i] = results[i];
+                }
             }
             return Promise.resolve(results);
         });

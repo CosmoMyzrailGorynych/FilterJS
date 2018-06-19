@@ -27,9 +27,9 @@ class GlobalData {
         this.sourceImage.width = this.width;
         this.sourceImage.height = this.height;
         this.selectedBlocks = [];
-    };
+    }
 }
 
-var glob:GlobalData = new GlobalData();
+const glob:GlobalData = new GlobalData();
 
 export = glob;

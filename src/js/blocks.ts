@@ -1,17 +1,19 @@
-interface BlockCollection {
-    [index: string]: BlockTemplate
+interface IBlockCollection {
+    [index: string]: IBlockTemplate;
 }
 
-var exp = <BlockCollection>{};
+const exp = <IBlockCollection>{};
 
 require('fs')
 .readdirSync('./js/blocks')
 .forEach(fileName => {
     if (fileName.match(/\.js$/)) {
-        var blocks:BlockCollection = require('./blocks/' + fileName);
-        for (var i in blocks) {
-            exp[i] = blocks[i];
-            blocks[i].set = fileName.slice(0, -3);
+        const blocks:IBlockCollection = require('./blocks/' + fileName);
+        for (const i in blocks) {
+            if (blocks.hasOwnProperty(i)) {
+                exp[i] = blocks[i];
+                blocks[i].set = fileName.slice(0, -3);
+            }
         }
     }
 });

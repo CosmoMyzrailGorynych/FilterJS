@@ -1,7 +1,7 @@
 import BlockError = require('./../types/BlockError.js');
 import Channel = require('./../types/Channel.js');
 
-var splitChannels = <BlockTemplate>{
+const splitChannels = <IBlockTemplate>{
     nameLoc: 'blocks.channels.splitChannels.name',
     name: 'Split Channels',
     noPreview: true,
@@ -34,9 +34,9 @@ var splitChannels = <BlockTemplate>{
     }],
     exec(inputs, block) {
         return new Promise((resolve, reject) => {
-            var w = inputs.input.width,
-                h = inputs.input.height;
-            var channelR = new Channel(w, h), 
+            const w = inputs.input.width,
+                  h = inputs.input.height;
+            const channelR = new Channel(w, h),
                 channelG = new Channel(w, h),
                 channelB = new Channel(w, h),
                 channelA = new Channel(w, h),
@@ -58,7 +58,7 @@ var splitChannels = <BlockTemplate>{
     }
 };
 
-var combineChannels = <BlockTemplate>{
+const combineChannels = <IBlockTemplate>{
     nameLoc: 'blocks.channels.combineChannels.name',
     name: 'Combine Channels',
     noPreview: true,
@@ -95,18 +95,18 @@ var combineChannels = <BlockTemplate>{
     }],
     exec(inputs, block) {
         return new Promise((resolve, reject) => {
-            var orient = inputs.r || inputs.g || inputs.b || inputs.a;
+            const orient = inputs.r || inputs.g || inputs.b || inputs.a;
             if (!orient) {
-                var error = new BlockError('At least one input channel must be connected');
+                const error = new BlockError('At least one input channel must be connected');
                 error.block = block;
                 return reject(error);
             }
-            var w = orient.width,
-                h = orient.height;
-            var out = new ImageData(w, h);
+            const w = orient.width,
+                  h = orient.height;
+            const out = new ImageData(w, h);
             for (let x = 0; x < w; x++) {
                 for (let y = 0; y < h; y++) {
-                    let i = x + y*w;
+                    const i = x + y*w;
                     out.data[i*4] = inputs.r? inputs.r.data[i] : 0;
                     out.data[i*4+1] = inputs.g? inputs.g.data[i] : 0;
                     out.data[i*4+2] = inputs.b? inputs.b.data[i] : 0;

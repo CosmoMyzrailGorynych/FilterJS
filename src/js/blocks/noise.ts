@@ -1,11 +1,11 @@
 import Noise = require('./../3rdparty/perlin.js');
-import Block = require('./../types/Block.js')
+import Block = require('./../types/Block.js');
 
-var lerp = function(a: number, b: number, alpha: number): number {
+const lerp = (a: number, b: number, alpha: number): number => {
     return a*(1-alpha) + b*alpha;
 };
 
-var perlinNoise = <BlockTemplate>{
+const perlinNoise = <IBlockTemplate>{
     nameLoc: 'blocks.noise.perlinNoise.name',
     name: 'Perlin Noise',
     inputs: [{
@@ -51,17 +51,17 @@ var perlinNoise = <BlockTemplate>{
     }],
     exec(inputs: any, block: Block) {
         return new Promise((resolve, reject) => {
-            var seedSet = Noise.seed(block.tagValues['seed'] || 0),
-                plainRandom = new (require('mersenne-twister'))(0);
-            var sizeX = inputs.sizeX || 100,
-                sizeY = inputs.sizeY || 100,
-                repeat = inputs.repeat || 1;
+            const seedSet = Noise.seed(block.tagValues.seed || 0),
+                  plainRandom = new (require('mersenne-twister'))(0);
+            const sizeX = inputs.sizeX || 100,
+                  sizeY = inputs.sizeY || 100;
+            var repeat = inputs.repeat || 1;
             repeat = Math.max(1, Math.min(5, repeat));
-            var i1 = inputs.lowestValue,
-                i2 = inputs.highestValue,
-                out = document.createElement('canvas').getContext('2d')
-                      .createImageData(i1.width, i1.height);
-            var shifts = [];
+            const i1 = inputs.lowestValue,
+                  i2 = inputs.highestValue,
+                  out = document.createElement('canvas').getContext('2d')
+                        .createImageData(i1.width, i1.height);
+            const shifts = [];
             for (let i = 1; i <= repeat; i++) {
                 shifts.push(plainRandom.random() * i1.width);
                 shifts.push(plainRandom.random() * i1.width);
@@ -70,12 +70,12 @@ var perlinNoise = <BlockTemplate>{
                 for (let y = 0; y < i1.height; y++) {
                     let a = Noise.perlin2(x / i1.width * sizeX, y / i1.width * sizeY, seedSet);
                     for (let i = 1; i <= repeat; i++) {
-                        let randX = shifts[(i-1) * 2 ],
-                            randY = shifts[(i-1) * 2 + 1];
+                        const randX = shifts[(i-1) * 2 ],
+                              randY = shifts[(i-1) * 2 + 1];
                         a = lerp(
-                            a, 
+                            a,
                             Noise.perlin2((x+randX) / i1.width * sizeX * Math.pow(2, i), (y+randY) / i1.width * sizeY * Math.pow(2, i), seedSet),
-                            1 / Math.pow(2, i) 
+                            1 / Math.pow(2, i)
                         );
                     }
                     for (var i = 0; i < 4; i++) {
@@ -94,7 +94,7 @@ var perlinNoise = <BlockTemplate>{
     }
 };
 
-var simplexNoise = <BlockTemplate>{
+const simplexNoise = <IBlockTemplate>{
     nameLoc: 'blocks.noise.simplexNoise.name',
     name: 'Simplex Noise',
     inputs: [{
@@ -140,17 +140,17 @@ var simplexNoise = <BlockTemplate>{
     }],
     exec(inputs: any, block: Block) {
         return new Promise((resolve, reject) => {
-            var seedSet = Noise.seed(block.tagValues['seed'] || 0),
-                plainRandom = new (require('mersenne-twister'))(0);
-            var sizeX = inputs.sizeX || 100,
-                sizeY = inputs.sizeY || 100,
-                repeat = inputs.repeat || 1;
+            const seedSet = Noise.seed(block.tagValues.seed || 0),
+                  plainRandom = new (require('mersenne-twister'))(0);
+            const sizeX = inputs.sizeX || 100,
+                  sizeY = inputs.sizeY || 100;
+            var repeat = inputs.repeat || 1;
             repeat = Math.max(1, Math.min(5, repeat));
-            var i1 = inputs.lowestValue,
-                i2 = inputs.highestValue,
-                out = document.createElement('canvas').getContext('2d')
-                      .createImageData(i1.width, i1.height);
-            var shifts = [];
+            const i1 = inputs.lowestValue,
+                  i2 = inputs.highestValue,
+                  out = document.createElement('canvas').getContext('2d')
+                        .createImageData(i1.width, i1.height);
+            const shifts = [];
             for (let i = 1; i <= repeat; i++) {
                 shifts.push(plainRandom.random() * i1.width);
                 shifts.push(plainRandom.random() * i1.width);
@@ -159,12 +159,12 @@ var simplexNoise = <BlockTemplate>{
                 for (let y = 0; y < i1.height; y++) {
                     let a = Noise.simplex2(x / i1.width * sizeX, y / i1.width * sizeY, seedSet);
                     for (let i = 1; i <= repeat; i++) {
-                        let randX = shifts[(i-1) * 2 ],
-                            randY = shifts[(i-1) * 2 + 1];
+                        const randX = shifts[(i-1) * 2 ],
+                              randY = shifts[(i-1) * 2 + 1];
                         a = lerp(
-                            a, 
+                            a,
                             Noise.simplex2((x+randX) / i1.width * sizeX * Math.pow(2, i), (y+randY) / i1.width * sizeY * Math.pow(2, i), seedSet),
-                            1 / Math.pow(2, i) 
+                            1 / Math.pow(2, i)
                         );
                     }
                     for (var i = 0; i < 4; i++) {

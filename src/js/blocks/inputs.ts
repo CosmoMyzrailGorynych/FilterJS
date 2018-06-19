@@ -1,4 +1,4 @@
-var colorInput = <BlockTemplate>{
+var colorInput = <IBlockTemplate>{
     nameLoc: 'blocks.inputs.colorInput.name',
     name: 'Color Input',
     noPreview: true,
@@ -21,7 +21,7 @@ var colorInput = <BlockTemplate>{
     }
 };
 
-var numberInput = <BlockTemplate>{
+var numberInput = <IBlockTemplate>{
     nameLoc: 'blocks.inputs.numberInput.name',
     name: 'Number Input',
     noPreview: true,
@@ -44,7 +44,7 @@ var numberInput = <BlockTemplate>{
     }
 };
 
-var boolInput = <BlockTemplate>{
+var boolInput = <IBlockTemplate>{
     nameLoc: 'blocks.inputs.boolInput.name',
     name: 'Boolean Input',
     noPreview: true,

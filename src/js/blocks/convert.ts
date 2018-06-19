@@ -1,4 +1,4 @@
-var canvasToPixels = <BlockTemplate>{
+const canvasToPixels = <IBlockTemplate>{
     nameLoc: 'blocks.convert.convert',
     name: 'Convert',
     noPalette: true,
@@ -22,7 +22,7 @@ var canvasToPixels = <BlockTemplate>{
     }
 };
 
-var pixelsToCanvas = <BlockTemplate>{
+const pixelsToCanvas = <IBlockTemplate>{
     nameLoc: 'blocks.convert.convert',
     name: 'Convert',
     noPalette: true,
@@ -41,7 +41,7 @@ var pixelsToCanvas = <BlockTemplate>{
     }],
     exec(inputs) {
         return new Promise((resolve, reject) => {
-            var canvas = document.createElement('canvas');
+            const canvas = document.createElement('canvas');
             canvas.width = inputs.pixels.width;
             canvas.height = inputs.pixels.height;
             canvas.getContext('2d').putImageData(inputs.pixels, 0, 0);
@@ -52,7 +52,7 @@ var pixelsToCanvas = <BlockTemplate>{
     }
 };
 
-var channelToPixels = <BlockTemplate>{
+const channelToPixels = <IBlockTemplate>{
     nameLoc: 'blocks.convert.convertChannel',
     name: 'Convert (B&W)',
     noPalette: true,
@@ -71,9 +71,9 @@ var channelToPixels = <BlockTemplate>{
     }],
     exec(inputs) {
         return new Promise((resolve, reject) => {
-            var w = inputs.channel.width,
-                h = inputs.channel.height;
-            var out = new ImageData(w, h);
+            const w = inputs.channel.width,
+                  h = inputs.channel.height;
+            const out = new ImageData(w, h);
             for (let x = 0; x < w; x++) {
                 for (let y = 0; y < h; y++) {
                     for (let i = 0; i < 3; i++) {

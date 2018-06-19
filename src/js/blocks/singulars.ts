@@ -1,6 +1,6 @@
 import glob = require('./../global.js');
 
-var inputImage = <BlockTemplate>{
+const inputImage = <IBlockTemplate>{
     nameLoc: 'blocks.singulars.inputImage.name',
     name: 'Input Image',
     isSingular: true,
@@ -18,7 +18,7 @@ var inputImage = <BlockTemplate>{
     }
 };
 
-var outputImage = <BlockTemplate>{
+const outputImage = <IBlockTemplate>{
     nameLoc: 'blocks.general.outputImage.name',
     name: 'Output Image',
     isSingular: true,

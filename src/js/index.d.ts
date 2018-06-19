@@ -7,7 +7,7 @@ declare enum LinkType {
     Boolean = 'bool'
 }
 
-interface LinkNotation {
+interface ILinkNotation {
     key: string;
     name: string;
     nameLoc: string;
@@ -16,23 +16,23 @@ interface LinkNotation {
     hint?: string;
 }
 
-interface tagNotation {
+interface ITagNotation {
     key: string,
     tag: string,
     label?: string,
     defaultValue: any
 }
 
-interface BlockTemplate {
+interface IBlockTemplate {
     nameLoc: string;
     name: string;
     set?: string;
     noPreview?: boolean;
     noPalette?: boolean;
-    tags?: Array<tagNotation>;
+    tags?: Array<ITagNotation>;
     hint?: string;
-    inputs: Array<LinkNotation>;
-    outputs: Array<LinkNotation>;
+    inputs: Array<ILinkNotation>;
+    outputs: Array<ILinkNotation>;
     exec(inputs: any, block: Block): Promise<object>;
 }
 
@@ -45,7 +45,7 @@ declare class Link {
 }
 
 declare class Block {
-    template: BlockTemplate;
+    template: IBlockTemplate;
     x: number;
     y: number;
     tag: object;
