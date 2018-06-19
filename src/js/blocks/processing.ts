@@ -54,6 +54,41 @@ const grayscale = <IBlockTemplate>{
     }
 };
 
+const invert = <IBlockTemplate>{
+    nameLoc: 'blocks.processing.invert.name',
+    name: 'Invert',
+    inputs: [{
+        key: 'input',
+        type: 'pixels',
+        name: 'Input',
+        nameLoc: 'blocks.processing.invert.input'
+    }],
+    outputs: [{
+        key: 'output',
+        type: 'pixels',
+        name: 'Output',
+        nameLoc: 'blocks.processing.invert.output',
+    }],
+    exec(inputs, block) {
+        return new Promise((resolve, reject) => {
+            const inp = inputs.input,
+                  out = new ImageData(inp.width, inp.height);
+            for (let x = 0; x < inp.width; x++) {
+                for (let y = 0; y < inp.height; y++) {
+                    const p = (y*inp.width + x)*4;
+                    out.data[p] = 255 - inp.data[p];
+                    out.data[p+1] = 255 - inp.data[p+1];
+                    out.data[p+2] = 255 - inp.data[p+2];
+                    out.data[p+3] = inp.data[p+3];
+                }
+            }
+            resolve({
+                output: out
+            });
+        });
+    }
+};
+
 const computeMaxAtPoint = (input: ImageData, x: number, y: number) => {
     const p = (input.width * y + x)*4;
     return Math.max(input.data[p], input.data[p+1], input.data[p+2]);
@@ -139,5 +174,6 @@ const computeNormals = <IBlockTemplate>{
 
 module.exports = {
     grayscale,
+    invert,
     computeNormals
 };
