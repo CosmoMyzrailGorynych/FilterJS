@@ -6,12 +6,19 @@ const notifier = require('node-notifier'),
       concat = require('gulp-concat'),
       gap = require('gulp-append-prepend'),
       sourcemaps = require('gulp-sourcemaps'),
+
       stylus = require('gulp-stylus'),
       riot = require('gulp-riot'),
       pug = require('gulp-pug'),
-      svgstore = require('gulp-svgstore'),
       typescript = require('gulp-typescript'),
-      NwBuilder = require('nw-builder');
+
+      svgstore = require('gulp-svgstore'),
+      
+      NwBuilder = require('nw-builder'),
+
+      tslint = require('gulp-tslint'),
+      eslint = require('gulp-eslint'),
+      stylint = require('gulp-stylint');
 
 var tsProject = typescript.createProject('./tsconfig.json');
 
@@ -135,7 +142,27 @@ const watch = () => {
     watchIcons();
 };
 
-const build = gulp.parallel([compilePug, compileStylus, copyScripts, makeSprites]);
+const lintStylus = () => gulp.src('./src/styl/**/*.styl')
+    .pipe(stylint())
+    .pipe(stylint.reporter())
+    .pipe(stylint.reporter('fail'));
+
+const lintJS = () => gulp.src(['./src/js/**/*.js', '!./src/js/3rdparty/**/*.js'])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+
+const lintTS = () => gulp.src(['./src/js/**/*.ts', '!./src/js/3rdparty/**/*.ts'])
+    .pipe(tslint({
+        configuration: './tslint.json',
+        formatter: 'prose'
+    }))
+    .pipe(tslint.report({
+        summarizeFailureOutput: true,
+        allowWarnings: true
+    }));
+
+const lint = gulp.series(lintJS, lintTS, lintStylus);
 
 const defaultTask = gulp.series(build, done => {
     watch();
@@ -151,7 +178,7 @@ const defaultTask = gulp.series(build, done => {
         console.error(error);
     });
 });
-const release = gulp.series([build, done => {
+const release = gulp.series([build, lint, done => {
     var nw = new NwBuilder({
         files: './app/**',
         platforms: ['osx64', 'win32', 'win64', 'linux32', 'linux64'],
@@ -174,5 +201,6 @@ exports.watchPug = watchPug;
 exports.watchRiot = watchRiot;
 exports.watchStylus = watchStylus;
 
+gulp.task('lint', lint);
 gulp.task('release', release);
 gulp.task('default', defaultTask);

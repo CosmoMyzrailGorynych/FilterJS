@@ -6,6 +6,7 @@
     "rules": {
         "array-type": [true, "generic"],
         "arrow-parens": [true, "ban-single-arg-parens"],
+        "max-classes-per-file": [true, 3],
         "max-line-length": [false],
         "member-access": [false],
         "member-ordering": [true, {

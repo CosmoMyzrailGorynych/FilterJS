@@ -17,10 +17,10 @@ interface ILinkNotation {
 }
 
 interface ITagNotation {
-    key: string,
-    tag: string,
-    label?: string,
-    defaultValue: any
+    key: string;
+    tag: string;
+    label?: string;
+    defaultValue: any;
 }
 
 interface IBlockTemplate {
