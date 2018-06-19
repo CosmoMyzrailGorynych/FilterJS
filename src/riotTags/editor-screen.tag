@@ -25,9 +25,9 @@ editor-screen
         button(if="{currentResult}" onclick="{copyToClipboard}") Copy to Clipboard
         button(if="{currentResult}" onclick="{exportPNG}") Export as PNG
         button(if="{currentResult}" onclick="{exportJPG}") Export as JPG
-        input(type="file" hidden ref="imageSaver" onchange="{finishExportImage}" accept=".{imageSaveFormat}" nw-saveas="{filter.name}.{imageSaveFormat}")
+        input(type="file" hidden ref="imageSaver" onchange="{finishExportImage}" accept=".{imageSaveFormat}" nwsaveas="{filter.name}.{imageSaveFormat}")
         input(type="file" hidden ref="imageFinder" onchange="{finishImportImage}" accept="image/*")
-        input(type="file" hidden ref="filterSaver" onchange="{finishSaveFilter}" nw-saveas="{filter.name}.fjs" accept=".fjs")
+        input(type="file" hidden ref="filterSaver" onchange="{finishSaveFilter}" nwsaveas="{filter.name}.fjs" accept=".fjs")
         input(type="file" hidden ref="filterFinder" onchange="{finishLoadFilter}" accept=".fjs")
     script.
         const glob = require('./js/global.js'),
@@ -107,10 +107,12 @@ editor-screen
         };
         this.exportPNG = e => {
             this.imageSaveFormat = 'png';
+            this.update();
             this.refs.imageSaver.click();
         };
         this.exportJPG = e => {
             this.imageSaveFormat = 'jpg';
+            this.update();
             this.refs.imageSaver.click();
         };
         this.finishExportImage = e => {
