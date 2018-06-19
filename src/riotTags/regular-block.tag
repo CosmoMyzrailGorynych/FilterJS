@@ -29,6 +29,7 @@ regular-block(
         div(if="{tagInfo.label && tagInfo.tag !== 'bool-input'}") {tagInfo.label}
         color-picker(if="{tagInfo.tag === 'color-picker'}" key="{tagInfo.key || 'value'}")
         number-input(if="{tagInfo.tag === 'number-input'}" key="{tagInfo.key || 'value'}")
+        select-input(if="{tagInfo.tag === 'select-input'}" key="{tagInfo.key || 'value'}" options="{tagInfo.options}")
         bool-input(if="{tagInfo.tag === 'bool-input'}" key="{tagInfo.key || 'value'}" label="{tagInfo.label}")
     script.
         this.block = this.opts.block;

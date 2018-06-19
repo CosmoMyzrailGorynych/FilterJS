@@ -20,6 +20,7 @@ interface ITagNotation {
     key: string;
     tag: string;
     label?: string;
+    options?: Array<string>
     defaultValue: any;
 }
 

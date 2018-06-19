@@ -1,0 +1,122 @@
+regular-block
+    position absolute
+    left 0
+    top 0
+    border 1px solid borders
+    border-top-color lighten(borders, 10%)
+    border-bottom-color mix(black, borders, 50%)
+    &.active
+        border 3px solid green
+        margin -2px
+    box-shadow 0 2px 1px borders inset, 0 0.25rem 0.5rem rgba(black, 0.35)
+    background rgba(blocks, 0.9)
+    border-radius br
+    width fit-content
+    & > label
+        cursor pointer
+        div
+            padding 0 1.25rem
+    &.convert::after
+        content "✨"
+        position absolute
+        left 50%
+        top 3.8rem
+        right 0
+        opacity 0.35
+        width 2rem
+        text-align center
+        line-height 2rem
+        font-size 1.5rem
+        margin -1rem
+    .flexwrap
+        display flex
+        flex-flow row nowrap
+        .fifty
+            flex 1 1 50%
+    h3
+        padding 0.5rem 1.25rem
+        border-bottom 1px solid borders
+        margin 0
+        font-size 1rem
+        cursor move
+    .anInputPin, .anOutputPin
+        position relative
+        display block
+        margin 0
+        padding 0.5rem 1.25rem
+        cursor pointer
+        grid-column 2
+        text-align right
+        span
+            display inline-block
+            width max-content
+        &:last-child
+            border-radius 0 0 br - 0.05rem br - 0.05rem
+        &::after
+            content ''
+            position absolute
+            left 0
+            top 50%
+            width 0.75rem
+            height @width
+            margin @width * -0.5
+            border-radius @width * 0.333
+            box-sizing border-box
+            border 2px solid
+            background currentColor
+        &.canvas
+            &:hover, &:active
+                background linear-gradient(to left, rgba(canvas, 0.35), transparent)
+            &::after
+                color canvas
+            &.optional::after
+                background rgba(canvas, 0.35)
+        &.pixels
+            &:hover, &:active
+                background linear-gradient(to left, rgba(pixels, 0.35), transparent)
+            &::after
+                color pixels
+            &.optional::after
+                background rgba(pixels, 0.35)
+        &.color
+            &:hover, &:active
+                background linear-gradient(to left, rgba(color, 0.35), transparent)
+            &::after
+                color color
+            &.optional::after
+                background rgba(color, 0.35)
+        &.number
+            &:hover, &:active
+                background linear-gradient(to left, rgba(number, 0.35), transparent)
+            &::after
+                color number
+            &.optional::after
+                background rgba(number, 0.35)
+        &.bool
+            &:hover, &:active
+                background linear-gradient(to left, rgba(bool, 0.35), transparent)
+            &::after
+                color bool
+            &.optional::after
+                background rgba(bool, 0.35)
+        &.channel
+            &:hover, &:active
+                background linear-gradient(to left, rgba(channel, 0.35), transparent)
+            &::after
+                color channel
+            &.optional::after
+                background rgba(channel, 0.35)
+    .anInputPin
+        text-align left
+        grid-column 1
+        &.canvas:hover, &.canvas:active
+            background linear-gradient(to right, rgba(canvas, 0.35), transparent)
+        &.pixels:hover, &.pixels:active
+            background linear-gradient(to right, rgba(pixels, 0.35), transparent)
+        &.color:hover, &.color:active
+             background linear-gradient(to right, rgba(color, 0.35), transparent)
+        &.number:hover, &.number:active
+            background linear-gradient(to right, rgba(number, 0.35), transparent)
+    .anOutputPin::after
+        left initial
+        right 0
