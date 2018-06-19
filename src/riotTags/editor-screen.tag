@@ -79,6 +79,7 @@ editor-screen
                     c.width = width;
                     c.height = height;
                     glob.sourceImage = c;
+                    setTimeout(this.render, 0);
                 }
             }
         };
@@ -125,6 +126,7 @@ editor-screen
             e.target.value = '';
         };
         this.finishImportImage = e => {
+            console.log(e, e.target.value);
             var img = document.createElement('img');
             img.onload = () => {
                 glob.sourceImage.width = img.width;
@@ -132,7 +134,9 @@ editor-screen
                 var x = glob.sourceImage.getContext('2d');
                 x.clearRect(0, 0, img.width, img.height);
                 x.drawImage(img, 0, 0);
+                setTimeout(this.render, 0);
             };
+            img.src = 'file:///' + e.target.value;
             e.target.value = '';
         };
         this.finishSaveFilter = e => {
