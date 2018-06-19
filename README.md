@@ -31,6 +31,12 @@ The first run will download the needed binaries of nw.js, but then the gulp comm
 2. Edit files in the `./src/` folder;
 3. Changes will appear automagically after saving. Avoid losing unsaved filters!
 
+### Before you commit
+
+- Make your commits as atomic as possible. Commit one serious change at a time. 
+- Make sure the `gulp lint` task shows no errors. Warnings are ok until you understand what you are doing, but they can still reveal some common gotchas. Stylint will tell false positives on every `riot-tag`, because it's an old rubbish, but keep an eye on its other warnings.
+- Use [gitmoji guide](https://gitmoji.carloscuesta.me/) for naming your commits. Use the imperative mood, like `:sparkles: Add a "Blend" block to Processing`.
+
 ## Help wanted!
 
 You can help FilterJS grow by creating new nodes! See the existing ones in the `./src/js/blocks/` folder as an example. There is much to do, including:
