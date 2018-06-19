@@ -3,14 +3,15 @@ regular-block(
     onclick="{selectBlock}"
     class="{active: glob.selectedBlocks.indexOf(this) !== -1} {block.template.set}"
 )
-    h3(onmousedown="{startDragging}") {block.template.name}
+    h3(onmousedown="{startDragging}" title="{block.template.hint}") {block.template.name}
     .flexwrap
         .fifty
             div.anInputPin(
                 each="{input in block.template.inputs}" 
                 onmousedown="{tryStartInputPin}" 
                 onmouseup="{tryConnectInputPin}"
-                class="{input.type} {optional: input.optional}" 
+                class="{input.type} {optional: input.optional}"
+                title="{input.hint}"
                 data-key="{input.key}" data-type="{input.type}"
             )
                 span {input.name}
@@ -20,6 +21,7 @@ regular-block(
                 onmousedown="{tryStartOutputPin}"
                 onmouseup="{tryConnectOutputPin}"
                 class="{output.type} {optional: output.optional}"
+                title="{input.hint}"
                 data-key="{output.key}" data-type="{output.type}"
             )
                 span {output.name}
