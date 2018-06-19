@@ -31,63 +31,78 @@ const fillColor = <IBlockTemplate>{
     }
 };
 
-const gradientLinear = <IBlockTemplate>{
-    nameLoc: 'blocks.generators.gradientLinear.name',
-    name: 'Linear Gradient',
+const gradientFill = <IBlockTemplate>{
+    nameLoc: 'blocks.generators.gradientFill.name',
+    name: 'Gradient Fill',
     noPreview: true,
     inputs: [{
         key: 'color1',
         type: 'color',
         name: 'Color 1',
-        nameLoc: 'blocks.generators.gradientLinear.inputColor1'
+        nameLoc: 'blocks.generators.gradientFill.inputColor1'
     }, {
         key: 'color2',
         type: 'color',
         name: 'Color 2',
-        nameLoc: 'blocks.generators.gradientLinear.inputColor2',
+        nameLoc: 'blocks.generators.gradientFill.inputColor2',
         optional: true,
     }, {
         key: 'color3',
         type: 'color',
         name: 'Color 3',
-        nameLoc: 'blocks.generators.gradientLinear.inputColor3',
+        nameLoc: 'blocks.generators.gradientFill.inputColor3',
         optional: true,
     }, {
         key: 'color4',
         type: 'color',
         name: 'Color 4',
-        nameLoc: 'blocks.generators.gradientLinear.inputColor4',
+        nameLoc: 'blocks.generators.gradientFill.inputColor4',
         optional: true,
     }, {
         key: 'color5',
         type: 'color',
         name: 'Color 5',
-        nameLoc: 'blocks.generators.gradientLinear.inputColor5'
+        nameLoc: 'blocks.generators.gradientFill.inputColor5'
     }],
     outputs: [{
         key: 'image',
         type: 'canvas',
         name: 'Image',
-        nameLoc: 'blocks.generators.gradientLinear.outputImage'
+        nameLoc: 'blocks.generators.gradientFill.outputImage'
     }],
     tags: [{
         tag: 'bool-input',
-        key: 'horizontal',
-        label: 'Horizontal',
+        key: 'flip',
+        label: 'Flip',
+        defaultValue: false
+    }, {
+        tag: 'bool-input',
+        key: 'radial',
+        label: 'Radial',
         defaultValue: false
     }],
     exec(inputs, block) {
         return new Promise((resolve, reject) => {
-            const canvas = document.createElement('canvas');
-
-            canvas.width = glob.width;
-            canvas.height = glob.height;
-            const cx = canvas.getContext('2d'),
-                  grd = cx.createLinearGradient(0, 0,
-                    block.tagValues.horizontal? glob.width : 0,
-                    block.tagValues.horizontal? 0 : glob.height);
+            const canvas = document.createElement('canvas'),
+                  w = glob.width,
+                  h = glob.height;
+            canvas.width = w;
+            canvas.height = h;
+            const cx = canvas.getContext('2d');
+            var grd;
+            if (block.tagValues.radial) {
+                grd = cx.createRadialGradient(w/2, h/2, 0, w/2, h/2, Math.min(w/2, h/2));
+            } else {
+                grd = cx.createLinearGradient(0, 0,
+                    block.tagValues.flip? w : 0,
+                    block.tagValues.flip? 0 : h
+                );
+            }
             const colorStops = [inputs.color1, inputs.color2, inputs.color3, inputs.color4, inputs.color5]
                   .filter(color => color);
+            if (block.tagValues.radial && block.tagValues.flip) {
+                colorStops.reverse();
+            }
             for (let i = 0; i < colorStops.length; i++) {
                 grd.addColorStop(i / (colorStops.length - 1), colorStops[i]);
             }
@@ -100,4 +115,4 @@ const gradientLinear = <IBlockTemplate>{
     }
 };
 
-module.exports = {fillColor, gradientLinear};
+module.exports = {fillColor, gradientFill};
