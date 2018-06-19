@@ -10,6 +10,8 @@ FilterJS is a node-based procedural texture generator. It is easily extensible, 
 
 You can create textures for any kind of project, e.g. for private or commercial use.
 
+![Screenshot](screenshot.png)
+
 **Disclaimer:** Though there is much room for optimization, FilterJS is a rather slow generator if compared, for example, to Filter Forge or Substance Designer. 
 
 ## How to run FilterJS
