@@ -18,7 +18,7 @@ editor-screen
         div.split
             button Save
             button(onclick="{render}") Render
-        graph-editor(graph="{filter.graph}" view="{filter.view}" ref="graphEditor")
+        graph-editor(graph="{filter.graph}" view="{filter.view}" ref="graphEditor" error="{error}")
     #theOutputScreen(show="{tab === 'output'}" )
         // .anOriginal
         .anOutput(ref="output")
@@ -53,6 +53,7 @@ editor-screen
         this.render = e => {
             this.filter.exec()
             .then(results => {
+                this.error = false;
                 this.currentResult = results;
                 var c = this.refs.prewiew,
                     cx = c.getContext('2d');
@@ -64,7 +65,11 @@ editor-screen
                 cx.drawImage(results, 0, 0, c.width, c.height);
                 this.update();
             })
-            .then(() => this.filter.cleanUp());
+            .catch(e => {
+                this.error = e;
+                this.update();
+            })
+            .finally(() => this.filter.cleanUp());
         };
 
         this.openImage = e => {
@@ -97,6 +102,7 @@ editor-screen
         this.newFilter = e => {
             if (confirm('Are you sure you want to create a new filter?\nAll the unsaved changes will be lost!')) {
                 this.filter = glob.filter = new Filter('New filter');
+                this.error = false;
                 this.loadSampleImage();
                 this.update();
                 this.refs.graphEditor.updateLinks();
@@ -150,6 +156,7 @@ editor-screen
         };
         this.finishLoadFilter = e => {
             this.filter = glob.filter = new Filter('New filter');
+            this.error = false;
             fs.readFile(e.target.value, {
                 encoding: 'utf8'
             })

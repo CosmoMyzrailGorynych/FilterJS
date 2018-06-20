@@ -1,0 +1,37 @@
+error-label
+    display block
+    position absolute
+    padding-bottom 1rem
+    span
+        border-radius br
+        background rgba(darken(orange, 50%), 0.65)
+        color white
+        border 1px solid darken(orange, 20%)
+        text-shadow 0 1px 1px rgba(black, 0.35)
+        padding 0.25rem 0.75rem 0.25rem 2rem
+        font-size 87.5%
+        line-height 1.5rem
+        display block
+    &::before
+        content ''
+        width 2.5rem
+        height @width 
+        border-radius 100%
+        background linear-gradient(to bottom, lighten(red, 10%), darken(red, 10%))
+        position absolute
+        margin -0.25rem -1.5rem
+        position absolute
+        box-shadow 0 2px 4px rgba(black, 0.35)
+        border 2px solid white
+    &::after
+        content '!'
+        position absolute
+        font-weight 800
+        top -0.35rem
+        left -1.5rem
+        font-size 2rem
+        text-align center
+        width 2.75rem
+        text-shadow 0 2px 3px rgba(black, 0.35)
+
+

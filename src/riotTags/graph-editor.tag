@@ -14,6 +14,7 @@ graph-editor(style="background-position: {this.view.x + this.width/2}px {this.vi
     )
     .Blocks
         regular-block(each="{block in blocks}" block="{block}")
+    error-label(if="{error}" error="{error}")
     .aCoordLabel {view.x}; {view.y}
     script.
         this.blocks = this.opts.graph;
@@ -21,9 +22,18 @@ graph-editor(style="background-position: {this.view.x + this.width/2}px {this.vi
         this.on('update', () => {
             if (this.blocks !== this.opts.graph) {
                 this.blocks = this.opts.graph;
+                this.error = false;
             }
             if (this.view !== this.opts.view) {
                 this.view = this.opts.view;
+            }
+            if (this.error !== this.opts.error) {
+                this.error = this.opts.error;
+                if (this.error) {
+                    this.view.x = -this.error.block.x - 80;
+                    this.view.y = -this.error.block.y - 100;
+                    this.updateLinks();
+                }
             }
         });
         var cx, cpx;

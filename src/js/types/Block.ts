@@ -1,5 +1,6 @@
 import blocks = require('./../blocks.js');
 import Link = require('./Link.js');
+import BlockError = require('./BlockError.js');
 
 class Block {
     template: IBlockTemplate;
@@ -28,6 +29,15 @@ class Block {
         if (Object.keys(this.values).length) {
             return Promise.resolve(this.values);
         }
+
+        if (this.template.inputs.find(input => {
+            return !input.optional && !this.inputLinks.find(link =>
+                link.inputKey === input.key
+            );
+        })) {
+            return Promise.reject(new BlockError('Not all the required inputs were provided', this));
+        }
+
         const inputs = {};
 
         const promises = this.inputLinks.map(link => link.outBlock.exec()

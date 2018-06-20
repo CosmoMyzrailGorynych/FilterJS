@@ -97,9 +97,7 @@ const combineChannels = <IBlockTemplate>{
         return new Promise((resolve, reject) => {
             const orient = inputs.r || inputs.g || inputs.b || inputs.a;
             if (!orient) {
-                const error = new BlockError('At least one input channel must be connected');
-                error.block = block;
-                return reject(error);
+                return reject(new BlockError('At least one input channel must be connected', block));
             }
             const w = orient.width,
                   h = orient.height;
