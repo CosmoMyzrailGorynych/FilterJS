@@ -41,8 +41,8 @@ const splitChannels = <IBlockTemplate>{
                 channelB = new Channel(w, h),
                 channelA = new Channel(w, h),
                 channels = [channelR, channelG, channelB, channelA];
-            for (let x = 0; x < w; x++) {
-                for (let y = 0; y < h; y++) {
+            for (let y = 0; y < h; y++) {
+                for (let x = 0; x < w; x++) {
                     for (let i = 0; i < 4; i++) {
                         channels[i].data.push(inputs.input.data[(x + y*w)*4 + i]);
                     }
