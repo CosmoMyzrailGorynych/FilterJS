@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 'use strict';
 
 const notifier = require('node-notifier'),
@@ -199,6 +200,37 @@ const release = gulp.series([build, lint, done => {
     });
 }]);
 
+
+const {spawn} = require('child_process');
+const spawnise = (app, attrs) => new Promise((resolve, reject) => {
+    var process = spawn(app, attrs);
+    process.on('exit', code => {
+        if (!code) {
+            resolve();
+        } else {
+            reject(code);
+        }
+    });
+    process.stderr.on('data', data => {
+        console.error(data.toString());
+    });
+    process.stdout.on('data', data => {
+        console.log(data.toString());
+    });
+});
+const deploy = done => {
+    var pack = require('./app/package.json');
+    spawnise('./butler', ['push', `./build/ctjs - v${pack.version}/linux32`, 'comigo/filterjs:linux32', '--userversion', pack.version])
+    .then(() => spawnise('./butler', ['push', `./build/FilterJS - v${pack.version}/linux64`, 'comigo/filterjs:linux64', '--userversion', pack.version]))
+    .then(() => spawnise('./butler', ['push', `./build/FilterJS - v${pack.version}/osx64`, 'comigo/filterjs:osx64', '--userversion', pack.version]))
+    .then(() => spawnise('./butler', ['push', `./build/FilterJS - v${pack.version}/win32`, 'comigo/filterjs:win32', '--userversion', pack.version]))
+    .then(() => spawnise('./butler', ['push', `./build/FilterJS - v${pack.version}/win64`, 'comigo/filterjs:win64', '--userversion', pack.version]))
+    .then(() => {
+        done();
+    })
+    .catch(done);
+};
+
 exports.compilePug = compilePug;
 exports.compileRiot = compileRiot;
 exports.compileStylus = compileStylus;
@@ -207,7 +239,9 @@ exports.watch = watch;
 exports.watchPug = watchPug;
 exports.watchRiot = watchRiot;
 exports.watchStylus = watchStylus;
+exports.deploy = deploy;
 
 gulp.task('lint', lint);
 gulp.task('release', release);
 gulp.task('default', defaultTask);
+gulp.task('deploy', deploy);
