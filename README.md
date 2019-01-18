@@ -12,9 +12,16 @@ You can create textures for any kind of project, e.g. for private or commercial 
 
 ![Screenshot](screenshot.png)
 
-**Disclaimer:** Though there is much room for optimization, FilterJS is a rather slow generator if compared, for example, to Filter Forge or Substance Designer. 
+**Disclaimer:** Though there is much room for optimization, FilterJS is a rather slow generator if compared, for example, to Filter Forge or Substance Designer.
 
-## How to run FilterJS
+## Prebuilt binaries
+
+Available on:
+
+* [itch.io](https://comigo.itch.io/filterjs)
+* [releases tab](https://github.com/CosmoMyzrailGorynych/FilterJS/releases)
+
+## How to run FilterJS from the source code
 
 You will need [node.js](https://nodejs.org/) and [gulp.js](https://gulpjs.com/). Run `npm install --global gulp-cli` to install Gulp.
 
@@ -35,7 +42,7 @@ The first run will download the needed binaries of nw.js, but then the gulp comm
 
 - Make your commits as atomic as possible. Commit one serious change at a time. 
 - Make sure the `gulp lint` task shows no errors. Warnings are ok until you understand what you are doing, but they can still reveal some common gotchas. Stylint will tell false positives on every `riot-tag`, because it's an old rubbish, but keep an eye on its other warnings.
-- Use [gitmoji guide](https://gitmoji.carloscuesta.me/) for naming your commits. Use the imperative mood, like `:sparkles: Add a "Blend" block to Processing`.
+- Use [gitmoji guide](https://gitmoji.carloscuesta.me/) for naming your commits. Use the imperative mood, like `:sparkles: Add a "Blend" block to Processing`. Add two emojis to better describe a commit, if needed.
 
 ## Help wanted!
 
