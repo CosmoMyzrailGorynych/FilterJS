@@ -90,7 +90,10 @@ const channelToPixels = <IBlockTemplate>{
 };
 
 module.exports = {
-    canvasToPixels,
-    pixelsToCanvas,
-    channelToPixels
+    name: 'Conversion',
+    blocks: {
+        canvasToPixels,
+        pixelsToCanvas,
+        channelToPixels
+    }
 };

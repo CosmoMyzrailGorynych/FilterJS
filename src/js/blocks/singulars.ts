@@ -34,4 +34,10 @@ const outputImage = <IBlockTemplate>{
     }
 };
 
-module.exports = {inputImage, outputImage};
+module.exports = {
+    name: 'Singulars',
+    blocks: {
+        inputImage,
+        outputImage
+    }
+};

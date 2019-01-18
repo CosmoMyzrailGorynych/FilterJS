@@ -43,5 +43,8 @@ const aspectRatio = <IBlockTemplate>{
 };
 
 module.exports = {
-    aspectRatio
+    name: 'Utils',
+    blocks: {
+        aspectRatio
+    }
 };

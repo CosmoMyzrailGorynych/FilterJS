@@ -30,6 +30,7 @@ interface IBlockTemplate {
     set?: string;
     noPreview?: boolean;
     noPalette?: boolean;
+    isSingular?: boolean;
     tags?: Array<ITagNotation>;
     hint?: string;
     inputs: Array<ILinkNotation>;

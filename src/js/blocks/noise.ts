@@ -184,5 +184,9 @@ const simplexNoise = <IBlockTemplate>{
 };
 
 module.exports = {
-    perlinNoise, simplexNoise
+    name: 'Noise',
+    blocks: {
+        perlinNoise,
+        simplexNoise
+    }
 };

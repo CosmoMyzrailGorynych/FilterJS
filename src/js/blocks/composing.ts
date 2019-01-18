@@ -122,4 +122,10 @@ const blend = <IBlockTemplate>{
     }
 };
 
-module.exports = {blend, mask};
+module.exports = {
+    name: 'Composing',
+    blocks: {
+        blend,
+        mask
+    }
+};

@@ -2,6 +2,14 @@ import blocks = require('./../blocks.js');
 import Link = require('./Link.js');
 import BlockError = require('./BlockError.js');
 
+const findTemplateByKey = (key: string) => {
+    for (const set of blocks) {
+        if (set.blocks.hasOwnProperty(key)) {
+            return set.blocks[key];
+        }
+    }
+};
+
 class Block {
     template: IBlockTemplate;
     x: number = 0;
@@ -13,7 +21,7 @@ class Block {
     id: number;
 
     constructor(key: string, x = 0, y = 0) {
-        this.template = blocks[key];
+        this.template = findTemplateByKey(key);
         this.x = x;
         this.y = y;
         if (this.template.tags) {

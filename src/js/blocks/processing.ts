@@ -173,7 +173,10 @@ const computeNormals = <IBlockTemplate>{
 };
 
 module.exports = {
-    grayscale,
-    invert,
-    computeNormals
+    name: 'Processing',
+    blocks: {
+        grayscale,
+        invert,
+        computeNormals
+    }
 };

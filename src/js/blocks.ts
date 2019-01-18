@@ -1,20 +1,28 @@
 interface IBlockCollection {
-    [index: string]: IBlockTemplate;
+    name: string;
+    set?: string;
+    paletteCount: number;
+    blocks: {
+        [index: string]: IBlockTemplate;
+    };
 }
 
-const exp = <IBlockCollection>{};
+const exp = Array<IBlockCollection>();
 
 require('fs')
 .readdirSync('./js/blocks')
 .forEach(fileName => {
     if (fileName.match(/\.js$/)) {
-        const blocks:IBlockCollection = require('./blocks/' + fileName);
-        for (const i in blocks) {
-            if (blocks.hasOwnProperty(i)) {
-                exp[i] = blocks[i];
-                blocks[i].set = fileName.slice(0, -3);
+        const category:IBlockCollection = require('./blocks/' + fileName);
+        category.set = fileName.slice(0, -3);
+        let paletteCount = 0;
+        for (const key in category.blocks) {
+            if (!category.blocks[key].noPalette && !category.blocks[key].isSingular) {
+                paletteCount ++;
             }
         }
+        category.paletteCount = paletteCount;
+        exp.push(category);
     }
 });
 

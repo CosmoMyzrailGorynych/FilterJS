@@ -2,9 +2,11 @@ import Block = require('./Block.js');
 import blocks = require('./../blocks.js');
 
 const findKeyFromTemplate = (template: IBlockTemplate): string|number => {
-    for (const i in blocks) {
-        if (blocks[i] === template) {
-            return i;
+    for (const cat of blocks) {
+        for (const i in cat.blocks) {
+            if (cat.blocks[i] === template) {
+                return i;
+            }
         }
     }
     return -1;
@@ -94,32 +96,36 @@ class Filter {
             throw new Error('Trying to load a JSON filter to a non-empty graph is prohibited.');
         }
         this.graph.length = 0;
-        const filter:ISavedFilter = JSON.parse(json),
-            blocks = {},
-            realBlocks:{
-                [index: number]: Block
-            } = {};
-        this.view = filter.view;
-        this.seed = filter.seed;
-        this.name = filter.name;
-        for (let i = 0, l = filter.graph.length; i < l; i++) {
-            const b = filter.graph[i];
-            blocks[b.id] = b;
-            const rb = this.addBlock(b.template, b.x, b.y);
-            realBlocks[b.id] = rb;
-            rb.id = b.id;
-            rb.tagValues = b.tagValues;
-        }
-        for (let i = 0, l = filter.graph.length; i < l; i++) {
-            const b = filter.graph[i],
-                rb = realBlocks[b.id];
-            for (const link of b.inputLinks) {
-                rb.addLink(link.inputKey, realBlocks[link.outBlock], link.outKey);
+        try {
+            const filter:ISavedFilter = JSON.parse(json),
+                blocks = {},
+                realBlocks:{
+                    [index: number]: Block
+                } = {};
+            this.view = filter.view;
+            this.seed = filter.seed;
+            this.name = filter.name;
+            for (let i = 0, l = filter.graph.length; i < l; i++) {
+                const b = filter.graph[i];
+                blocks[b.id] = b;
+                const rb = this.addBlock(b.template, b.x, b.y);
+                realBlocks[b.id] = rb;
+                rb.id = b.id;
+                rb.tagValues = b.tagValues;
             }
+            for (let i = 0, l = filter.graph.length; i < l; i++) {
+                const b = filter.graph[i],
+                    rb = realBlocks[b.id];
+                for (const link of b.inputLinks) {
+                    rb.addLink(link.inputKey, realBlocks[link.outBlock], link.outKey);
+                }
+            }
+            this.lastId = filter.lastId;
+            const output = this.graph[0];
+            this.exec = () => output.exec();
+        } catch (e) {
+            throw e;
         }
-        this.lastId = filter.lastId;
-        const output = this.graph[0];
-        this.exec = () => output.exec();
     }
 }
 

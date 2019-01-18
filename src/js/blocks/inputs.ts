@@ -68,7 +68,10 @@ var boolInput = <IBlockTemplate>{
 };
 
 module.exports = {
-    colorInput,
-    numberInput,
-    boolInput
+    name: 'Inputs',
+    blocks: {
+        colorInput,
+        numberInput,
+        boolInput
+    }
 };

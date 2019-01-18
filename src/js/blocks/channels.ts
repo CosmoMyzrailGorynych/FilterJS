@@ -118,7 +118,10 @@ const combineChannels = <IBlockTemplate>{
     }
 };
 
-export {
-    splitChannels,
-    combineChannels
+module.exports = {
+    name: 'Channels',
+    blocks: {
+        splitChannels,
+        combineChannels
+    }
 };

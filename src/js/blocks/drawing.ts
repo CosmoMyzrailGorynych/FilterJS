@@ -282,7 +282,10 @@ const drawPoly = <IBlockTemplate>{
 };
 
 module.exports = {
-    drawCircle,
-    drawRect,
-    drawPoly
+    name: 'Drawing',
+    blocks: {
+        drawCircle,
+        drawRect,
+        drawPoly
+    }
 };

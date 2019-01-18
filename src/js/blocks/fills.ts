@@ -72,8 +72,8 @@ const gradientFill = <IBlockTemplate>{
     }],
     tags: [{
         tag: 'bool-input',
-        key: 'flip',
-        label: 'Flip',
+        key: 'rotate',
+        label: 'Rotate',
         defaultValue: false
     }, {
         tag: 'bool-input',
@@ -94,13 +94,13 @@ const gradientFill = <IBlockTemplate>{
                 grd = cx.createRadialGradient(w/2, h/2, 0, w/2, h/2, Math.min(w/2, h/2));
             } else {
                 grd = cx.createLinearGradient(0, 0,
-                    block.tagValues.flip? w : 0,
-                    block.tagValues.flip? 0 : h
+                    block.tagValues.rotate? w : 0,
+                    block.tagValues.rotate? 0 : h
                 );
             }
             const colorStops = [inputs.color1, inputs.color2, inputs.color3, inputs.color4, inputs.color5]
                   .filter(color => color);
-            if (block.tagValues.radial && block.tagValues.flip) {
+            if (block.tagValues.radial && block.tagValues.rotate) {
                 colorStops.reverse();
             }
             for (let i = 0; i < colorStops.length; i++) {
@@ -115,4 +115,10 @@ const gradientFill = <IBlockTemplate>{
     }
 };
 
-module.exports = {fillColor, gradientFill};
+module.exports = {
+    name: 'Fills',
+    blocks: {
+        fillColor,
+        gradientFill
+    }
+};
