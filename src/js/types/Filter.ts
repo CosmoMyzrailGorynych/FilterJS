@@ -87,7 +87,7 @@ class Filter {
             lastId: this.lastId,
             seed: this.seed
         };
-        return JSON.stringify(filter);
+        return JSON.stringify(filter, null, 2);
     }
     fromJSON(json: string): void {
         if (this.graph.length > 2) {
