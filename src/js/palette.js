@@ -4,5 +4,6 @@ module.exports = {
     color: 'rgb(132, 121, 150)',
     number: 'rgb(136, 183, 181)',
     channel: '#ff209e',
-    bool: '#e8c547'
+    bool: '#e8c547',
+    fjs: '#61b76e'
 };
