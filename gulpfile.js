@@ -21,6 +21,7 @@ const notifier = require('node-notifier'),
       stylint = require('gulp-stylint');
 
 var tsProject = typescript.createProject('./tsconfig.json');
+const nwVersion = '0.35.5';
 
 const makeErrorObj = (title, err) => ({
     title,
@@ -164,25 +165,31 @@ const lintTS = () => gulp.src(['./src/js/**/*.ts', '!./src/js/3rdparty/**/*.ts']
 
 const lint = gulp.series(lintJS, lintTS, lintStylus);
 
-const defaultTask = gulp.series(build, done => {
-    watch();
+const launchNw = () => {
     var nw = new NwBuilder({
         files: './app/**',
-        version: '0.31.2',
+        version: nwVersion,
         platforms: ['osx64', 'win32', 'win64', 'linux32', 'linux64'],
         flavor: 'sdk'
     });
-    nw.run()
-    .then(done)
-    .catch(function (error) {
+    return nw.run().catch(function (error) {
         console.error(error);
-    });
+    })
+    .then(launchNw);
+};
+
+const build = gulp.parallel([compilePug, compileStylus, copyScripts, makeSprites]);
+
+const defaultTask = gulp.series(build, done => {
+    watch();
+    launchNw();
+    done();
 });
 const release = gulp.series([build, lint, done => {
     var nw = new NwBuilder({
         files: './app/**',
         platforms: ['osx64', 'win32', 'win64', 'linux32', 'linux64'],
-        version: '0.31.2',
+        version: nwVersion,
         flavor: 'normal',
         buildType: 'versioned'
     });
