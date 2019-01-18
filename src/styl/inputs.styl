@@ -1,3 +1,21 @@
+::-webkit-scrollbar
+    width 0.75rem
+    height 0.75rem
+::-webkit-scrollbar-track
+    background rgba(textColor, 0.17)
+    border-radius br
+::-webkit-scrollbar-thumb
+    border-radius br
+    background: rgba(textColor, 0.27)
+    &:hover
+        background rgba(textColor, 0.5)
+    &:active
+        background rgba(textColor, 0.35)
+::-webkit-scrollbar-track:window-inactive
+    background rgba(textColor, 0.1)
+::-webkit-scrollbar-corner
+    background transparent
+
 input, button, textarea, select
     line-height 1.5rem
     padding 0.5rem 1rem
@@ -16,5 +34,10 @@ button, select
     border-top-color lighten(borders, 10%)
     border-bottom-color mix(black, borders, 50%)
     cursor pointer
-    &:hover
-        background mix(bgColor, borders, 80%)
+    outline none
+    color textColor
+    &:hover, &.hover, &:focus
+        border-color fjs
+    &:active, &.active
+        background fjs
+        color black
