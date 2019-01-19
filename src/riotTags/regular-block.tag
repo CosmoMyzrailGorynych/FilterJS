@@ -152,6 +152,8 @@ regular-block(
                 converter = this.parent.parent.filter.addBlock('pixelsToCanvas', x, y);
             } else if (pinLeft.type === 'channel' && pinRight.type === 'pixels') {
                 converter = this.parent.parent.filter.addBlock('channelToPixels', x, y);
+            } else if (pinLeft.type === 'pixels' && pinRight.type === 'channel') {
+                converter = this.parent.parent.filter.addBlock('splitChannels', x, y);
             }
             if (converter) {
                 // detach existing input link, if there is one

@@ -6,13 +6,13 @@ const splitChannels = <IBlockTemplate>{
     name: 'Split Channels',
     noPreview: true,
     inputs: [{
-        key: 'input',
+        key: 'pixels',
         type: 'pixels',
         name: 'Input',
         nameLoc: 'blocks.channels.splitChannels.input'
     }],
     outputs: [{
-        key: 'r',
+        key: 'channel',
         type: 'channel',
         name: 'Red',
         nameLoc: 'blocks.channels.splitChannels.outputRed'
@@ -34,8 +34,8 @@ const splitChannels = <IBlockTemplate>{
     }],
     exec(inputs, block) {
         return new Promise((resolve, reject) => {
-            const w = inputs.input.width,
-                  h = inputs.input.height;
+            const w = inputs.pixels.width,
+                  h = inputs.pixels.height;
             const channelR = new Channel(w, h),
                 channelG = new Channel(w, h),
                 channelB = new Channel(w, h),
@@ -44,12 +44,12 @@ const splitChannels = <IBlockTemplate>{
             for (let y = 0; y < h; y++) {
                 for (let x = 0; x < w; x++) {
                     for (let i = 0; i < 4; i++) {
-                        channels[i].data.push(inputs.input.data[(x + y*w)*4 + i]);
+                        channels[i].data.push(inputs.pixels.data[(x + y*w)*4 + i]);
                     }
                 }
             }
             resolve({
-                r: channelR,
+                channel: channelR,
                 g: channelG,
                 b: channelB,
                 a: channelA
