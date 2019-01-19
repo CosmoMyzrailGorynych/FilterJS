@@ -150,7 +150,6 @@ editor-screen
             e.target.value = '';
         };
         this.finishImportImage = e => {
-            console.log(e, e.target.value);
             var img = document.createElement('img');
             img.onload = () => {
                 glob.sourceImage.width = img.width;
