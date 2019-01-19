@@ -125,6 +125,10 @@ regular-block(
             if (!(drawnLink.inputKey && drawnLink.outKey && drawnLink.inputBlock && drawnLink.outBlock)) {
                 throw new Error('Wrong link object while connecting two blocks', drawnLink)
             }
+            if (drawnLink.inputBlock === drawnLink.outBlock) {
+                // Don't connect to self
+                return false;
+            }
             drawnLink.inputBlock.addLink(drawnLink.inputKey, drawnLink.outBlock, drawnLink.outKey);
             this.parent.updateLinks();
         };
