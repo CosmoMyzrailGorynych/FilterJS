@@ -16,7 +16,7 @@ editor-screen
         canvas.aPreview(ref="prewiew" width="256" height="256")
         components-palette(filter="{filter}")
         div.split
-            button Save
+            button(onclick="{saveCurrentFilter}") Save
             button(onclick="{render}") Render
         graph-editor(graph="{filter.graph}" view="{filter.view}" ref="graphEditor" error="{error}")
     #theOutputScreen(show="{tab === 'output'}" )
@@ -32,7 +32,8 @@ editor-screen
     script.
         const glob = require('./js/global.js'),
               Filter = require('./js/types/Filter.js'),
-              fs = require('fs-extra');
+              fs = require('fs-extra'),
+              path = require('path');
         this.tab = 'edit';
         this.filter = glob.filter = new Filter('New filter');
         this.loadSampleImage = () => {
@@ -91,6 +92,15 @@ editor-screen
         this.saveFilter = e => {
             this.refs.filterSaver.click();
         };
+        this.saveCurrentFilter = e => {
+            if (this.filterPath) {
+                fs.outputFile(this.filterPath, this.filter.toJSON(), {
+                    encoding: 'utf8'
+                });
+            } else {
+                this.refs.filterSaver.click();
+            }
+        };
         this.openFilter = e => {
             if (this.filter.graph.length > 2) {
                 if (!confirm('Are you sure you want to open another filter?\nAll the unsaved changes will be lost!')) {
@@ -102,6 +112,8 @@ editor-screen
         this.newFilter = e => {
             if (confirm('Are you sure you want to create a new filter?\nAll the unsaved changes will be lost!')) {
                 this.filter = glob.filter = new Filter('New filter');
+                this.filterPath = false;
+                document.title = 'FilterJS';
                 this.error = false;
                 this.loadSampleImage();
                 this.update();
@@ -152,6 +164,8 @@ editor-screen
             fs.outputFile(e.target.value, this.filter.toJSON(), {
                 encoding: 'utf8'
             });
+            this.filterPath = e.target.value;
+            document.title = `${path.basename(e.target.value)} · FilterJS`;
             e.target.value = '';
         };
         this.finishLoadFilter = e => {
@@ -165,5 +179,7 @@ editor-screen
                 this.update();
                 this.refs.graphEditor.updateLinks();
             });
+            this.filterPath = e.target.value;
+            document.title = `${path.basename(e.target.value)} · FilterJS`;
             e.target.value = '';
         };
