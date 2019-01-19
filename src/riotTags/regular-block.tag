@@ -157,6 +157,8 @@ regular-block(
                 converter = this.parent.parent.filter.addBlock('channelToPixels', x, y);
             } else if (pinLeft.type === 'pixels' && pinRight.type === 'channel') {
                 converter = this.parent.parent.filter.addBlock('splitChannels', x, y);
+            } else if (pinLeft.type === 'color' && pinRight.type === 'canvas') {
+                converter = this.parent.parent.filter.addBlock('fillColor', x, y);
             } else if (pinLeft.type === 'canvas' && pinRight.type === 'channel') {
                 midType = 'pixels';
                 midKey = 'pixels';

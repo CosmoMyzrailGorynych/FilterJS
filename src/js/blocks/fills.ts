@@ -11,7 +11,7 @@ const fillColor = <IBlockTemplate>{
         nameLoc: 'blocks.generators.fillColor.inputColor'
     }],
     outputs: [{
-        key: 'image',
+        key: 'canvas',
         type: 'canvas',
         name: 'Image',
         nameLoc: 'blocks.generators.fillColor.outputImage'
@@ -25,7 +25,7 @@ const fillColor = <IBlockTemplate>{
             cx.fillStyle = inputs.color;
             cx.fillRect(0, 0, glob.width, glob.height);
             resolve({
-                image: canvas
+                canvas
             });
         });
     }
