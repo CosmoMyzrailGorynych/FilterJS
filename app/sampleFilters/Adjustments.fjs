@@ -1,0 +1,119 @@
+{
+  "name": "New filter",
+  "graph": [
+    {
+      "id": 0,
+      "inputLinks": [
+        {
+          "inputKey": "image",
+          "outBlock": 3,
+          "outKey": "canvas"
+        }
+      ],
+      "x": 560,
+      "y": -60,
+      "template": "outputImage",
+      "tagValues": {}
+    },
+    {
+      "id": 1,
+      "inputLinks": [],
+      "x": -600,
+      "y": -60,
+      "template": "inputImage",
+      "tagValues": {}
+    },
+    {
+      "id": 2,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 4,
+          "outKey": "pixels"
+        },
+        {
+          "inputKey": "gamma",
+          "outBlock": 5,
+          "outKey": "number"
+        }
+      ],
+      "x": -160,
+      "y": -60,
+      "template": "gammaCorrection",
+      "tagValues": {}
+    },
+    {
+      "id": 3,
+      "inputLinks": [
+        {
+          "inputKey": "pixels",
+          "outBlock": 6,
+          "outKey": "output"
+        }
+      ],
+      "x": 400,
+      "y": -60,
+      "template": "pixelsToCanvas",
+      "tagValues": {}
+    },
+    {
+      "id": 4,
+      "inputLinks": [
+        {
+          "inputKey": "canvas",
+          "outBlock": 1,
+          "outKey": "image"
+        }
+      ],
+      "x": -380,
+      "y": -60,
+      "template": "canvasToPixels",
+      "tagValues": {}
+    },
+    {
+      "id": 5,
+      "inputLinks": [],
+      "x": -420,
+      "y": 80,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 0.7
+      }
+    },
+    {
+      "id": 6,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 2,
+          "outKey": "output"
+        },
+        {
+          "inputKey": "contrast",
+          "outBlock": 7,
+          "outKey": "number"
+        }
+      ],
+      "x": 120,
+      "y": -60,
+      "template": "brightnessContrast",
+      "tagValues": {}
+    },
+    {
+      "id": 7,
+      "inputLinks": [],
+      "x": -120,
+      "y": 140,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 1.5
+      }
+    }
+  ],
+  "view": {
+    "x": -162,
+    "y": -5
+  },
+  "lastId": 8,
+  "seed": 0
+}
