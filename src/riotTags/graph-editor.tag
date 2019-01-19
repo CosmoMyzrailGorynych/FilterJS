@@ -69,11 +69,13 @@ graph-editor(style="background-position: {this.view.x + this.width/2}px {this.vi
         window.addEventListener('resize', () => {
             this.updateBounds();
             this.update();
-            cx.lineWidth = 2;
-            cx.lineCap = 'round';
-            cpx.lineWidth = 2;
-            cpx.lineCap = 'round';
-            this.updateLinks();
+            if (cx) {
+                cx.lineWidth = 2;
+                cx.lineCap = 'round';
+                cpx.lineWidth = 2;
+                cpx.lineCap = 'round';
+                this.updateLinks();
+            }
         });
 
         this.keyListener = e => {
