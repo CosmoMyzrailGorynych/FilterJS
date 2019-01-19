@@ -201,6 +201,7 @@ regular-block(
                 }
                 return true;
             }
+            alertify.error(`Cannot automatically convert type "${pinLeft.type}" into "${pinRight.type}".`)
             return false;
         };
 

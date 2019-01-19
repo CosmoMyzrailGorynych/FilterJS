@@ -1,0 +1,115 @@
+.alertify-logs > *
+    padding 1rem 2rem
+    {bs}
+    border-radius 1px
+    &.default
+        border 1px solid bd
+    &.error
+        border 1px solid red
+    &.success
+        border 1px solid fjs
+    &.warning
+        border 1px solid orange
+
+.alertify-logs > *, .alertify-logs > *.default
+    background ltBlack
+.alertify
+    position fixed
+    background-color rgba(0, 0, 0, 0.3)
+    left 0
+    right 0
+    top 0
+    bottom 0
+    width 100%
+    height 100%
+    z-index 99999
+    &.hide
+        opacity 0
+        pointer-events none
+    &, &.show
+        box-sizing border-box
+        transition all 0.33s cubic-bezier(0.25, 0.8, 0.25, 1)
+    &, & *
+        box-sizing border-box
+    .dialog
+        padding 1rem
+    .dialog, .alert
+        width 100%
+        margin 0 auto
+        position relative
+        top 50%
+        transform translateY(-50%)
+        & > *
+            width 25rem
+            max-width 95%
+            margin 0 auto
+            padding 1rem 1.5rem
+            background ltBlack
+            border-radius br
+            border 1px solid bd
+            {shadamb}
+        .msg
+            margin 0
+        button:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button)
+            box-sizing border-box
+            position relative
+            outline 0
+            display inline-block
+            align-items center
+            white-space nowrap
+            text-align center
+            padding 0.2em 0.8em
+        nav
+            margin 1.5rem -1.5rem -1rem
+            padding 1rem
+            text-align right
+            background bl
+            border-top 1px solid bd
+            border-radius 0 0 br br
+.alertify-logs
+    position fixed
+    z-index 99999
+    &.bottom, &:not(.top)
+        bottom 1rem
+    &.left, &:not(.right)
+        left 1rem
+    &.left > *, &:not(.right) > *
+        float left
+        transform translate3d(0, 0, 0)
+        height auto
+        & > *.show
+            left 0
+        & > *, & > *.hide
+            left -110%
+    &.right
+        right 1rem
+        & > *
+            float right
+            transform translate3d(0, 0, 0)
+        & > *.show
+            right 0
+            opacity 1
+        & > *, & > *.hide
+            right -110%
+            opacity 0
+    &.top
+        top 0
+    & > *
+        box-sizing border-box
+        transition all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)
+        position relative
+        clear both
+        backface-visibility hidden
+        perspective 1000
+        max-height 0
+        margin 0
+        padding 0
+        overflow hidden
+        opacity 0
+        pointer-events none
+    & > *.show
+        margin-top 12px
+        opacity 1
+        max-height 1000px
+        padding 12px
+        pointer-events auto

@@ -96,6 +96,9 @@ editor-screen
             if (this.filterPath) {
                 fs.outputFile(this.filterPath, this.filter.toJSON(), {
                     encoding: 'utf8'
+                })
+                .then(() => {
+                    alertify.success('Saved!');
                 });
             } else {
                 this.refs.filterSaver.click();
@@ -163,6 +166,9 @@ editor-screen
         this.finishSaveFilter = e => {
             fs.outputFile(e.target.value, this.filter.toJSON(), {
                 encoding: 'utf8'
+            })
+            .then(() => {
+                alertify.success('Saved!');
             });
             this.filterPath = e.target.value;
             document.title = `${path.basename(e.target.value)} · FilterJS`;
