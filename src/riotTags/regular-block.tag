@@ -143,7 +143,10 @@ regular-block(
                     key: drawnLink.inputKey,
                     type: drawnLink.type
                 };
-            var converter, 
+            var converter,
+                converter2,
+                midType,
+                midKey,
                 x = Math.round((pinLeft.block.x + pinRight.block.x) / 40) * 20, // 40 means 20 (grid size) * 2
                 y = Math.round((pinLeft.block.y + pinRight.block.y) / 40) * 20;
             if (pinLeft.type === 'canvas' && pinRight.type === 'pixels') {
@@ -154,6 +157,24 @@ regular-block(
                 converter = this.parent.parent.filter.addBlock('channelToPixels', x, y);
             } else if (pinLeft.type === 'pixels' && pinRight.type === 'channel') {
                 converter = this.parent.parent.filter.addBlock('splitChannels', x, y);
+            } else if (pinLeft.type === 'canvas' && pinRight.type === 'channel') {
+                midType = 'pixels';
+                midKey = 'pixels';
+                x = Math.round((pinRight.block.x/3 + pinLeft.block.x/3*2) / 20) * 20;
+                y = Math.round((pinRight.block.y/3 + pinLeft.block.y/3*2) / 20) * 20;
+                converter = this.parent.parent.filter.addBlock('canvasToPixels', x, y);
+                x = Math.round((pinRight.block.x/3*2 + pinLeft.block.x/3) / 20) * 20;
+                y = Math.round((pinRight.block.y/3*2 + pinLeft.block.y/3) / 20) * 20;
+                converter2 = this.parent.parent.filter.addBlock('splitChannels', x, y);
+            } else if (pinLeft.type === 'channel' && pinRight.type === 'canvas') {
+                midType = 'pixels';
+                midKey = 'pixels';
+                x = Math.round((pinRight.block.x/3 + pinLeft.block.x/3*2) / 20) * 20;
+                y = Math.round((pinRight.block.y/3 + pinLeft.block.y/3*2) / 20) * 20;
+                converter = this.parent.parent.filter.addBlock('channelToPixels', x, y);
+                x = Math.round((pinRight.block.x/3*2 + pinLeft.block.x/3) / 20) * 20;
+                y = Math.round((pinRight.block.y/3*2 + pinLeft.block.y/3) / 20) * 20;
+                converter2 = this.parent.parent.filter.addBlock('pixelsToCanvas', x, y);
             }
             if (converter) {
                 // detach existing input link, if there is one
@@ -162,8 +183,16 @@ regular-block(
                     pinRight.block.inputLinks.splice(ind, 1);
                     this.parent.updateLinks();
                 }
-                converter.addLink(pinLeft.type, pinLeft.block, pinLeft.key);
-                pinRight.block.addLink(pinRight.key, converter, pinRight.type);
+                if (converter2) {
+                    // scheme:
+                    // pinLeft.block — converter — converter2 — pinRight.block
+                    converter.addLink(pinLeft.type, pinLeft.block, pinLeft.key);
+                    converter2.addLink(midType, converter, midKey);
+                    pinRight.block.addLink(pinRight.key, converter2, pinRight.type);
+                } else {
+                    converter.addLink(pinLeft.type, pinLeft.block, pinLeft.key);
+                    pinRight.block.addLink(pinRight.key, converter, pinRight.type);
+                }
                 return true;
             }
             return false;
