@@ -190,6 +190,60 @@ const numberModulo = <IBlockTemplate>{
         });
     }
 };
+const numberMax = <IBlockTemplate>{
+    nameLoc: 'blocks.atomicMath.numberMax.name',
+    name: 'Max',
+    noPreview: true,
+    inputs: [{
+        key: 'a',
+        type: 'number',
+        name: 'A',
+        nameLoc: 'blocks.atomicMath.numberMax.A'
+    }, {
+        key: 'b',
+        type: 'number',
+        name: 'B',
+        nameLoc: 'blocks.atomicMath.numberMax.B'
+    }],
+    outputs: [{
+        key: 'result',
+        type: 'number',
+        name: 'Result',
+        nameLoc: 'blocks.atomicMath.numberMax.result'
+    }],
+    exec(inputs, block) {
+        return Promise.resolve({
+            result: Math.max(inputs.a, inputs.b)
+        });
+    }
+};
+const numberMin = <IBlockTemplate>{
+    nameLoc: 'blocks.atomicMath.numberMin.name',
+    name: 'Min',
+    noPreview: true,
+    inputs: [{
+        key: 'a',
+        type: 'number',
+        name: 'A',
+        nameLoc: 'blocks.atomicMath.numberMin.A'
+    }, {
+        key: 'b',
+        type: 'number',
+        name: 'B',
+        nameLoc: 'blocks.atomicMath.numberMin.B'
+    }],
+    outputs: [{
+        key: 'result',
+        type: 'number',
+        name: 'Result',
+        nameLoc: 'blocks.atomicMath.numberMin.result'
+    }],
+    exec(inputs, block) {
+        return Promise.resolve({
+            result: Math.min(inputs.a, inputs.b)
+        });
+    }
+};
 
 module.exports = {
     name: 'Atomic Math',
@@ -200,6 +254,8 @@ module.exports = {
         numberDivide,
         numberAbs,
         numberPower,
-        numberModulo
+        numberModulo,
+        numberMax,
+        numberMin
     }
 };

@@ -339,6 +339,81 @@ const channelModulo = <IBlockTemplate>{
     }
 };
 
+const channelMax = <IBlockTemplate>{
+    nameLoc: 'blocks.channelMath.channelMax.name',
+    name: 'Max',
+    noPreview: true,
+    inputs: [{
+        key: 'a',
+        type: 'channel',
+        name: 'A',
+        nameLoc: 'blocks.channelMath.channelMax.A'
+    }, {
+        key: 'b',
+        type: 'channel',
+        name: 'B',
+        nameLoc: 'blocks.channelMath.channelMax.B'
+    }],
+    outputs: [{
+        key: 'result',
+        type: 'channel',
+        name: 'Result',
+        nameLoc: 'blocks.channelMath.channelMax.result'
+    }],
+    exec(inputs, block) {
+        return new Promise((resolve, reject) => {
+            const w = inputs.a.width,
+                  h = inputs.a.height;
+            const result = new Channel(w, h);
+            for (let y = 0; y < h; y++) {
+                for (let x = 0; x < w; x++) {
+                    result.data.push(Math.max(inputs.a.data[x + y*w], inputs.b.data[x + y*w]));
+                }
+            }
+            resolve({
+                result
+            });
+        });
+    }
+};
+const channelMin = <IBlockTemplate>{
+    nameLoc: 'blocks.channelMath.channelMin.name',
+    name: 'Min',
+    noPreview: true,
+    inputs: [{
+        key: 'a',
+        type: 'channel',
+        name: 'A',
+        nameLoc: 'blocks.channelMath.channelMin.A'
+    }, {
+        key: 'b',
+        type: 'channel',
+        name: 'B',
+        nameLoc: 'blocks.channelMath.channelMin.B'
+    }],
+    outputs: [{
+        key: 'result',
+        type: 'channel',
+        name: 'Result',
+        nameLoc: 'blocks.channelMath.channelMin.result'
+    }],
+    exec(inputs, block) {
+        return new Promise((resolve, reject) => {
+            const w = inputs.a.width,
+                  h = inputs.a.height;
+            const result = new Channel(w, h);
+            for (let y = 0; y < h; y++) {
+                for (let x = 0; x < w; x++) {
+                    result.data.push(Math.min(inputs.a.data[x + y*w], inputs.b.data[x + y*w]));
+                }
+            }
+            resolve({
+                result
+            });
+        });
+    }
+};
+
 module.exports = {
     name: 'Channel Math',
     blocks: {
@@ -350,6 +425,8 @@ module.exports = {
         channelDivide,
         channelAbs,
         channelPower,
-        channelModulo
+        channelModulo,
+        channelMax,
+        channelMin
     }
 };
