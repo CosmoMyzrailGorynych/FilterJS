@@ -25,6 +25,7 @@ bool = yellow
 warning = orange
 
 br = 0.5rem
+ff = 'Lato', sans-serif
 
 .hide
     position absolute
@@ -35,7 +36,7 @@ br = 0.5rem
     height 0
 
 body, html
-    font-family sans-serif
+    font-family ff
     background bgColor
     padding 0
     margin 0
@@ -46,6 +47,7 @@ body, html
     user-select none
     cursor default
 
+@require './Lato.styl'
 @require './buildingBlocks.styl'
 @require './typography.styl'
 @require './inputs.styl'
