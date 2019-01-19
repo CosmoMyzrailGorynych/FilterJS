@@ -14,7 +14,9 @@ regular-block(
                 title="{input.hint}"
                 data-key="{input.key}" data-type="{input.type}"
             )
-                span {input.name}
+                span 
+                    | {input.name}   
+                    icon(icon="hint" if="{input.hint}")
         .fifty
             div.anOutputPin(
                 each="{output in block.template.outputs}"
@@ -24,7 +26,9 @@ regular-block(
                 title="{output.hint}"
                 data-key="{output.key}" data-type="{output.type}"
             )
-                span {output.name}
+                span 
+                    | {output.name}   
+                    icon(icon="hint" if="{output.hint}")
     label(each="{tagInfo in block.template.tags}")
         div(if="{tagInfo.label && tagInfo.tag !== 'bool-input'}") {tagInfo.label}
         color-picker(if="{tagInfo.tag === 'color-picker'}" key="{tagInfo.key || 'value'}")
