@@ -40,7 +40,7 @@ const channelSum = <IBlockTemplate>{
 };
 const channelAddNumber = <IBlockTemplate>{
     nameLoc: 'blocks.channelMath.channelAddNumber.name',
-    name: 'Sum with Number',
+    name: 'Sum with a Number',
     noPreview: true,
     inputs: [{
         key: 'a',
