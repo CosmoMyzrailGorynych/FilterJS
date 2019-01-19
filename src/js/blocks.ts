@@ -17,8 +17,11 @@ require('fs')
         category.set = fileName.slice(0, -3);
         let paletteCount = 0;
         for (const key in category.blocks) {
-            if (!category.blocks[key].noPalette && !category.blocks[key].isSingular) {
-                paletteCount ++;
+            if (category.blocks.hasOwnProperty(key)) {
+                if (!category.blocks[key].noPalette && !category.blocks[key].isSingular) {
+                    paletteCount ++;
+                }
+                category.blocks[key].set = category.set;
             }
         }
         category.paletteCount = paletteCount;
