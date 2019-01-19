@@ -38,6 +38,44 @@ const channelSum = <IBlockTemplate>{
         });
     }
 };
+const channelAddNumber = <IBlockTemplate>{
+    nameLoc: 'blocks.channelMath.channelAddNumber.name',
+    name: 'Sum with Number',
+    noPreview: true,
+    inputs: [{
+        key: 'a',
+        type: 'channel',
+        name: 'A',
+        nameLoc: 'blocks.channelMath.channelAddNumber.A'
+    }, {
+        key: 'b',
+        type: 'number',
+        name: 'B',
+        nameLoc: 'blocks.channelMath.channelAddNumber.B',
+        hint: 'Usually in between 0 and 255'
+    }],
+    outputs: [{
+        key: 'result',
+        type: 'channel',
+        name: 'Result',
+        nameLoc: 'blocks.channelMath.channelAddNumber.result'
+    }],
+    exec(inputs, block) {
+        return new Promise((resolve, reject) => {
+            const w = inputs.a.width,
+                  h = inputs.a.height;
+            const result = new Channel(w, h);
+            for (let y = 0; y < h; y++) {
+                for (let x = 0; x < w; x++) {
+                    result.data.push(inputs.a.data[x + y*w] + inputs.b);
+                }
+            }
+            resolve({
+                result
+            });
+        });
+    }
+};
 const channelSubtract = <IBlockTemplate>{
     nameLoc: 'blocks.channelMath.channelSubtract.name',
     name: 'Subtract',
@@ -305,6 +343,7 @@ module.exports = {
     name: 'Channel Math',
     blocks: {
         channelSum,
+        channelAddNumber,
         channelSubtract,
         channelMultiply,
         channelMultiplyNumber,
