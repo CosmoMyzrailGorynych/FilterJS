@@ -173,7 +173,7 @@ const numberModulo = <IBlockTemplate>{
         name: 'A',
         nameLoc: 'blocks.atomicMath.numberModulo.A'
     }, {
-        key: 'b',
+        key: 'modulo',
         type: 'number',
         name: 'B',
         nameLoc: 'blocks.atomicMath.numberModulo.B'
@@ -186,7 +186,7 @@ const numberModulo = <IBlockTemplate>{
     }],
     exec(inputs, block) {
         return Promise.resolve({
-            result: inputs.a % inputs.b
+            result: inputs.a % inputs.modulo
         });
     }
 };
