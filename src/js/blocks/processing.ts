@@ -193,6 +193,55 @@ const brightnessContrast = <IBlockTemplate>{
         });
     }
 };
+const gammaCorrection = <IBlockTemplate>{
+    nameLoc: 'blocks.processing.gammaCorrection.name',
+    name: 'Gamma Correction',
+    inputs: [{
+        key: 'input',
+        type: 'pixels',
+        name: 'Input',
+        nameLoc: 'blocks.processing.gammaCorrection.input'
+    }, {
+        key: 'gamma',
+        type: 'number',
+        name: 'Gamma',
+        nameLoc: 'blocks.processing.gammaCorrection.gamma',
+        hint: 'A value above 0. Gamma value that is less than 1 makes an image brighter.'
+    }, {
+        key: 'brightness',
+        type: 'number',
+        name: 'Brightness',
+        optional: true,
+        nameLoc: 'blocks.processing.brightnessContrast.brightness',
+        hint: 'A value between -1 and 1. 0 deals no changes, -1 turns an image to black color, 1 makes it fully white'
+    }],
+    outputs: [{
+        key: 'output',
+        type: 'pixels',
+        name: 'Output',
+        nameLoc: 'blocks.processing.gammaCorrection.output',
+    }],
+    exec(inputs, block) {
+        return new Promise((resolve, reject) => {
+            const inp = inputs.input,
+                  output = new ImageData(inp.width, inp.height),
+                  g = inputs.gamma,
+                  brightness = inputs.brightness || 1;
+            for (let x = 0; x < inp.width; x++) {
+                for (let y = 0; y < inp.height; y++) {
+                    const p = (y*inp.width + x)*4;
+                    output.data[p] = Math.pow(inp.data[p] / 256, g) * 256 * brightness;
+                    output.data[p+1] = Math.pow(inp.data[p+1] / 256, g) * 256 * brightness;
+                    output.data[p+2] = Math.pow(inp.data[p+2] / 256, g) * 256 * brightness;
+                    output.data[p+3] = inp.data[p+3];
+                }
+            }
+            resolve({
+                output
+            });
+        });
+    }
+};
 
 const computeMaxAtPoint = (input: ImageData, x: number, y: number) => {
     const p = (input.width * y + x)*4;
@@ -283,6 +332,7 @@ module.exports = {
         grayscale,
         grayscaleChannel,
         brightnessContrast,
+        gammaCorrection,
         invert,
         computeNormals
     }
