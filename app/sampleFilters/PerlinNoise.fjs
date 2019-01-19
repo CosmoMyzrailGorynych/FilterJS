@@ -93,7 +93,7 @@
         {
           "inputKey": "canvas",
           "outBlock": 4,
-          "outKey": "image"
+          "outKey": "canvas"
         }
       ],
       "x": -420,
@@ -121,7 +121,7 @@
         {
           "inputKey": "canvas",
           "outBlock": 6,
-          "outKey": "image"
+          "outKey": "canvas"
         }
       ],
       "x": -420,

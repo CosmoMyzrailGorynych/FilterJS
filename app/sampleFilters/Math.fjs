@@ -6,11 +6,11 @@
       "inputLinks": [
         {
           "inputKey": "image",
-          "outBlock": 7,
+          "outBlock": 21,
           "outKey": "canvas"
         }
       ],
-      "x": 640,
+      "x": 620,
       "y": -20,
       "template": "outputImage",
       "tagValues": {}
@@ -24,21 +24,23 @@
       "tagValues": {}
     },
     {
-      "id": 3,
+      "id": 14,
       "inputLinks": [
         {
           "inputKey": "input",
-          "outBlock": 4,
+          "outBlock": 15,
           "outKey": "pixels"
         }
       ],
       "x": -500,
       "y": -20,
-      "template": "splitChannels",
-      "tagValues": {}
+      "template": "grayscaleChannel",
+      "tagValues": {
+        "calcLuminescence": true
+      }
     },
     {
-      "id": 4,
+      "id": 15,
       "inputLinks": [
         {
           "inputKey": "canvas",
@@ -52,125 +54,115 @@
       "tagValues": {}
     },
     {
-      "id": 5,
+      "id": 16,
       "inputLinks": [
         {
           "inputKey": "a",
-          "outBlock": 8,
-          "outKey": "result"
-        },
-        {
-          "inputKey": "b",
-          "outBlock": 10,
-          "outKey": "result"
-        }
-      ],
-      "x": -40,
-      "y": -20,
-      "template": "channelMultiplyNumber",
-      "tagValues": {}
-    },
-    {
-      "id": 6,
-      "inputLinks": [
-        {
-          "inputKey": "r",
-          "outBlock": 5,
-          "outKey": "result"
-        },
-        {
-          "inputKey": "g",
-          "outBlock": 5,
-          "outKey": "result"
-        },
-        {
-          "inputKey": "b",
-          "outBlock": 5,
-          "outKey": "result"
-        }
-      ],
-      "x": 220,
-      "y": -20,
-      "template": "combineChannels",
-      "tagValues": {}
-    },
-    {
-      "id": 7,
-      "inputLinks": [
-        {
-          "inputKey": "pixels",
-          "outBlock": 6,
+          "outBlock": 14,
           "outKey": "output"
-        }
-      ],
-      "x": 460,
-      "y": -20,
-      "template": "pixelsToCanvas",
-      "tagValues": {}
-    },
-    {
-      "id": 8,
-      "inputLinks": [
-        {
-          "inputKey": "a",
-          "outBlock": 3,
-          "outKey": "r"
         },
         {
           "inputKey": "modulo",
-          "outBlock": 9,
+          "outBlock": 23,
           "outKey": "number"
         }
       ],
-      "x": -260,
+      "x": -220,
       "y": -20,
       "template": "channelModulo",
       "tagValues": {}
     },
     {
-      "id": 9,
-      "inputLinks": [],
-      "x": -500,
-      "y": 220,
-      "template": "numberInput",
-      "tagValues": {
-        "number": 128
-      }
-    },
-    {
-      "id": 10,
+      "id": 17,
       "inputLinks": [
         {
-          "inputKey": "b",
-          "outBlock": 9,
+          "inputKey": "a",
+          "outBlock": 22,
           "outKey": "number"
         },
         {
-          "inputKey": "a",
-          "outBlock": 11,
+          "inputKey": "b",
+          "outBlock": 23,
           "outKey": "number"
         }
       ],
-      "x": -260,
-      "y": 200,
+      "x": -220,
+      "y": 180,
       "template": "numberDivide",
       "tagValues": {}
     },
     {
-      "id": 11,
+      "id": 19,
+      "inputLinks": [
+        {
+          "inputKey": "a",
+          "outBlock": 16,
+          "outKey": "result"
+        },
+        {
+          "inputKey": "b",
+          "outBlock": 17,
+          "outKey": "result"
+        }
+      ],
+      "x": 40,
+      "y": -20,
+      "template": "channelMultiplyNumber",
+      "tagValues": {}
+    },
+    {
+      "id": 20,
+      "inputLinks": [
+        {
+          "inputKey": "channel",
+          "outBlock": 19,
+          "outKey": "result"
+        }
+      ],
+      "x": 280,
+      "y": -20,
+      "template": "channelToPixels",
+      "tagValues": {}
+    },
+    {
+      "id": 21,
+      "inputLinks": [
+        {
+          "inputKey": "pixels",
+          "outBlock": 20,
+          "outKey": "pixels"
+        }
+      ],
+      "x": 480,
+      "y": -20,
+      "template": "pixelsToCanvas",
+      "tagValues": {}
+    },
+    {
+      "id": 22,
       "inputLinks": [],
-      "x": -500,
-      "y": 380,
+      "x": -460,
+      "y": 320,
       "template": "numberInput",
       "tagValues": {
         "number": 256
       }
+    },
+    {
+      "id": 23,
+      "inputLinks": [],
+      "x": -460,
+      "y": 140,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 64
+      }
     }
   ],
   "view": {
-    "x": -2,
-    "y": -218
+    "x": 4,
+    "y": -152
   },
-  "lastId": 13,
+  "lastId": 24,
   "seed": 0
 }
