@@ -1,4 +1,5 @@
 import Channel = require('./../types/Channel.js');
+import BlockError = require('./../types/BlockError.js');
 
 const grayscale = <IBlockTemplate>{
     nameLoc: 'blocks.processing.grayscale.name',
@@ -139,6 +140,60 @@ const invert = <IBlockTemplate>{
     }
 };
 
+const brightnessContrast = <IBlockTemplate>{
+    nameLoc: 'blocks.processing.brightnessContrast.name',
+    name: 'Brightness & Contrast',
+    inputs: [{
+        key: 'input',
+        type: 'pixels',
+        name: 'Input',
+        nameLoc: 'blocks.processing.brightnessContrast.input'
+    }, {
+        key: 'brightness',
+        type: 'number',
+        name: 'Brightness',
+        optional: true,
+        nameLoc: 'blocks.processing.brightnessContrast.brightness',
+        hint: 'A value between -1 and 1. 0 deals no changes, -1 turns an image to black color, 1 makes it fully white'
+    }, {
+        key: 'contrast',
+        type: 'number',
+        name: 'Contrast',
+        optional: true,
+        nameLoc: 'blocks.processing.brightnessContrast.contrast',
+        hint: 'A value starting from 0. 0 turns an image into gray, 1 makes no changes, 2 doubles the contrast, etc.'
+    }],
+    outputs: [{
+        key: 'output',
+        type: 'pixels',
+        name: 'Output',
+        nameLoc: 'blocks.processing.brightnessContrast.output',
+    }],
+    exec(inputs, block) {
+        if (!('contrast' in inputs) && !('brightness' in inputs)) {
+            return Promise.reject(new BlockError('A useless block. No brightness and/or contrast value was provided.', block));
+        }
+        return new Promise((resolve, reject) => {
+            const inp = inputs.input,
+                  output = new ImageData(inp.width, inp.height),
+                  brightness = inputs.brightness || 0,
+                  contrast = (inputs.contrast === void 0)? 1 : inputs.contrast;
+            for (let x = 0; x < inp.width; x++) {
+                for (let y = 0; y < inp.height; y++) {
+                    const p = (y*inp.width + x)*4;
+                    output.data[p] = ((inp.data[p] + brightness*256) - 128) * contrast + 128;
+                    output.data[p+1] = ((inp.data[p+1] + brightness*256) - 128) * contrast + 128;
+                    output.data[p+2] = ((inp.data[p+2] + brightness*256) - 128) * contrast + 128;
+                    output.data[p+3] = inp.data[p+3];
+                }
+            }
+            resolve({
+                output
+            });
+        });
+    }
+};
+
 const computeMaxAtPoint = (input: ImageData, x: number, y: number) => {
     const p = (input.width * y + x)*4;
     return Math.max(input.data[p], input.data[p+1], input.data[p+2]);
@@ -227,6 +282,7 @@ module.exports = {
     blocks: {
         grayscale,
         grayscaleChannel,
+        brightnessContrast,
         invert,
         computeNormals
     }
