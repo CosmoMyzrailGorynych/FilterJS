@@ -275,7 +275,8 @@ const channelModulo = <IBlockTemplate>{
         key: 'modulo',
         type: 'number',
         name: 'Modulo',
-        nameLoc: 'blocks.channelMath.channelModulo.modulo'
+        nameLoc: 'blocks.channelMath.channelModulo.modulo',
+        hint: 'Usually a value between (0; 256].'
     }],
     outputs: [{
         key: 'result',
