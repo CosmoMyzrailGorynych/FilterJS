@@ -1,6 +1,7 @@
 import Channel = require('./../types/Channel.js');
 import BlockError = require('./../types/BlockError.js');
 import OSWebGL = require('./../oneShotWebGL.js');
+const glsl = e => e;
 
 const grayscale = <IBlockTemplate>{
     nameLoc: 'blocks.processing.grayscale.name',
@@ -141,12 +142,20 @@ const invert = <IBlockTemplate>{
     }
 };
 
+const brightnessContrastOGL = new OSWebGL(glsl`
+    gl_FragColor = texture2D(u_image, v_texCoord);
+    gl_FragColor = gl_FragColor + vec4(brightness - 0.5, brightness - 0.5, brightness - 0.5, 0);
+    gl_FragColor = gl_FragColor * vec4(contrast, contrast, contrast, 1) + vec4(0.5, 0.5, 0.5, 0);
+`, {
+    brightness: 'number',
+    contrast: 'number'
+});
 const brightnessContrast = <IBlockTemplate>{
     nameLoc: 'blocks.processing.brightnessContrast.name',
     name: 'Brightness & Contrast',
     inputs: [{
         key: 'input',
-        type: 'pixels',
+        type: 'canvas',
         name: 'Input',
         nameLoc: 'blocks.processing.brightnessContrast.input'
     }, {
@@ -166,7 +175,7 @@ const brightnessContrast = <IBlockTemplate>{
     }],
     outputs: [{
         key: 'output',
-        type: 'pixels',
+        type: 'canvas',
         name: 'Output',
         nameLoc: 'blocks.processing.brightnessContrast.output',
     }],
@@ -176,25 +185,25 @@ const brightnessContrast = <IBlockTemplate>{
         }
         return new Promise((resolve, reject) => {
             const inp = inputs.input,
-                  output = new ImageData(inp.width, inp.height),
                   brightness = inputs.brightness || 0,
-                  contrast = (inputs.contrast === void 0)? 1 : inputs.contrast;
-            for (let x = 0; x < inp.width; x++) {
-                for (let y = 0; y < inp.height; y++) {
-                    const p = (y*inp.width + x)*4;
-                    output.data[p] = ((inp.data[p] + brightness*256) - 128) * contrast + 128;
-                    output.data[p+1] = ((inp.data[p+1] + brightness*256) - 128) * contrast + 128;
-                    output.data[p+2] = ((inp.data[p+2] + brightness*256) - 128) * contrast + 128;
-                    output.data[p+3] = inp.data[p+3];
-                }
-            }
-            resolve({
-                output
+                  contrast = inputs.contrast === void 0? 1 : inputs.contrast;
+            brightnessContrastOGL.render(inp, {
+                contrast,
+                brightness
+            })
+            .then(image => {
+                resolve({
+                    output: image
+                });
+            })
+            .catch(err => {
+                console.error(err);
+                reject(new BlockError(err, block));
             });
         });
     }
 };
-const gammaCorrectionFragment = new OSWebGL(`
+const gammaCorrectionOGL = new OSWebGL(glsl`
     gl_FragColor = texture2D(u_image, v_texCoord);
     gl_FragColor = pow(gl_FragColor, vec4(g, g, g, 1)) + vec4(brightness, brightness, brightness, 0);
 `, {
@@ -232,10 +241,9 @@ const gammaCorrection = <IBlockTemplate>{
     exec(inputs, block) {
         return new Promise((resolve, reject) => {
             const inp = inputs.input,
-                  output = new ImageData(inp.width, inp.height),
                   g = inputs.gamma,
                   brightness = inputs.brightness || 0;
-            gammaCorrectionFragment.render(inp, {
+            gammaCorrectionOGL.render(inp, {
                 g,
                 brightness
             })
