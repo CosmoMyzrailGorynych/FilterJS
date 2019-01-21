@@ -16,8 +16,17 @@ const canvasToPixels = <IBlockTemplate>{
         nameLoc: 'nonBreakingSpace',
     }],
     exec(inputs) {
+        if (inputs.canvas instanceof HTMLCanvasElement) {
+            return Promise.resolve({
+                pixels: inputs.canvas.getContext('2d').getImageData(0, 0, inputs.canvas.width, inputs.canvas.height)
+            });
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = inputs.canvas.width;
+        canvas.height = inputs.canvas.height;
+        canvas.getContext('2d').drawImage(inputs.canvas, 0, 0);
         return Promise.resolve({
-            pixels: inputs.canvas.getContext('2d').getImageData(0, 0, inputs.canvas.width, inputs.canvas.height)
+            pixels: canvas.getContext('2d').getImageData(0, 0, inputs.canvas.width, inputs.canvas.height)
         });
     }
 };

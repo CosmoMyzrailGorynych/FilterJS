@@ -30,7 +30,7 @@ app/node_modules
 bower_components
 
 # generated files
-app/js
+app/js/**/*.js
 app/bundle.css
 app/index.html
 app/img/icons.svg
