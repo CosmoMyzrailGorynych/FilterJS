@@ -107,36 +107,39 @@ const grayscaleChannel = <IBlockTemplate>{
     }
 };
 
+const invertOGL = new OSWebGL(glsl`
+    gl_FragColor = texture2D(u_image, v_texCoord);
+    gl_FragColor.r = 1.0 - gl_FragColor.r;
+    gl_FragColor.g = 1.0 - gl_FragColor.g;
+    gl_FragColor.b = 1.0 - gl_FragColor.b;
+`);
 const invert = <IBlockTemplate>{
     nameLoc: 'blocks.processing.invert.name',
     name: 'Invert',
     inputs: [{
         key: 'input',
-        type: 'pixels',
+        type: 'canvas',
         name: 'Input',
         nameLoc: 'blocks.processing.invert.input'
     }],
     outputs: [{
         key: 'output',
-        type: 'pixels',
+        type: 'canvas',
         name: 'Output',
         nameLoc: 'blocks.processing.invert.output',
     }],
     exec(inputs, block) {
         return new Promise((resolve, reject) => {
-            const inp = inputs.input,
-                  out = new ImageData(inp.width, inp.height);
-            for (let x = 0; x < inp.width; x++) {
-                for (let y = 0; y < inp.height; y++) {
-                    const p = (y*inp.width + x)*4;
-                    out.data[p] = 255 - inp.data[p];
-                    out.data[p+1] = 255 - inp.data[p+1];
-                    out.data[p+2] = 255 - inp.data[p+2];
-                    out.data[p+3] = inp.data[p+3];
-                }
-            }
-            resolve({
-                output: out
+            const inp = inputs.input;
+            invertOGL.render(inp)
+            .then(image => {
+                resolve({
+                    output: image
+                });
+            })
+            .catch(err => {
+                console.error(err);
+                reject(new BlockError(err, block));
             });
         });
     }
