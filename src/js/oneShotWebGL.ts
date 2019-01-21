@@ -128,6 +128,7 @@ class Renderer {
 
             // lookup uniforms
             const resolutionLocation = gl.getUniformLocation(this.program, 'u_resolution');
+            const textureSizeLocation = gl.getUniformLocation(this.program, 'u_textureSize');
 
             // Resize the drawing buffer to fit the source image
             gl.viewport(0, 0, image.width, image.height);
@@ -145,6 +146,7 @@ class Renderer {
             gl.vertexAttribPointer(texCoordLocation, 2, gl.FLOAT, false, 0, 0);
 
             gl.uniform2f(resolutionLocation, image.width, image.height);
+            gl.uniform2f(textureSizeLocation, image.width, image.height);
 
             for (const key in params) {
                 if (Object.hasOwnProperty.apply(params, [key])) {
