@@ -21,10 +21,16 @@ editor-screen
         graph-editor(graph="{filter.graph}" view="{filter.view}" ref="graphEditor" error="{error}")
     #theOutputScreen(show="{tab === 'output'}" )
         // .anOriginal
-        .anOutput(ref="output")
-        button(if="{currentResult}" onclick="{copyToClipboard}") Copy to Clipboard
-        button(if="{currentResult}" onclick="{exportPNG}") Export as PNG
-        button(if="{currentResult}" onclick="{exportJPG}") Export as JPG
+        .anOutput
+            .anOutputWrap
+                .aLabel#theShowOriginalLabel Show original
+                div(ref="original")
+                div(ref="output")
+
+        .flexrow
+            button(if="{currentResult}" onclick="{copyToClipboard}") Copy to Clipboard
+            button(if="{currentResult}" onclick="{exportPNG}") Export as PNG
+            button(if="{currentResult}" onclick="{exportJPG}") Export as JPG
         input(type="file" hidden ref="imageSaver" onchange="{finishExportImage}" accept=".{imageSaveFormat}" nwsaveas="{filter.name}.{imageSaveFormat}")
         input(type="file" hidden ref="imageFinder" onchange="{finishImportImage}" accept="image/*")
         input(type="file" hidden ref="filterSaver" onchange="{finishSaveFilter}" nwsaveas="{filter.name}.fjs" accept=".fjs")
@@ -32,6 +38,7 @@ editor-screen
     script.
         const glob = require('./js/global.js'),
               Filter = require('./js/types/Filter.js'),
+              BlockError = require('./js/types/BlockError.js'),
               fs = require('fs-extra'),
               path = require('path');
         this.tab = 'edit';
@@ -58,16 +65,30 @@ editor-screen
                 this.currentResult = results;
                 var c = this.refs.prewiew,
                     cx = c.getContext('2d');
+                const orig = document.createElement('canvas'),
+                      ocx = orig.getContext('2d');
                 while (this.refs.output.hasChildNodes()) {
                     this.refs.output.removeChild(this.refs.output.lastChild);
                 }
+                while (this.refs.original.hasChildNodes()) {
+                    this.refs.original.removeChild(this.refs.original.lastChild);
+                }
                 this.refs.output.appendChild(results);
+                this.refs.original.appendChild(orig);
                 cx.clearRect(0, 0, c.width, c.height);
                 cx.drawImage(results, 0, 0, c.width, c.height);
+                orig.width = glob.sourceImage.width;
+                orig.height = glob.sourceImage.height;
+                ocx.clearRect(0, 0, orig.width, orig.height);
+                ocx.drawImage(glob.sourceImage, 0, 0);
                 this.update();
             })
             .catch(e => {
                 this.error = e;
+                if (!(this.error instanceof BlockError)) {
+                    // Show the error at the 'output image' block
+                    this.error = new BlockError(this.error, glob.filter.graph[0]);
+                }
                 this.update();
             })
             .finally(() => this.filter.cleanUp());

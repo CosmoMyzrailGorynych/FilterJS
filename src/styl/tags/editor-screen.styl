@@ -32,16 +32,18 @@ editor-screen
     components-palette, canvas.aPreview
         background bgColor
 #theOutputScreen
-    grid-template-rows 1fr 3rem
+    display flex
+    flex-flow column nowrap
+    background borders
+    flex 1 1 auto
     button
         grid-row 2 / 2
         border-radius 0
         border 0
     .anOutput
-        grid-column 1 / span 3
-        align-self center
-        justify-self center
-        overflow auto
+        flex 1 1 auto
+        overflow overlay
+        position relative
         max-width 100%
         max-height 100%
         min-width 100%
@@ -49,12 +51,31 @@ editor-screen
         text-align center
         padding 1rem
         box-sizing border-box
+        display flex
         canvas
             box-shadow 0 0.25rem 0.5rem rgba(#00, 0.35)
-#theEditingPanel, #theOutputScreen
+    .anOutputWrap
+        margin auto
+    .flexrow
+        height 4rem
+        flex 0 0 auto
+#theEditingPanel
     display grid
     grid-gap 1px
     height 100%
     background borders
     flex 1 1 auto
     position relative
+
+#theShowOriginalLabel
+    position fixed
+    right 1rem
+    top 4rem
+    & + div
+        display none
+        position absolute
+    &:hover + div
+        display block
+    &:hover + div + div
+        visibility hidden
+    z-index 2
