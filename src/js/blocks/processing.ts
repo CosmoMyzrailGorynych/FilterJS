@@ -261,17 +261,28 @@ const gammaCorrection = <IBlockTemplate>{
     }
 };
 
-const computeMaxAtPoint = (input: ImageData, x: number, y: number) => {
-    const p = (input.width * y + x)*4;
-    return Math.max(input.data[p], input.data[p+1], input.data[p+2]);
-};
-
+const computeNormalsOGL = new OSWebGL(glsl`
+    vec4 left = texture2D(u_image, v_texCoord - vec2(-pixel.x, 0.0));
+    vec4 top = texture2D(u_image, v_texCoord - vec2(0.0, -pixel.y));
+    vec4 right = texture2D(u_image, v_texCoord - vec2(pixel.x, 0.0));
+    vec4 bottom = texture2D(u_image, v_texCoord - vec2(0.0, pixel.y));
+    float leftMax = max(left.r, max(left.g, left.b));
+    float topMax = max(top.r, max(top.g, top.b));
+    float rightMax = max(right.r, max(right.g, right.b));
+    float bottomMax = max(bottom.r, max(bottom.g, bottom.b));
+    gl_FragColor.r = 0.5 + (leftMax-rightMax) * intensity;
+    gl_FragColor.g = 0.5 + (topMax-bottomMax) * intensity;
+    gl_FragColor.b = 1.0;
+    gl_FragColor.a = 1.0;
+`, {
+    intensity: 'number'
+});
 const computeNormals = <IBlockTemplate>{
     nameLoc: 'blocks.processing.computeNormals.name',
     name: 'Normal',
     inputs: [{
         key: 'height',
-        type: 'pixels',
+        type: 'canvas',
         name: 'Height',
         nameLoc: 'blocks.processing.computeNormals.inputHeight'
     }, {
@@ -283,9 +294,54 @@ const computeNormals = <IBlockTemplate>{
     }],
     outputs: [{
         key: 'normals',
-        type: 'pixels',
+        type: 'canvas',
         name: 'Normals',
         nameLoc: 'blocks.processing.computeNormals.outputNormals',
+    }],
+    exec(inputs, block) {
+        return new Promise((resolve, reject) => {
+            const inp = inputs.height,
+                  intensity = inputs.intensity || 1;
+            computeNormalsOGL.render(inp, {
+                intensity
+            })
+            .then(image => {
+                resolve({
+                    normals: image
+                });
+            })
+            .catch(err => {
+                console.error(err);
+                reject(new BlockError(err, block));
+            });
+        });
+    }
+};
+
+const computeMaxAtPoint = (input: ImageData, x: number, y: number) => {
+    const p = (input.width * y + x)*4;
+    return Math.max(input.data[p], input.data[p+1], input.data[p+2]);
+};
+const computeNormalsPixels = <IBlockTemplate>{
+    nameLoc: 'blocks.processing.computeNormalsPixels.name',
+    name: 'Normal (Pixels)',
+    inputs: [{
+        key: 'height',
+        type: 'pixels',
+        name: 'Height',
+        nameLoc: 'blocks.processing.computeNormalsPixels.inputHeight'
+    }, {
+        key: 'intensity',
+        type: 'number',
+        name: 'Intensity',
+        nameLoc: 'blocks.processing.computeNormalsPixels.inputIntensity',
+        optional: true
+    }],
+    outputs: [{
+        key: 'normals',
+        type: 'pixels',
+        name: 'Normals',
+        nameLoc: 'blocks.processing.computeNormalsPixels.outputNormals',
     }],
     exec(inputs, block) {
         return new Promise((resolve, reject) => {
@@ -296,8 +352,8 @@ const computeNormals = <IBlockTemplate>{
             for (let x = 1; x < inp.width - 1; x++) {
                 for (let y = 1; y < inp.height - 1; y++) {
                     var p = (x + y*inp.width) * 4;
-                    out.data[p] = 127 + (computeMaxAtPoint(inp, x-1, y) - computeMaxAtPoint(inp, x+1, y)) * intensity;
-                    out.data[p+1] = 127 + (computeMaxAtPoint(inp, x, y-1) - computeMaxAtPoint(inp, x, y+1)) * intensity;
+                    out.data[p] = 127 - (computeMaxAtPoint(inp, x-1, y) - computeMaxAtPoint(inp, x+1, y)) * intensity;
+                    out.data[p+1] = 127 - (computeMaxAtPoint(inp, x, y-1) - computeMaxAtPoint(inp, x, y+1)) * intensity;
                     out.data[p+2] = 255;
                     out.data[p+3] = 255;
                 }
@@ -352,6 +408,7 @@ module.exports = {
         brightnessContrast,
         gammaCorrection,
         invert,
-        computeNormals
+        computeNormals,
+        computeNormalsPixels
     }
 };
