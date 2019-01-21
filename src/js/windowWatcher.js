@@ -33,6 +33,7 @@
     });
     win.on('close', function () {
         saveState();
+        this.close(true);
     });
 
     const settings = localStorage.windowSettings? JSON.parse(localStorage.windowSettings) : {
