@@ -1,5 +1,6 @@
 import Channel = require('./../types/Channel.js');
 import BlockError = require('./../types/BlockError.js');
+import OSWebGL = require('./../oneShotWebGL.js');
 
 const grayscale = <IBlockTemplate>{
     nameLoc: 'blocks.processing.grayscale.name',
@@ -193,12 +194,19 @@ const brightnessContrast = <IBlockTemplate>{
         });
     }
 };
+const gammaCorrectionFragment = new OSWebGL(`
+    gl_FragColor = texture2D(u_image, v_texCoord);
+    gl_FragColor = pow(gl_FragColor, vec4(g, g, g, 1)) + vec4(brightness, brightness, brightness, 0);
+`, {
+    g: 'number',
+    brightness: 'number'
+});
 const gammaCorrection = <IBlockTemplate>{
     nameLoc: 'blocks.processing.gammaCorrection.name',
     name: 'Gamma Correction',
     inputs: [{
         key: 'input',
-        type: 'pixels',
+        type: 'canvas',
         name: 'Input',
         nameLoc: 'blocks.processing.gammaCorrection.input'
     }, {
@@ -217,7 +225,7 @@ const gammaCorrection = <IBlockTemplate>{
     }],
     outputs: [{
         key: 'output',
-        type: 'pixels',
+        type: 'canvas',
         name: 'Output',
         nameLoc: 'blocks.processing.gammaCorrection.output',
     }],
@@ -226,18 +234,19 @@ const gammaCorrection = <IBlockTemplate>{
             const inp = inputs.input,
                   output = new ImageData(inp.width, inp.height),
                   g = inputs.gamma,
-                  brightness = inputs.brightness || 1;
-            for (let x = 0; x < inp.width; x++) {
-                for (let y = 0; y < inp.height; y++) {
-                    const p = (y*inp.width + x)*4;
-                    output.data[p] = Math.pow(inp.data[p] / 256, g) * 256 * brightness;
-                    output.data[p+1] = Math.pow(inp.data[p+1] / 256, g) * 256 * brightness;
-                    output.data[p+2] = Math.pow(inp.data[p+2] / 256, g) * 256 * brightness;
-                    output.data[p+3] = inp.data[p+3];
-                }
-            }
-            resolve({
-                output
+                  brightness = inputs.brightness || 0;
+            gammaCorrectionFragment.render(inp, {
+                g,
+                brightness
+            })
+            .then(image => {
+                resolve({
+                    output: image
+                });
+            })
+            .catch(err => {
+                console.error(err);
+                reject(new BlockError(err, block));
             });
         });
     }

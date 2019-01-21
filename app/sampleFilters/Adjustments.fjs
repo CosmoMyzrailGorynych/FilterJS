@@ -27,17 +27,17 @@
       "id": 2,
       "inputLinks": [
         {
-          "inputKey": "input",
-          "outBlock": 4,
-          "outKey": "pixels"
-        },
-        {
           "inputKey": "gamma",
           "outBlock": 5,
           "outKey": "number"
+        },
+        {
+          "inputKey": "input",
+          "outBlock": 1,
+          "outKey": "image"
         }
       ],
-      "x": -160,
+      "x": -340,
       "y": -60,
       "template": "gammaCorrection",
       "tagValues": {}
@@ -57,41 +57,27 @@
       "tagValues": {}
     },
     {
-      "id": 4,
-      "inputLinks": [
-        {
-          "inputKey": "canvas",
-          "outBlock": 1,
-          "outKey": "image"
-        }
-      ],
-      "x": -380,
-      "y": -60,
-      "template": "canvasToPixels",
-      "tagValues": {}
-    },
-    {
       "id": 5,
       "inputLinks": [],
-      "x": -420,
-      "y": 80,
+      "x": -580,
+      "y": 60,
       "template": "numberInput",
       "tagValues": {
-        "number": 0.7
+        "number": 1.4
       }
     },
     {
       "id": 6,
       "inputLinks": [
         {
-          "inputKey": "input",
-          "outBlock": 2,
-          "outKey": "output"
-        },
-        {
           "inputKey": "contrast",
           "outBlock": 7,
           "outKey": "number"
+        },
+        {
+          "inputKey": "input",
+          "outBlock": 8,
+          "outKey": "pixels"
         }
       ],
       "x": 120,
@@ -106,14 +92,28 @@
       "y": 140,
       "template": "numberInput",
       "tagValues": {
-        "number": 1.5
+        "number": 1.2
       }
+    },
+    {
+      "id": 8,
+      "inputLinks": [
+        {
+          "inputKey": "canvas",
+          "outBlock": 2,
+          "outKey": "output"
+        }
+      ],
+      "x": -20,
+      "y": -60,
+      "template": "canvasToPixels",
+      "tagValues": {}
     }
   ],
   "view": {
     "x": -162,
     "y": -5
   },
-  "lastId": 8,
+  "lastId": 9,
   "seed": 0
 }
