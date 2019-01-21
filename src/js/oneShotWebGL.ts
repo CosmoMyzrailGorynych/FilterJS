@@ -52,6 +52,8 @@ class Renderer {
                 uniformsCode += `uniform float ${key};\n`;
             } else if (params[key] === 'color') {
                 uniformsCode += `uniform vec3 ${key};\n`;
+            } else if (params[key] === 'bool') {
+                uniformsCode += `uniform bool ${key};\n`;
             }
         }
         fragSource = fragSource.replace('${uniforms}', uniformsCode);
@@ -153,6 +155,9 @@ class Renderer {
                     } else if (typeof param === 'string') { // a hex-encoded color
                         const [r, g, b] = getRGB(param);
                         gl.uniform3f(loc, r / 256, g / 256, b / 256);
+                    }
+                    if (typeof param === 'boolean') {
+                        gl.uniform1f(loc, param? 1 : 0);
                     }
                 }
             }
