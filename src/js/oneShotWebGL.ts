@@ -10,7 +10,7 @@ fragmentTemplate = fs.readFileSync('./js/fragmentShader.glsl', {
 const VERT = WebGLRenderingContext.VERTEX_SHADER,
       FRAG = WebGLRenderingContext.FRAGMENT_SHADER;
 
-const getRGB = hex => {
+const getRGB = (hex: string) => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return [
         parseInt(result[1], 16),
@@ -38,7 +38,7 @@ class Renderer {
         return this;
     }
     setup(fragCode: string, params?: object) {
-        this.gl = this.canvas.getContext('webgl');
+        this.gl = this.canvas.getContext('webgl2');
         const gl = this.gl;
         this.vecShader = gl.createShader(VERT);
         this.fragShader = gl.createShader(FRAG);
