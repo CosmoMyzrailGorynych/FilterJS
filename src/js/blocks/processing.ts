@@ -273,7 +273,6 @@ module.exports = {
         gammaCorrection,
         invert,
         gaussianBlur,
-        computeNormals,
-        computeNormalsPixels
+        computeNormals
     }
 };
