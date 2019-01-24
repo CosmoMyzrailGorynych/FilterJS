@@ -65,11 +65,11 @@ class Renderer {
         gl.shaderSource(this.vecShader, vectorShader);
         gl.compileShader(this.fragShader);
         gl.compileShader(this.vecShader);
-        if (!gl.getShaderParameter(this.fragShader, gl.COMPILE_STATUS) ) {
+        if (!gl.getShaderParameter(this.fragShader, gl.COMPILE_STATUS)) {
             console.error(gl.getShaderInfoLog(this.fragShader));
             return null;
         }
-        if (!gl.getShaderParameter(this.vecShader, gl.COMPILE_STATUS) ) {
+        if (!gl.getShaderParameter(this.vecShader, gl.COMPILE_STATUS)) {
             console.error(gl.getShaderInfoLog(this.vecShader));
             return null;
         }

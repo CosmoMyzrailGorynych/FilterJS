@@ -1,7 +1,7 @@
 {
   "name": "FilterJS",
   "description": "Generate textures with JS power!",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "index.html",
   "dependencies": {
     "fs-extra": "^6.0.0",
