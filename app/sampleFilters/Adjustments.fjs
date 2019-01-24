@@ -6,8 +6,8 @@
       "inputLinks": [
         {
           "inputKey": "image",
-          "outBlock": 3,
-          "outKey": "canvas"
+          "outBlock": 6,
+          "outKey": "output"
         }
       ],
       "x": 560,
@@ -43,27 +43,13 @@
       "tagValues": {}
     },
     {
-      "id": 3,
-      "inputLinks": [
-        {
-          "inputKey": "pixels",
-          "outBlock": 6,
-          "outKey": "output"
-        }
-      ],
-      "x": 400,
-      "y": -60,
-      "template": "pixelsToCanvas",
-      "tagValues": {}
-    },
-    {
       "id": 5,
       "inputLinks": [],
       "x": -580,
       "y": 60,
       "template": "numberInput",
       "tagValues": {
-        "number": 1.4
+        "number": 1.2
       }
     },
     {
@@ -76,8 +62,8 @@
         },
         {
           "inputKey": "input",
-          "outBlock": 8,
-          "outKey": "pixels"
+          "outBlock": 2,
+          "outKey": "output"
         }
       ],
       "x": 120,
@@ -94,25 +80,11 @@
       "tagValues": {
         "number": 1.2
       }
-    },
-    {
-      "id": 8,
-      "inputLinks": [
-        {
-          "inputKey": "canvas",
-          "outBlock": 2,
-          "outKey": "output"
-        }
-      ],
-      "x": -20,
-      "y": -60,
-      "template": "canvasToPixels",
-      "tagValues": {}
     }
   ],
   "view": {
-    "x": -162,
-    "y": -5
+    "x": -69,
+    "y": -8
   },
   "lastId": 9,
   "seed": 0

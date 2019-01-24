@@ -6,8 +6,8 @@
       "inputLinks": [
         {
           "inputKey": "image",
-          "outBlock": 10,
-          "outKey": "canvas"
+          "outBlock": 14,
+          "outKey": "normals"
         }
       ],
       "x": 720,
@@ -18,8 +18,8 @@
     {
       "id": 1,
       "inputLinks": [],
-      "x": -440,
-      "y": -40,
+      "x": 720,
+      "y": -100,
       "template": "inputImage",
       "tagValues": {}
     },
@@ -146,20 +146,6 @@
       }
     },
     {
-      "id": 10,
-      "inputLinks": [
-        {
-          "inputKey": "pixels",
-          "outBlock": 12,
-          "outKey": "normals"
-        }
-      ],
-      "x": 560,
-      "y": 0,
-      "template": "pixelsToCanvas",
-      "tagValues": {}
-    },
-    {
       "id": 11,
       "inputLinks": [],
       "x": -340,
@@ -170,25 +156,6 @@
       }
     },
     {
-      "id": 12,
-      "inputLinks": [
-        {
-          "inputKey": "height",
-          "outBlock": 2,
-          "outKey": "pixels"
-        },
-        {
-          "inputKey": "intensity",
-          "outBlock": 13,
-          "outKey": "number"
-        }
-      ],
-      "x": 280,
-      "y": 0,
-      "template": "computeNormals",
-      "tagValues": {}
-    },
-    {
       "id": 13,
       "inputLinks": [],
       "x": -40,
@@ -197,12 +164,47 @@
       "tagValues": {
         "number": 10
       }
+    },
+    {
+      "id": 14,
+      "inputLinks": [
+        {
+          "inputKey": "height",
+          "outBlock": 15,
+          "outKey": "canvas"
+        },
+        {
+          "inputKey": "intensity",
+          "outBlock": 13,
+          "outKey": "number"
+        }
+      ],
+      "x": 420,
+      "y": 0,
+      "template": "computeNormals",
+      "tagValues": {
+        "flip": false
+      }
+    },
+    {
+      "id": 15,
+      "inputLinks": [
+        {
+          "inputKey": "pixels",
+          "outBlock": 2,
+          "outKey": "pixels"
+        }
+      ],
+      "x": 240,
+      "y": 80,
+      "template": "pixelsToCanvas",
+      "tagValues": {}
     }
   ],
   "view": {
-    "x": -160,
-    "y": -256
+    "x": -369,
+    "y": -185
   },
-  "lastId": 14,
+  "lastId": 16,
   "seed": 0
 }

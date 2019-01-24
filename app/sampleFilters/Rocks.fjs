@@ -1,0 +1,377 @@
+{
+  "name": "New filter",
+  "graph": [
+    {
+      "id": 0,
+      "inputLinks": [
+        {
+          "inputKey": "image",
+          "outBlock": 30,
+          "outKey": "result"
+        }
+      ],
+      "x": 1100,
+      "y": -500,
+      "template": "outputImage",
+      "tagValues": {}
+    },
+    {
+      "id": 1,
+      "inputLinks": [],
+      "x": 1100,
+      "y": -620,
+      "template": "inputImage",
+      "tagValues": {}
+    },
+    {
+      "id": 3,
+      "inputLinks": [
+        {
+          "inputKey": "normals",
+          "outBlock": 14,
+          "outKey": "normals"
+        }
+      ],
+      "x": 380,
+      "y": -40,
+      "template": "simpleShader",
+      "tagValues": {
+        "light": [
+          -0.5,
+          -0.5,
+          1
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "inputLinks": [
+        {
+          "inputKey": "lowestValue",
+          "outBlock": 9,
+          "outKey": "pixels"
+        },
+        {
+          "inputKey": "highestValue",
+          "outBlock": 10,
+          "outKey": "pixels"
+        },
+        {
+          "inputKey": "sizeY",
+          "outBlock": 16,
+          "outKey": "number"
+        },
+        {
+          "inputKey": "sizeX",
+          "outBlock": 16,
+          "outKey": "number"
+        },
+        {
+          "inputKey": "repeat",
+          "outBlock": 21,
+          "outKey": "number"
+        }
+      ],
+      "x": -520,
+      "y": -40,
+      "template": "perlinNoise",
+      "tagValues": {
+        "seed": 0
+      }
+    },
+    {
+      "id": 7,
+      "inputLinks": [
+        {
+          "inputKey": "color",
+          "outBlock": 12,
+          "outKey": "color"
+        }
+      ],
+      "x": -900,
+      "y": 120,
+      "template": "fillColor",
+      "tagValues": {}
+    },
+    {
+      "id": 8,
+      "inputLinks": [
+        {
+          "inputKey": "color",
+          "outBlock": 13,
+          "outKey": "color"
+        }
+      ],
+      "x": -880,
+      "y": 0,
+      "template": "fillColor",
+      "tagValues": {}
+    },
+    {
+      "id": 9,
+      "inputLinks": [
+        {
+          "inputKey": "canvas",
+          "outBlock": 8,
+          "outKey": "canvas"
+        }
+      ],
+      "x": -660,
+      "y": 0,
+      "template": "canvasToPixels",
+      "tagValues": {}
+    },
+    {
+      "id": 10,
+      "inputLinks": [
+        {
+          "inputKey": "canvas",
+          "outBlock": 7,
+          "outKey": "canvas"
+        }
+      ],
+      "x": -660,
+      "y": 100,
+      "template": "canvasToPixels",
+      "tagValues": {}
+    },
+    {
+      "id": 12,
+      "inputLinks": [],
+      "x": -1180,
+      "y": 160,
+      "template": "colorInput",
+      "tagValues": {
+        "color": "#ffffff"
+      }
+    },
+    {
+      "id": 13,
+      "inputLinks": [],
+      "x": -1180,
+      "y": -40,
+      "template": "colorInput",
+      "tagValues": {
+        "color": "#000000"
+      }
+    },
+    {
+      "id": 14,
+      "inputLinks": [
+        {
+          "inputKey": "height",
+          "outBlock": 15,
+          "outKey": "canvas"
+        },
+        {
+          "inputKey": "intensity",
+          "outBlock": 20,
+          "outKey": "number"
+        }
+      ],
+      "x": 40,
+      "y": -40,
+      "template": "computeNormals",
+      "tagValues": {
+        "flip": false
+      }
+    },
+    {
+      "id": 15,
+      "inputLinks": [
+        {
+          "inputKey": "pixels",
+          "outBlock": 6,
+          "outKey": "pixels"
+        }
+      ],
+      "x": -200,
+      "y": -40,
+      "template": "pixelsToCanvas",
+      "tagValues": {}
+    },
+    {
+      "id": 16,
+      "inputLinks": [],
+      "x": -980,
+      "y": -340,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 3.8
+      }
+    },
+    {
+      "id": 20,
+      "inputLinks": [],
+      "x": -260,
+      "y": 140,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 5
+      }
+    },
+    {
+      "id": 21,
+      "inputLinks": [],
+      "x": -980,
+      "y": -180,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 5
+      }
+    },
+    {
+      "id": 22,
+      "inputLinks": [
+        {
+          "inputKey": "repeat",
+          "outBlock": 21,
+          "outKey": "number"
+        },
+        {
+          "inputKey": "sizeY",
+          "outBlock": 16,
+          "outKey": "number"
+        },
+        {
+          "inputKey": "sizeX",
+          "outBlock": 16,
+          "outKey": "number"
+        },
+        {
+          "inputKey": "lowestValue",
+          "outBlock": 25,
+          "outKey": "pixels"
+        },
+        {
+          "inputKey": "highestValue",
+          "outBlock": 26,
+          "outKey": "pixels"
+        }
+      ],
+      "x": -500,
+      "y": -580,
+      "template": "perlinNoise",
+      "tagValues": {
+        "seed": 0
+      }
+    },
+    {
+      "id": 23,
+      "inputLinks": [
+        {
+          "inputKey": "color",
+          "outBlock": 28,
+          "outKey": "color"
+        }
+      ],
+      "x": -860,
+      "y": -520,
+      "template": "fillColor",
+      "tagValues": {}
+    },
+    {
+      "id": 24,
+      "inputLinks": [
+        {
+          "inputKey": "color",
+          "outBlock": 29,
+          "outKey": "color"
+        }
+      ],
+      "x": -860,
+      "y": -620,
+      "template": "fillColor",
+      "tagValues": {}
+    },
+    {
+      "id": 25,
+      "inputLinks": [
+        {
+          "inputKey": "canvas",
+          "outBlock": 24,
+          "outKey": "canvas"
+        }
+      ],
+      "x": -660,
+      "y": -620,
+      "template": "canvasToPixels",
+      "tagValues": {}
+    },
+    {
+      "id": 26,
+      "inputLinks": [
+        {
+          "inputKey": "canvas",
+          "outBlock": 23,
+          "outKey": "canvas"
+        }
+      ],
+      "x": -660,
+      "y": -520,
+      "template": "canvasToPixels",
+      "tagValues": {}
+    },
+    {
+      "id": 28,
+      "inputLinks": [],
+      "x": -1140,
+      "y": -480,
+      "template": "colorInput",
+      "tagValues": {
+        "color": "#e8e8e8"
+      }
+    },
+    {
+      "id": 29,
+      "inputLinks": [],
+      "x": -1140,
+      "y": -640,
+      "template": "colorInput",
+      "tagValues": {
+        "color": "#1b1612"
+      }
+    },
+    {
+      "id": 30,
+      "inputLinks": [
+        {
+          "inputKey": "bottom",
+          "outBlock": 31,
+          "outKey": "canvas"
+        },
+        {
+          "inputKey": "top",
+          "outBlock": 3,
+          "outKey": "output"
+        }
+      ],
+      "x": 740,
+      "y": -500,
+      "template": "blend",
+      "tagValues": {
+        "mode": "multiply"
+      }
+    },
+    {
+      "id": 31,
+      "inputLinks": [
+        {
+          "inputKey": "pixels",
+          "outBlock": 22,
+          "outKey": "pixels"
+        }
+      ],
+      "x": 80,
+      "y": -500,
+      "template": "pixelsToCanvas",
+      "tagValues": {}
+    }
+  ],
+  "view": {
+    "x": 502,
+    "y": 265
+  },
+  "lastId": 32,
+  "seed": 0
+}
