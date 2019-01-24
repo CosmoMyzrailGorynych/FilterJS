@@ -30,5 +30,9 @@ components-palette
             window.signals.trigger('graphChange', e);
         };
         this.selectCategory = e => {
-            this.selectedCategory = e.item.category;
+            if (this.selectedCategory !== e.item.category) {
+                this.selectedCategory = e.item.category;
+            } else {
+                this.selectedCategory = void 0;
+            }
         };

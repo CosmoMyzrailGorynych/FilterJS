@@ -1,3 +1,4 @@
+const glob = require('./../global.js');
 const mask = <IBlockTemplate>{
     nameLoc: 'blocks.composing.mask.name',
     name: 'Mask',
@@ -38,8 +39,8 @@ const mask = <IBlockTemplate>{
     exec(inputs, block) {
         return new Promise((resolve, reject) => {
             const canvas = document.createElement('canvas');
-            canvas.width = inputs.top.width;
-            canvas.height = inputs.top.height;
+            canvas.width = glob.width;
+            canvas.height = glob.height;
 
             const cx = canvas.getContext('2d');
             cx.drawImage(inputs.bottom, 0, 0);
@@ -107,8 +108,8 @@ const blend = <IBlockTemplate>{
     exec(inputs, block) {
         return new Promise((resolve, reject) => {
             const canvas = document.createElement('canvas');
-            canvas.width = inputs.top.width;
-            canvas.height = inputs.top.height;
+            canvas.width = glob.width;
+            canvas.height = glob.height;
 
             const cx = canvas.getContext('2d');
             cx.drawImage(inputs.bottom, 0, 0);

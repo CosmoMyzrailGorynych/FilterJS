@@ -102,10 +102,9 @@ editor-screen
             if (width && width > 0) {
                 var height = Number(prompt('Image height:', 512));
                 if (height && height > 0) { 
-                    var c = document.createElement('canvas');
-                    c.width = width;
-                    c.height = height;
-                    glob.sourceImage = c;
+                    glob.sourceImage.width = glob.width = width;
+                    glob.sourceImage.height = glob.height = height;
+                    glob.sourceImage.getContext('2d').clearRect(0, 0, width, height);
                     setTimeout(this.render, 0);
                 }
             }
@@ -173,8 +172,8 @@ editor-screen
         this.finishImportImage = e => {
             var img = document.createElement('img');
             img.onload = () => {
-                glob.sourceImage.width = img.width;
-                glob.sourceImage.height = img.height;
+                glob.sourceImage.width = glob.width = img.width;
+                glob.sourceImage.height = glob.height = img.height;
                 var x = glob.sourceImage.getContext('2d');
                 x.clearRect(0, 0, img.width, img.height);
                 x.drawImage(img, 0, 0);
