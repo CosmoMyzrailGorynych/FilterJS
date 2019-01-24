@@ -48,12 +48,16 @@ class Renderer {
         var uniformsCode = '';
         params = params || {};
         for (const key in params) {
-            if (params[key] === 'number') {
+            if (params[key] === 'number' || params[key] === 'float') {
                 uniformsCode += `uniform float ${key};\n`;
-            } else if (params[key] === 'color') {
+            } else if (params[key] === 'color' || params[key] === 'vec3') {
                 uniformsCode += `uniform vec3 ${key};\n`;
-            } else if (params[key] === 'bool') {
+            } else if (params[key] === 'bool' || params[key] === 'boolean') {
                 uniformsCode += `uniform bool ${key};\n`;
+            } else if (params[key] === 'vec2') {
+                uniformsCode += `uniform vec2 ${key};\n`;
+            } else if (params[key] === 'vec4') {
+                uniformsCode += `uniform vec4 ${key};\n`;
             }
         }
         fragSource = fragSource.replace('${uniforms}', uniformsCode);
@@ -154,12 +158,21 @@ class Renderer {
                     const loc = gl.getUniformLocation(this.program, key);
                     if (typeof param === 'number') {
                         gl.uniform1f(loc, param);
-                    } else if (typeof param === 'string') { // a hex-encoded color
+                    } else if (typeof param === 'string' && param[0] === '#') { // a hex-encoded color
                         const [r, g, b] = getRGB(param);
                         gl.uniform3f(loc, r / 256, g / 256, b / 256);
-                    }
-                    if (typeof param === 'boolean') {
+                    } else if (typeof param === 'boolean') {
                         gl.uniform1f(loc, param? 1 : 0);
+                    } else if (param && typeof param[Symbol.iterator] === 'function') { // an array or such
+                        if (param.length === 1) {
+                            gl.uniform1f(loc, param[0]);
+                        } else if (param.length === 2) {
+                            gl.uniform2f(loc, param[0], param[1]);
+                        } else if (param.length === 3) {
+                            gl.uniform3f(loc, param[0], param[1], param[2]);
+                        } else if (param.length === 4) {
+                            gl.uniform4f(loc, param[0], param[1], param[2], param[3]);
+                        }
                     }
                 }
             }
