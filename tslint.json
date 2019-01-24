@@ -1,5 +1,5 @@
 {
-    "extends": "tslint:recommended",
+    "extends": "tslint:latest",
     "linterOptions": {
         "exclude": ["./src/js/3rdparty/**/*"]
     },
@@ -24,16 +24,27 @@
         }],
         "no-angle-bracket-type-assertion": false,
         "no-console": {
+            "severity": "warning",
+            "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
+        },
+        "no-implicit-dependencies": { /* As the app is split into two packages, this will give false positives… kinda */
             "severity": "warning"
         },
+        "no-invalid-template-strings": {  /* Is used for a reason at oneShotWebGL */
+            "severity": "warning"
+        },
+        "no-misused-new": false, /* Because of buggy tslint */
+        "no-object-literal-type-assertion": false,
         "no-shadowed-variable": {
             "severity": "warning"
         },
+        "no-string-literal": false, /* Because of buggy tslint */
         "no-var-keyword": false,
         "no-var-requires": false,
         "object-literal-sort-keys": false,
         "one-variable-per-declaration": false,
         "ordered-imports": false,
+        "prefer-for-of": false, /* Because of buggy tslint */
         "quotemark": [true, "single"],
         "trailing-comma": [
             false, {

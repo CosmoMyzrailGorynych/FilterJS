@@ -194,9 +194,14 @@ const release = gulp.series([build, lint, done => {
         flavor: 'normal',
         buildType: 'versioned'
     });
-    nw.build().then(done)
+    nw.build()
+    .then(() => {
+        console.log('Binaries done');
+        done();
+    })
     .catch(function (error) {
         console.error(error);
+        done(error);
     });
 }]);
 
