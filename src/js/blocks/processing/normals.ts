@@ -3,16 +3,16 @@ import BlockError = require('./../../types/BlockError.js');
 const glsl = e => e;
 
 const computeNormalsOGL = new OSWebGL(glsl`
-    vec4 left = texture2D(u_image, v_texCoord - vec2(-pixel.x, 0.0));
-    vec4 top = texture2D(u_image, v_texCoord - vec2(0.0, -pixel.y));
-    vec4 right = texture2D(u_image, v_texCoord - vec2(pixel.x, 0.0));
-    vec4 bottom = texture2D(u_image, v_texCoord - vec2(0.0, pixel.y));
+    vec4 left = texture2D(u_image, v_texCoord + vec2(-pixel.x, 0.0));
+    vec4 top = texture2D(u_image, v_texCoord + vec2(0.0, -pixel.y));
+    vec4 right = texture2D(u_image, v_texCoord + vec2(pixel.x, 0.0));
+    vec4 bottom = texture2D(u_image, v_texCoord + vec2(0.0, pixel.y));
     float leftMax = max(left.r, max(left.g, left.b));
     float topMax = max(top.r, max(top.g, top.b));
     float rightMax = max(right.r, max(right.g, right.b));
     float bottomMax = max(bottom.r, max(bottom.g, bottom.b));
-    gl_FragColor.r = 0.5 + (leftMax-rightMax) * intensity;
-    gl_FragColor.g = 0.5 + (topMax-bottomMax) * intensity;
+    gl_FragColor.r = 0.5 - (rightMax-leftMax) * intensity;
+    gl_FragColor.g = 0.5 - (bottomMax-topMax) * intensity;
     gl_FragColor.b = 1.0;
     gl_FragColor.a = 1.0;
 `, {
@@ -33,6 +33,12 @@ const computeNormals = <IBlockTemplate>{
         nameLoc: 'blocks.processing.computeNormals.inputIntensity',
         optional: true
     }],
+    tags: [{
+        key: 'flip',
+        defaultValue: false,
+        tag: 'bool-input',
+        label: 'Flip R & G'
+    }],
     outputs: [{
         key: 'normals',
         type: 'canvas',
@@ -44,7 +50,7 @@ const computeNormals = <IBlockTemplate>{
             const inp = inputs.height,
                 intensity = inputs.intensity || 1;
             computeNormalsOGL.render(inp, {
-                intensity
+                intensity: intensity * (block.tagValues.flip? -1 : 1)
             })
             .then(image => {
                 resolve({
