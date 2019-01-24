@@ -35,6 +35,7 @@ regular-block(
         number-input(if="{tagInfo.tag === 'number-input'}" key="{tagInfo.key || 'value'}")
         select-input(if="{tagInfo.tag === 'select-input'}" key="{tagInfo.key || 'value'}" options="{tagInfo.options}")
         bool-input(if="{tagInfo.tag === 'bool-input'}" key="{tagInfo.key || 'value'}" label="{tagInfo.label}")
+        vec3-input(if="{tagInfo.tag === 'vec3-input'}" key="{tagInfo.key || 'value'}")
     script.
         this.block = this.opts.block;
         this.block.tag = this;
