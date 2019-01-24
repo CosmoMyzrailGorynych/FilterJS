@@ -34,9 +34,10 @@ The first run will download the needed binaries of nw.js, but then the gulp comm
 
 ## How to hack on FilterJS
 
-1. Do a regular run with `gulp`;
-2. Edit files in the `./src/` folder;
-3. Changes will appear automagically after saving. Avoid losing unsaved filters!
+1. Make a fork;
+2. Do a regular run with `gulp`;
+3. Edit files in the `./src/` folder;
+4. Changes will appear automagically after saving. Avoid losing unsaved filters!
 
 ### Before you commit
 
@@ -49,11 +50,10 @@ The first run will download the needed binaries of nw.js, but then the gulp comm
 You can help FilterJS grow by creating new nodes! See the existing ones in the `./src/js/blocks/` folder as an example. There is much to do, including:
 
 * Text, shape, image drawing and scattering;
+* generic pattern makers (like checkerboard, bricks, etc.);
 * `canvas`-based transforms, masking and overlays;
-* pixel-based adjustments;
+* turning pixel-based noise generators to canvas-based (WebGL-powered);
 * new noise generators;
 * and everything you can come up with.
-
-Some nodes can also be rewritten to WebGL, but I, @CosmoMyzrailGorynych, don't have proper skills for it.
 
 Last but not least, you can help FilterJS just by telling about it to your friends, writing blog posts, etc.
