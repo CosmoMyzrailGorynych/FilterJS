@@ -1,0 +1,188 @@
+{
+  "name": "New filter",
+  "graph": [
+    {
+      "id": 0,
+      "inputLinks": [
+        {
+          "inputKey": "image",
+          "outBlock": 10,
+          "outKey": "result"
+        }
+      ],
+      "x": 960,
+      "y": -40,
+      "template": "outputImage",
+      "tagValues": {}
+    },
+    {
+      "id": 1,
+      "inputLinks": [],
+      "x": -780,
+      "y": 200,
+      "template": "inputImage",
+      "tagValues": {}
+    },
+    {
+      "id": 3,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 4,
+          "outKey": "pixels"
+        }
+      ],
+      "x": -220,
+      "y": 320,
+      "template": "getSkinColors",
+      "tagValues": {
+        "method": "J. Kovac (uniform daylight)"
+      }
+    },
+    {
+      "id": 4,
+      "inputLinks": [
+        {
+          "inputKey": "canvas",
+          "outBlock": 1,
+          "outKey": "image"
+        }
+      ],
+      "x": -580,
+      "y": 320,
+      "template": "canvasToPixels",
+      "tagValues": {}
+    },
+    {
+      "id": 7,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 4,
+          "outKey": "pixels"
+        },
+        {
+          "inputKey": "size",
+          "outBlock": 8,
+          "outKey": "number"
+        }
+      ],
+      "x": -360,
+      "y": 0,
+      "template": "median",
+      "tagValues": {
+        "mode": "circular",
+        "quality": false
+      }
+    },
+    {
+      "id": 8,
+      "inputLinks": [],
+      "x": -680,
+      "y": 40,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 0.01
+      }
+    },
+    {
+      "id": 9,
+      "inputLinks": [
+        {
+          "inputKey": "a",
+          "outBlock": 3,
+          "outKey": "output"
+        },
+        {
+          "inputKey": "r",
+          "outBlock": 12,
+          "outKey": "channel"
+        },
+        {
+          "inputKey": "g",
+          "outBlock": 12,
+          "outKey": "g"
+        },
+        {
+          "inputKey": "b",
+          "outBlock": 12,
+          "outKey": "b"
+        }
+      ],
+      "x": 160,
+      "y": 0,
+      "template": "combineChannels",
+      "tagValues": {}
+    },
+    {
+      "id": 10,
+      "inputLinks": [
+        {
+          "inputKey": "opacity",
+          "outBlock": 11,
+          "outKey": "number"
+        },
+        {
+          "inputKey": "bottom",
+          "outBlock": 1,
+          "outKey": "image"
+        },
+        {
+          "inputKey": "top",
+          "outBlock": 13,
+          "outKey": "canvas"
+        }
+      ],
+      "x": 640,
+      "y": -40,
+      "template": "blend",
+      "tagValues": {
+        "mode": "source-over"
+      }
+    },
+    {
+      "id": 11,
+      "inputLinks": [],
+      "x": 380,
+      "y": 220,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 0.6
+      }
+    },
+    {
+      "id": 12,
+      "inputLinks": [
+        {
+          "inputKey": "pixels",
+          "outBlock": 7,
+          "outKey": "output"
+        }
+      ],
+      "x": -60,
+      "y": 0,
+      "template": "splitChannels",
+      "tagValues": {}
+    },
+    {
+      "id": 13,
+      "inputLinks": [
+        {
+          "inputKey": "pixels",
+          "outBlock": 9,
+          "outKey": "output"
+        }
+      ],
+      "x": 420,
+      "y": 0,
+      "template": "pixelsToCanvas",
+      "tagValues": {}
+    }
+  ],
+  "view": {
+    "x": -601,
+    "y": -57
+  },
+  "lastId": 14,
+  "seed": 0
+}

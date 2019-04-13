@@ -266,15 +266,17 @@ const {gaussianBlur} = require('./processing/blur.js');
 const {simpleShader} = require('./processing/shaders.js');
 const {median} = require('./processing/medianBlock.js');
 const {nearestNeighbor} = require('./processing/nearestNeighbor.js');
+const {getSkinColors} = require('./processing/skinColors.js');
 
 module.exports = {
     name: 'Processing',
     blocks: {
+        invert,
         grayscale,
         grayscaleChannel,
+        getSkinColors,
         brightnessContrast,
         gammaCorrection,
-        invert,
         gaussianBlur,
         median,
         nearestNeighbor,
