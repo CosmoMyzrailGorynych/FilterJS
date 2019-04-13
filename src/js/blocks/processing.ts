@@ -267,6 +267,7 @@ const {simpleShader} = require('./processing/shaders.js');
 const {median} = require('./processing/medianBlock.js');
 const {nearestNeighbor} = require('./processing/nearestNeighbor.js');
 const {getSkinColors} = require('./processing/skinColors.js');
+const {bilateralFilter} = require('./processing/bilateralFilter.js');
 
 module.exports = {
     name: 'Processing',
@@ -278,6 +279,7 @@ module.exports = {
         brightnessContrast,
         gammaCorrection,
         gaussianBlur,
+        bilateralFilter,
         median,
         nearestNeighbor,
         computeNormals,

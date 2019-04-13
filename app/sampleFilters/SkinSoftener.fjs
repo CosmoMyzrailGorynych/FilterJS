@@ -54,32 +54,10 @@
       "tagValues": {}
     },
     {
-      "id": 7,
-      "inputLinks": [
-        {
-          "inputKey": "input",
-          "outBlock": 4,
-          "outKey": "pixels"
-        },
-        {
-          "inputKey": "size",
-          "outBlock": 8,
-          "outKey": "number"
-        }
-      ],
-      "x": -360,
-      "y": 0,
-      "template": "median",
-      "tagValues": {
-        "mode": "circular",
-        "quality": false
-      }
-    },
-    {
       "id": 8,
       "inputLinks": [],
-      "x": -680,
-      "y": 40,
+      "x": -800,
+      "y": -160,
       "template": "numberInput",
       "tagValues": {
         "number": 0.01
@@ -155,8 +133,8 @@
       "inputLinks": [
         {
           "inputKey": "pixels",
-          "outBlock": 7,
-          "outKey": "output"
+          "outBlock": 16,
+          "outKey": "pixels"
         }
       ],
       "x": -60,
@@ -177,12 +155,60 @@
       "y": 0,
       "template": "pixelsToCanvas",
       "tagValues": {}
+    },
+    {
+      "id": 14,
+      "inputLinks": [
+        {
+          "inputKey": "size",
+          "outBlock": 8,
+          "outKey": "number"
+        },
+        {
+          "inputKey": "threshold",
+          "outBlock": 15,
+          "outKey": "number"
+        },
+        {
+          "inputKey": "input",
+          "outBlock": 1,
+          "outKey": "image"
+        }
+      ],
+      "x": -520,
+      "y": -140,
+      "template": "bilateralFilter",
+      "tagValues": {}
+    },
+    {
+      "id": 15,
+      "inputLinks": [],
+      "x": -800,
+      "y": 20,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 0.1
+      }
+    },
+    {
+      "id": 16,
+      "inputLinks": [
+        {
+          "inputKey": "canvas",
+          "outBlock": 14,
+          "outKey": "output"
+        }
+      ],
+      "x": -240,
+      "y": -140,
+      "template": "canvasToPixels",
+      "tagValues": {}
     }
   ],
   "view": {
-    "x": -601,
-    "y": -57
+    "x": -5,
+    "y": -104
   },
-  "lastId": 14,
+  "lastId": 17,
   "seed": 0
 }
