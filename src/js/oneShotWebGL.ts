@@ -64,6 +64,8 @@ class Renderer {
                 uniformsCode += `uniform vec2 ${key};\n`;
             } else if (params[key] === 'vec4') {
                 uniformsCode += `uniform vec4 ${key};\n`;
+            } else if (params[key].indexOf('int') !== -1) {
+                uniformsCode += `uniform ${params[key]} ${key};\n`;
             }
         }
         // tslint:disable-next-line: no-invalid-template-strings
