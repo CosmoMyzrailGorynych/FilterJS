@@ -264,6 +264,7 @@ const gammaCorrection = <IBlockTemplate>{
 const {computeNormals, computeNormalsPixels} = require('./processing/normals.js');
 const {gaussianBlur} = require('./processing/blur.js');
 const {simpleShader} = require('./processing/shaders.js');
+//const {median} = require('./processing/median.js');
 const {nearestNeighbor} = require('./processing/nearestNeighbor.js');
 
 module.exports = {
@@ -275,6 +276,7 @@ module.exports = {
         gammaCorrection,
         invert,
         gaussianBlur,
+        //median,
         nearestNeighbor,
         computeNormals,
         simpleShader
