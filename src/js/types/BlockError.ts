@@ -3,6 +3,8 @@ class BlockError extends Error {
     constructor(message: string, block: Block) {
         super(message);
         this.block = block;
+        console.error(this);
+        console.trace();
     }
 }
 
