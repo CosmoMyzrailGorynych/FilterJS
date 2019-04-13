@@ -66,6 +66,7 @@ class Renderer {
                 uniformsCode += `uniform vec4 ${key};\n`;
             }
         }
+        // tslint:disable-next-line: no-invalid-template-strings
         fragSource = fragSource.replace('${uniforms}', uniformsCode);
         gl.shaderSource(this.fragShader, fragSource);
         gl.shaderSource(this.vecShader, vectorShader);
@@ -73,10 +74,12 @@ class Renderer {
         gl.compileShader(this.vecShader);
         if (!gl.getShaderParameter(this.fragShader, gl.COMPILE_STATUS)) {
             console.error(gl.getShaderInfoLog(this.fragShader));
+            console.error(fragSource);
             return null;
         }
         if (!gl.getShaderParameter(this.vecShader, gl.COMPILE_STATUS)) {
             console.error(gl.getShaderInfoLog(this.vecShader));
+            console.error(fragSource);
             return null;
         }
         gl.attachShader(this.program, this.vecShader);
