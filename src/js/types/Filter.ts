@@ -58,6 +58,7 @@ class Filter {
         this.exec = () => output.exec()
         .catch(err => {
             console.error(err);
+            // tslint:disable-next-line: no-console
             console.trace();
         });
     }

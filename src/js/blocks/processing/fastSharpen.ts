@@ -120,8 +120,9 @@ const fastSharpen = <IBlockTemplate>{
                   box = block.tagValues.box,
                   suppress = block.tagValues.overshootSuppression;
             var method;
+            // tslint:disable-next-line: prefer-conditional-expression
             if (box) {
-                method = suppress? boxSharpenNoOvershoot : boxSharpen;;
+                method = suppress? boxSharpenNoOvershoot : boxSharpen;
             } else {
                 method = suppress? diamondSharpenNoOvershoot : diamondSharpen;
             }
@@ -135,7 +136,7 @@ const fastSharpen = <IBlockTemplate>{
                 console.error(err);
                 reject(new BlockError(err, block));
             });
-        })
+        });
     }
 };
 

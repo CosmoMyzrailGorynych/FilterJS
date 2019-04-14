@@ -55,7 +55,7 @@ const median = <IBlockTemplate>{
             const output = filter.convertImage(inp);
             resolve({
                 output
-            })
+            });
         });
     }
 };

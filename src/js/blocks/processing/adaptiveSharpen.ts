@@ -30,11 +30,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 const firstPassOGL = new OSWebGL(glsl`
     // Get points and clip out of range values (BTB & WTW)
-	// [                c9                ]
-	// [           c1,  c2,  c3           ]
-	// [      c10, c4,  c0,  c5, c11      ]
-	// [           c6,  c7,  c8           ]
-	// [                c12               ]
+    // [                c9                ]
+    // [           c1,  c2,  c3           ]
+    // [      c10, c4,  c0,  c5, c11      ]
+    // [           c6,  c7,  c8           ]
+    // [                c12               ]
     vec3 c[13];
     c[0] = get( 0, 0);
     c[1] = get(-1,-1);
@@ -83,24 +83,24 @@ const firstPassOGL = new OSWebGL(glsl`
 
 const secondPassOGL = new OSWebGL(glsl`
    // Look up a color from the texture.
-	vec4 orig  = get(0, 0);
-	float c_edge = orig.a - a_offset;
-    
-	if (bounds_check == true) {
-		if (c_edge > 24.0 || c_edge < -0.5) {
+    vec4 orig  = get(0, 0);
+    float c_edge = orig.a - a_offset;
+
+    if (bounds_check == true) {
+        if (c_edge > 24.0 || c_edge < -0.5) {
             gl_FragColor = vec4( 0, 1.0, 0, alpha_out );
             return;
         }
-	}
+    }
 
-	// Get points, clip out of range colour data in c[0]
-	// [                c22               ]
-	// [           c24, c9,  c23          ]
-	// [      c21, c1,  c2,  c3, c18      ]
-	// [ c19, c10, c4,  c0,  c5, c11, c16 ]
-	// [      c20, c6,  c7,  c8, c17      ]
-	// [           c15, c12, c14          ]
-	// [                c13               ]
+    // Get points, clip out of range colour data in c[0]
+    // [                c22               ]
+    // [           c24, c9,  c23          ]
+    // [      c21, c1,  c2,  c3, c18      ]
+    // [ c19, c10, c4,  c0,  c5, c11, c16 ]
+    // [      c20, c6,  c7,  c8, c17      ]
+    // [           c15, c12, c14          ]
+    // [                c13               ]
     vec4 c[25];
     c[0] = sat(orig);
     c[1] = get(-1,-1);
@@ -128,27 +128,27 @@ const secondPassOGL = new OSWebGL(glsl`
     c[23] = get( 1,-2);
     c[24] = get(-1,-2);
 
-	// Allow for higher overshoot if the current edge pixel is surrounded by similar edge pixels
-	float maxedge = max4( max4(c[1].a,c[2].a,c[3].a,c[4].a), max4(c[5].a,c[6].a,c[7].a,c[8].a),
-	                      max4(c[9].a,c[10].a,c[11].a,c[12].a), c[0].a ) - a_offset;
+    // Allow for higher overshoot if the current edge pixel is surrounded by similar edge pixels
+    float maxedge = max4( max4(c[1].a,c[2].a,c[3].a,c[4].a), max4(c[5].a,c[6].a,c[7].a,c[8].a),
+                          max4(c[9].a,c[10].a,c[11].a,c[12].a), c[0].a ) - a_offset;
 
-	// [          x          ]
-	// [       z, x, w       ]
-	// [    z, z, x, w, w    ]
-	// [ y, y, y, 0, y, y, y ]
-	// [    w, w, x, z, z    ]
-	// [       w, x, z       ]
-	// [          x          ]
-	float sbe = soft_if(c[2].a,c[9].a, c[22].a)*soft_if(c[7].a,c[12].a,c[13].a)  // x dir
-	          + soft_if(c[4].a,c[10].a,c[19].a)*soft_if(c[5].a,c[11].a,c[16].a)  // y dir
-	          + soft_if(c[1].a,c[24].a,c[21].a)*soft_if(c[8].a,c[14].a,c[17].a)  // z dir
-	          + soft_if(c[3].a,c[23].a,c[18].a)*soft_if(c[6].a,c[20].a,c[15].a); // w dir
+    // [          x          ]
+    // [       z, x, w       ]
+    // [    z, z, x, w, w    ]
+    // [ y, y, y, 0, y, y, y ]
+    // [    w, w, x, z, z    ]
+    // [       w, x, z       ]
+    // [          x          ]
+    float sbe = soft_if(c[2].a,c[9].a, c[22].a)*soft_if(c[7].a,c[12].a,c[13].a)  // x dir
+              + soft_if(c[4].a,c[10].a,c[19].a)*soft_if(c[5].a,c[11].a,c[16].a)  // y dir
+              + soft_if(c[1].a,c[24].a,c[21].a)*soft_if(c[8].a,c[14].a,c[17].a)  // z dir
+              + soft_if(c[3].a,c[23].a,c[18].a)*soft_if(c[6].a,c[20].a,c[15].a); // w dir
 
-	vec2 cs = mix( vec2(L_compr_low,  D_compr_low),
-	                  vec2(L_compr_high, D_compr_high), smoothstep(2.0, 3.1, sbe) );
+    vec2 cs = mix( vec2(L_compr_low,  D_compr_low),
+                      vec2(L_compr_high, D_compr_high), smoothstep(2.0, 3.1, sbe) );
 
-	// RGB to luma
-	float c0_Y = CtL(c[0]);
+    // RGB to luma
+    float c0_Y = CtL(c[0]);
 
     float luma[25];
     luma[0] = c0_Y;
@@ -156,65 +156,64 @@ const secondPassOGL = new OSWebGL(glsl`
         luma[i] = CtL(c[i]);
     }
 
-	// Pre-calculated default squared kernel weights
-	const vec3 W1 = vec3(0.5,           1.0, 1.41421356237); // 0.25, 1.0, 2.0
-	const vec3 W2 = vec3(0.86602540378, 1.0, 0.54772255751); // 0.75, 1.0, 0.3
+    // Pre-calculated default squared kernel weights
+    const vec3 W1 = vec3(0.5,           1.0, 1.41421356237); // 0.25, 1.0, 2.0
+    const vec3 W2 = vec3(0.86602540378, 1.0, 0.54772255751); // 0.75, 1.0, 0.3
 
-	// Transition to a concave kernel if the center edge val is above thr
-	vec3 dW = pow(mix(W1, W2, smoothstep(dW_lothr, dW_hithr, c_edge)), vec3(2.0));
+    // Transition to a concave kernel if the center edge val is above thr
+    vec3 dW = pow(mix(W1, W2, smoothstep(dW_lothr, dW_hithr, c_edge)), vec3(2.0));
 
-	float mdiff_c0 = 0.02 + 3.0*( abs(luma[0]-luma[2]) + abs(luma[0]-luma[4])
-	                          + abs(luma[0]-luma[5]) + abs(luma[0]-luma[7])
-	                          + 0.25*(abs(luma[0]-luma[1]) + abs(luma[0]-luma[3])
-	                                 +abs(luma[0]-luma[6]) + abs(luma[0]-luma[8])) );
+    float mdiff_c0 = 0.02 + 3.0*( abs(luma[0]-luma[2]) + abs(luma[0]-luma[4])
+                              + abs(luma[0]-luma[5]) + abs(luma[0]-luma[7])
+                              + 0.25*(abs(luma[0]-luma[1]) + abs(luma[0]-luma[3])
+                                     +abs(luma[0]-luma[6]) + abs(luma[0]-luma[8])) );
 
-	// Use lower weights for pixels in a more active area relative to center pixel area
-	// This results in narrower and less visible overshoots around sharp edges
-	float weights[12];
+    // Use lower weights for pixels in a more active area relative to center pixel area
+    // This results in narrower and less visible overshoots around sharp edges
+    float weights[12];
     weights[0] = min(mdiff_c0/mdiff(24, 21, 2,  4,  9,  10, 1),  dW.y),   // c1
-	weights[1] = dW.x;                                                    // c2
-	weights[2] = min(mdiff_c0/mdiff(23, 18, 5,  2,  9,  11, 3),  dW.y);   // c3
-	weights[3] = dW.x;                                                    // c4
-	weights[4] = dW.x;                                                    // c5
-	weights[5] = min(mdiff_c0/mdiff(4,  20, 15, 7,  10, 12, 6),  dW.y);   // c6
-	weights[6] = dW.x;                                                    // c7
-	weights[7] = min(mdiff_c0/mdiff(5,  7,  17, 14, 12, 11, 8),  dW.y);   // c8
-	weights[8] = min(mdiff_c0/mdiff(2,  24, 23, 22, 1,  3,  9),  dW.z);   // c9
-	weights[9] = min(mdiff_c0/mdiff(20, 19, 21, 4,  1,  6,  10), dW.z);   // c10
-	weights[10] = min(mdiff_c0/mdiff(17, 5,  18, 16, 3,  8,  11), dW.z);  // c11
-	weights[11] = min(mdiff_c0/mdiff(13, 15, 7,  14, 6,  8,  12), dW.z);  // c12
+    weights[1] = dW.x;                                                    // c2
+    weights[2] = min(mdiff_c0/mdiff(23, 18, 5,  2,  9,  11, 3),  dW.y);   // c3
+    weights[3] = dW.x;                                                    // c4
+    weights[4] = dW.x;                                                    // c5
+    weights[5] = min(mdiff_c0/mdiff(4,  20, 15, 7,  10, 12, 6),  dW.y);   // c6
+    weights[6] = dW.x;                                                    // c7
+    weights[7] = min(mdiff_c0/mdiff(5,  7,  17, 14, 12, 11, 8),  dW.y);   // c8
+    weights[8] = min(mdiff_c0/mdiff(2,  24, 23, 22, 1,  3,  9),  dW.z);   // c9
+    weights[9] = min(mdiff_c0/mdiff(20, 19, 21, 4,  1,  6,  10), dW.z);   // c10
+    weights[10] = min(mdiff_c0/mdiff(17, 5,  18, 16, 3,  8,  11), dW.z);  // c11
+    weights[11] = min(mdiff_c0/mdiff(13, 15, 7,  14, 6,  8,  12), dW.z);  // c12
 
-	weights[0] = (max(max((weights[8]  + weights[9]) / 4.0,  weights[0]), 0.25) + weights[0]) / 2.0;
-	weights[2] = (max(max((weights[8]  + weights[10]) / 4.0, weights[2]), 0.25) + weights[2]) / 2.0;
-	weights[5] = (max(max((weights[9]  + weights[11]) / 4.0, weights[5]), 0.25) + weights[5]) / 2.0;
-	weights[7] = (max(max((weights[10] + weights[11]) / 4.0, weights[7]), 0.25) + weights[7]) / 2.0;
+    weights[0] = (max(max((weights[8]  + weights[9]) / 4.0,  weights[0]), 0.25) + weights[0]) / 2.0;
+    weights[2] = (max(max((weights[8]  + weights[10]) / 4.0, weights[2]), 0.25) + weights[2]) / 2.0;
+    weights[5] = (max(max((weights[9]  + weights[11]) / 4.0, weights[5]), 0.25) + weights[5]) / 2.0;
+    weights[7] = (max(max((weights[10] + weights[11]) / 4.0, weights[7]), 0.25) + weights[7]) / 2.0;
 
-	// Calculate the negative part of the laplace kernel and the low threshold weight
-	float lowthrsum   = 0.0;
-	float weightsum   = 0.0;
-	float neg_laplace = 0.0;
+    // Calculate the negative part of the laplace kernel and the low threshold weight
+    float lowthrsum   = 0.0;
+    float weightsum   = 0.0;
+    float neg_laplace = 0.0;
 
-	for (int pix = 0; pix < 12; ++pix) {
-		float t      = clamp((c[pix + 1].a - a_offset - 0.01)/(lowthr_mxw - 0.01), 0.0, 1.0);
-		float lowthr = t*t*(2.97 - 1.98*t) + 0.01; // t*t*(3.0 - a*3.0 - (2.0 - a*2.0)*t) + a;
+    for (int pix = 0; pix < 12; ++pix) {
+        float t      = clamp((c[pix + 1].a - a_offset - 0.01)/(lowthr_mxw - 0.01), 0.0, 1.0);
+        float lowthr = t*t*(2.97 - 1.98*t) + 0.01; // t*t*(3.0 - a*3.0 - (2.0 - a*2.0)*t) + a;
 
-		neg_laplace += pow(luma[pix + 1] + 0.06, 2.4)*(weights[pix]*lowthr);
-		weightsum   += weights[pix]*lowthr;
-		lowthrsum   += lowthr / 12.0;
-	}
+        neg_laplace += pow(luma[pix + 1] + 0.06, 2.4)*(weights[pix]*lowthr);
+        weightsum   += weights[pix]*lowthr;
+        lowthrsum   += lowthr / 12.0;
+    }
 
-	neg_laplace = pow(abs(neg_laplace/weightsum), (1.0/2.4)) - 0.06;
+    neg_laplace = pow(abs(neg_laplace/weightsum), (1.0/2.4)) - 0.06;
 
-	// Compute sharpening magnitude function
-	float sharpen_val = curveHeight/(curveHeight*curveslope*pow(abs(c_edge), 3.5) + 0.625);
+    // Compute sharpening magnitude function
+    float sharpen_val = curveHeight/(curveHeight*curveslope*pow(abs(c_edge), 3.5) + 0.625);
 
-	// Calculate sharpening diff and scale
-	float sharpdiff = (c0_Y - neg_laplace)*(lowthrsum*sharpen_val + 0.01);
+    // Calculate sharpening diff and scale
+    float sharpdiff = (c0_Y - neg_laplace)*(lowthrsum*sharpen_val + 0.01);
 
-	// Calculate local near min & max, partial sort
+    // Calculate local near min & max, partial sort
     float temp;
-    for (int j = 0; j < 24; j += 2)
-    {
+    for (int j = 0; j < 24; j += 2) {
         temp = luma[j];
         luma[j]   = min(luma[j], luma[j+1]);
         luma[j+1] = max(temp, luma[j+1]);
@@ -227,9 +226,8 @@ const secondPassOGL = new OSWebGL(glsl`
         luma[24] = max(luma[24], luma[jj-1]);
         luma[jj-1] = min(temp, luma[jj-1]);
     }
-    
-    for (int j = 1; j < 23; j += 2)
-    {
+
+    for (int j = 1; j < 23; j += 2) {
         temp = luma[j];
         luma[j]   = min(luma[j], luma[j+1]);
         luma[j+1] = max(temp, luma[j+1]);
@@ -242,9 +240,8 @@ const secondPassOGL = new OSWebGL(glsl`
         luma[23] = max(luma[23], luma[jj-1]);
         luma[jj-1] = min(temp, luma[jj-1]);
     }
-    
-    for (int j = 3; j < 22; j += 2)
-    {
+
+    for (int j = 3; j < 22; j += 2) {
         temp = luma[j];
         luma[j]   = min(luma[j], luma[j+1]);
         luma[j+1] = max(temp, luma[j+1]);
@@ -258,27 +255,27 @@ const secondPassOGL = new OSWebGL(glsl`
         luma[jj-1] = min(temp, luma[jj-1]);
     }
 
-	float nmax = (max(luma[22] + luma[23]*2.0, c0_Y*3.0) + luma[24]) / 4.0;
-	float nmin = (min(luma[2]  + luma[1]*2.0,  c0_Y*3.0) + luma[0]) / 4.0;
+    float nmax = (max(luma[22] + luma[23]*2.0, c0_Y*3.0) + luma[24]) / 4.0;
+    float nmin = (min(luma[2]  + luma[1]*2.0,  c0_Y*3.0) + luma[0]) / 4.0;
 
-	// Calculate tanh scale factors
-	float min_dist  = min(abs(nmax - c0_Y), abs(c0_Y - nmin));
-	float pos_scale = min_dist + min(L_overshoot, 1.0001 - min_dist - c0_Y);
-	float neg_scale = min_dist + min(D_overshoot, 0.0001 + c0_Y - min_dist);
+    // Calculate tanh scale factors
+    float min_dist  = min(abs(nmax - c0_Y), abs(c0_Y - nmin));
+    float pos_scale = min_dist + min(L_overshoot, 1.0001 - min_dist - c0_Y);
+    float neg_scale = min_dist + min(D_overshoot, 0.0001 + c0_Y - min_dist);
 
-	pos_scale = min(pos_scale, scale_lim*(1.0 - scale_cs) + pos_scale*scale_cs);
-	neg_scale = min(neg_scale, scale_lim*(1.0 - scale_cs) + neg_scale*scale_cs);
+    pos_scale = min(pos_scale, scale_lim*(1.0 - scale_cs) + pos_scale*scale_cs);
+    neg_scale = min(neg_scale, scale_lim*(1.0 - scale_cs) + neg_scale*scale_cs);
 
-	// Soft limited anti-ringing with tanh, wpmean to control compression slope
-	sharpdiff = wpmean( max(sharpdiff, 0.0), soft_lim( max(sharpdiff, 0.0), pos_scale ), cs.x )
-	          - wpmean( min(sharpdiff, 0.0), soft_lim( min(sharpdiff, 0.0), neg_scale ), cs.y );
+    // Soft limited anti-ringing with tanh, wpmean to control compression slope
+    sharpdiff = wpmean( max(sharpdiff, 0.0), soft_lim( max(sharpdiff, 0.0), pos_scale ), cs.x )
+              - wpmean( min(sharpdiff, 0.0), soft_lim( min(sharpdiff, 0.0), neg_scale ), cs.y );
 
-	// Compensate for saturation loss/gain while making pixels brighter/darker
-	float sharpdiff_lim = clamp(c0_Y + sharpdiff, 0.0, 1.0) - c0_Y;
-	float satmul = (c0_Y + max(sharpdiff_lim*0.9, sharpdiff_lim)*1.03 + 0.03)/(c0_Y + 0.03);
-	vec3 res = c0_Y + (sharpdiff_lim*3.0 + sharpdiff)/4.0 + (c[0].rgb - c0_Y)*satmul;
+    // Compensate for saturation loss/gain while making pixels brighter/darker
+    float sharpdiff_lim = clamp(c0_Y + sharpdiff, 0.0, 1.0) - c0_Y;
+    float satmul = (c0_Y + max(sharpdiff_lim*0.9, sharpdiff_lim)*1.03 + 0.03)/(c0_Y + 0.03);
+    vec3 res = c0_Y + (sharpdiff_lim*3.0 + sharpdiff)/4.0 + (c[0].rgb - c0_Y)*satmul;
 
-	gl_FragColor = vec4( (video_level_out == true ? res + orig.rgb - c[0].rgb : res), alpha_out );
+    gl_FragColor = vec4( (video_level_out == true ? res + orig.rgb - c[0].rgb : res), alpha_out );
 `, {
     curveHeight: 'float'
 }, glsl`
@@ -370,7 +367,7 @@ const adaptiveSharpen = <IBlockTemplate>{
     }],
     exec(inputs, block) {
         const inp = inputs.input,
-              curveHeight = (Math.max(0, Math.min(1, inputs.strength === void 0? 0.5 : inputs.strength)) + 0.3) * 1.7
+              curveHeight = (Math.max(0, Math.min(1, inputs.strength === void 0? 0.5 : inputs.strength)) + 0.3) * 1.7;
         return new Promise((resolve, reject) => {
             firstPassOGL.render(inp)
             .then(intermediate => secondPassOGL.render(inp, {
@@ -386,7 +383,7 @@ const adaptiveSharpen = <IBlockTemplate>{
             });
         });
     }
-}
+};
 
 module.exports = {
     adaptiveSharpen
