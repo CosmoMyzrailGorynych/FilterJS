@@ -262,6 +262,7 @@ const gammaCorrection = <IBlockTemplate>{
 };
 
 const {fastSharpen} = require('./processing/fastSharpen.js');
+const {adaptiveSharpen} = require('./processing/adaptiveSharpen.js');
 const {computeNormals, computeNormalsPixels} = require('./processing/normals.js');
 const {gaussianBlur} = require('./processing/blur.js');
 const {simpleShader} = require('./processing/shaders.js');
@@ -280,6 +281,7 @@ module.exports = {
         brightnessContrast,
         gammaCorrection,
         fastSharpen,
+        adaptiveSharpen,
         gaussianBlur,
         bilateralFilter,
         median,
