@@ -1,0 +1,77 @@
+{
+  "name": "New filter",
+  "graph": [
+    {
+      "id": 0,
+      "inputLinks": [
+        {
+          "inputKey": "image",
+          "outBlock": 2,
+          "outKey": "output"
+        }
+      ],
+      "x": 200,
+      "y": -40,
+      "template": "outputImage",
+      "tagValues": {}
+    },
+    {
+      "id": 1,
+      "inputLinks": [],
+      "x": -540,
+      "y": -40,
+      "template": "inputImage",
+      "tagValues": {}
+    },
+    {
+      "id": 2,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 1,
+          "outKey": "image"
+        },
+        {
+          "inputKey": "threshold",
+          "outBlock": 4,
+          "outKey": "number"
+        },
+        {
+          "inputKey": "size",
+          "outBlock": 3,
+          "outKey": "number"
+        }
+      ],
+      "x": -240,
+      "y": -40,
+      "template": "bilateralFilter",
+      "tagValues": {}
+    },
+    {
+      "id": 3,
+      "inputLinks": [],
+      "x": -540,
+      "y": 100,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 0.01
+      }
+    },
+    {
+      "id": 4,
+      "inputLinks": [],
+      "x": -540,
+      "y": 260,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 0.1
+      }
+    }
+  ],
+  "view": {
+    "x": -23,
+    "y": -60
+  },
+  "lastId": 5,
+  "seed": 0
+}

@@ -55,7 +55,12 @@ class Filter {
               input = this.addBlock('inputImage', -200, 40);
         output.addLink('image', input, 'image');
 
-        this.exec = () => output.exec();
+        this.exec = () => output.exec()
+        .catch(err => {
+            console.error(err);
+            // tslint:disable-next-line: no-console
+            console.trace();
+        });
     }
     addBlock(templateKey, x = 0, y = 0) {
         const block = new Block(templateKey, x, y);

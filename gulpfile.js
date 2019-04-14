@@ -22,7 +22,7 @@ const notifier = require('node-notifier'),
       stylint = require('gulp-stylint');
 
 var tsProject = typescript.createProject('./tsconfig.json');
-const nwVersion = '0.35.5';
+const nwVersion = '0.37.3';
 
 const makeErrorObj = (title, err) => ({
     title,
@@ -191,6 +191,7 @@ const release = gulp.series([build, lint, done => {
         files: './app/**',
         platforms: ['osx64', 'win32', 'win64', 'linux32', 'linux64'],
         version: nwVersion,
+        zip: false,
         flavor: 'normal',
         buildType: 'versioned'
     });
@@ -225,7 +226,7 @@ const spawnise = (app, attrs) => new Promise((resolve, reject) => {
 });
 const deploy = done => {
     var pack = require('./app/package.json');
-    spawnise('./butler', ['push', `./build/ctjs - v${pack.version}/linux32`, 'comigo/filterjs:linux32', '--userversion', pack.version])
+    spawnise('./butler', ['push', `./build/FilterJS - v${pack.version}/linux32`, 'comigo/filterjs:linux32', '--userversion', pack.version])
     .then(() => spawnise('./butler', ['push', `./build/FilterJS - v${pack.version}/linux64`, 'comigo/filterjs:linux64', '--userversion', pack.version]))
     .then(() => spawnise('./butler', ['push', `./build/FilterJS - v${pack.version}/osx64`, 'comigo/filterjs:osx64', '--userversion', pack.version]))
     .then(() => spawnise('./butler', ['push', `./build/FilterJS - v${pack.version}/win32`, 'comigo/filterjs:win32', '--userversion', pack.version]))

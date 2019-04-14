@@ -79,6 +79,7 @@ graph-editor(style="background-position: {this.view.x + this.width/2}px {this.vi
         });
 
         this.keyListener = e => {
+            console.log(e);
             if ((e.key === 'Backspace' || e.key === 'Delete') && glob.selectedBlocks.length) {
                 var blockTagMap = glob.selectedBlocks.map(tag => tag.block);
                 // firstly, delete all the blocks from the graph
@@ -105,7 +106,10 @@ graph-editor(style="background-position: {this.view.x + this.width/2}px {this.vi
                 this.update();
             }
         };
-        window.addEventListener('keypress', this.keyListener);
+        window.addEventListener('keydown', this.keyListener);
+        this.on('unmount', () => {
+            window.removeEventListener('keydown', this.keyListener);
+        });
         
         this.updateLinks = () => {
             cx.clearRect(0, 0, this.width, this.height);

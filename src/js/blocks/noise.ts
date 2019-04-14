@@ -52,6 +52,7 @@ const perlinNoise = <IBlockTemplate>{
     exec(inputs: any, block: Block) {
         return new Promise((resolve, reject) => {
             const seedSet = Noise.seed(block.tagValues.seed || 0),
+                  // tslint:disable-next-line: no-implicit-dependencies
                   plainRandom = new (require('mersenne-twister'))(0);
             const sizeX = inputs.sizeX || 5,
                   sizeY = inputs.sizeY || 5;

@@ -1,14 +1,15 @@
 // tslint:disable:member-ordering
+// tslint:disable-next-line: no-implicit-dependencies
 const fs = require('fs-extra');
 const vectorShader = fs.readFileSync('./js/vertexShader.glsl', {
     encoding: 'utf-8'
 }),
-fragmentTemplate = fs.readFileSync('./js/fragmentShader.glsl', {
-    encoding: 'utf-8'
-});
+    fragmentTemplate = fs.readFileSync('./js/fragmentShader.glsl', {
+        encoding: 'utf-8'
+    });
 
 const VERT = WebGLRenderingContext.VERTEX_SHADER,
-      FRAG = WebGLRenderingContext.FRAGMENT_SHADER;
+    FRAG = WebGLRenderingContext.FRAGMENT_SHADER;
 
 const getRGB = (hex: string) => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -26,7 +27,11 @@ class Renderer {
     private fragShader: WebGLShader;
     private program: WebGLProgram;
     private paramNotation: object;
-    constructor(fragCode: string, params?: object) {
+    constructor(fragCode: string, params?: object, functions?: string) {
+        if (!functions && typeof params === 'string') {
+            functions = params;
+            params = {};
+        }
         this.paramNotation = params || {};
         const gl = this.gl;
         this.canvas.addEventListener('webglcontextlost', e => {
@@ -34,17 +39,18 @@ class Renderer {
         }, false);
         this.canvas.addEventListener('webglcontextrestored', this.setup.bind(this, [fragCode, this.paramNotation]), false);
         this.canvas.width = this.canvas.height = 1;
-        this.setup(fragCode, this.paramNotation);
+        this.setup(fragCode, this.paramNotation, functions);
         return this;
     }
-    setup(fragCode: string, params?: object) {
+    setup(fragCode: string, params?: object, functions?: string) {
         this.gl = this.canvas.getContext('webgl2');
         const gl = this.gl;
         this.vecShader = gl.createShader(VERT);
         this.fragShader = gl.createShader(FRAG);
         this.program = gl.createProgram();
         var fragSource = fragmentTemplate;
-        fragSource = fragSource.replace('${source}', fragCode);
+        // tslint:disable-next-line: no-invalid-template-strings
+        fragSource = fragSource.replace('${source}', fragCode).replace('${functions}', functions || '');
         var uniformsCode = '';
         params = params || {};
         for (const key in params) {
@@ -58,8 +64,11 @@ class Renderer {
                 uniformsCode += `uniform vec2 ${key};\n`;
             } else if (params[key] === 'vec4') {
                 uniformsCode += `uniform vec4 ${key};\n`;
+            } else if (params[key].indexOf('int') !== -1) {
+                uniformsCode += `uniform ${params[key]} ${key};\n`;
             }
         }
+        // tslint:disable-next-line: no-invalid-template-strings
         fragSource = fragSource.replace('${uniforms}', uniformsCode);
         gl.shaderSource(this.fragShader, fragSource);
         gl.shaderSource(this.vecShader, vectorShader);
@@ -67,10 +76,12 @@ class Renderer {
         gl.compileShader(this.vecShader);
         if (!gl.getShaderParameter(this.fragShader, gl.COMPILE_STATUS)) {
             console.error(gl.getShaderInfoLog(this.fragShader));
+            console.error(fragSource);
             return null;
         }
         if (!gl.getShaderParameter(this.vecShader, gl.COMPILE_STATUS)) {
             console.error(gl.getShaderInfoLog(this.vecShader));
+            console.error(fragSource);
             return null;
         }
         gl.attachShader(this.program, this.vecShader);
@@ -82,7 +93,7 @@ class Renderer {
             return null;
         }
     }
-    render(image: HTMLImageElement|HTMLCanvasElement, params?: object, positions?: Array<number>) {
+    render(image: HTMLImageElement | HTMLCanvasElement, params?: object, positions?: Array<number>) {
         return new Promise((resolve, reject) => {
             this.canvas.width = image.width;
             this.canvas.height = image.height;
@@ -109,12 +120,12 @@ class Renderer {
             const texCoordBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer);
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-                0.0,  0.0,
-                1.0,  0.0,
-                0.0,  1.0,
-                0.0,  1.0,
-                1.0,  0.0,
-                1.0,  1.0
+                0.0, 0.0,
+                1.0, 0.0,
+                0.0, 1.0,
+                0.0, 1.0,
+                1.0, 0.0,
+                1.0, 1.0
             ]), gl.STATIC_DRAW);
 
             // Create a texture.
@@ -162,7 +173,7 @@ class Renderer {
                         const [r, g, b] = getRGB(param);
                         gl.uniform3f(loc, r / 256, g / 256, b / 256);
                     } else if (typeof param === 'boolean') {
-                        gl.uniform1f(loc, param? 1 : 0);
+                        gl.uniform1f(loc, param ? 1 : 0);
                     } else if (param && typeof param[Symbol.iterator] === 'function') { // an array or such
                         if (param.length === 1) {
                             gl.uniform1f(loc, param[0]);
