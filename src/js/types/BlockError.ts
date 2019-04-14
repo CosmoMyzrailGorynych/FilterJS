@@ -4,6 +4,7 @@ class BlockError extends Error {
         super(message);
         this.block = block;
         console.error(this);
+        // tslint:disable-next-line: no-console
         console.trace();
     }
 }
