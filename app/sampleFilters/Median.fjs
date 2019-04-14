@@ -1,0 +1,108 @@
+{
+  "name": "New filter",
+  "graph": [
+    {
+      "id": 0,
+      "inputLinks": [
+        {
+          "inputKey": "image",
+          "outBlock": 4,
+          "outKey": "canvas"
+        }
+      ],
+      "x": 340,
+      "y": -40,
+      "template": "outputImage",
+      "tagValues": {}
+    },
+    {
+      "id": 1,
+      "inputLinks": [],
+      "x": -600,
+      "y": -40,
+      "template": "inputImage",
+      "tagValues": {}
+    },
+    {
+      "id": 2,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 3,
+          "outKey": "pixels"
+        },
+        {
+          "inputKey": "size",
+          "outBlock": 5,
+          "outKey": "number"
+        },
+        {
+          "inputKey": "percentile",
+          "outBlock": 6,
+          "outKey": "number"
+        }
+      ],
+      "x": -180,
+      "y": -40,
+      "template": "median",
+      "tagValues": {
+        "mode": "circular",
+        "quality": true
+      }
+    },
+    {
+      "id": 3,
+      "inputLinks": [
+        {
+          "inputKey": "canvas",
+          "outBlock": 1,
+          "outKey": "image"
+        }
+      ],
+      "x": -380,
+      "y": -40,
+      "template": "canvasToPixels",
+      "tagValues": {}
+    },
+    {
+      "id": 4,
+      "inputLinks": [
+        {
+          "inputKey": "pixels",
+          "outBlock": 2,
+          "outKey": "output"
+        }
+      ],
+      "x": 120,
+      "y": -40,
+      "template": "pixelsToCanvas",
+      "tagValues": {}
+    },
+    {
+      "id": 5,
+      "inputLinks": [],
+      "x": -540,
+      "y": 100,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 0.01
+      }
+    },
+    {
+      "id": 6,
+      "inputLinks": [],
+      "x": -540,
+      "y": 280,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 0.5
+      }
+    }
+  ],
+  "view": {
+    "x": -41,
+    "y": -109
+  },
+  "lastId": 7,
+  "seed": 0
+}

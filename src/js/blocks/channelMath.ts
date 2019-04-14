@@ -29,7 +29,8 @@ const channelSum = <IBlockTemplate>{
             const result = new Channel(w, h);
             for (let y = 0; y < h; y++) {
                 for (let x = 0; x < w; x++) {
-                    result.data.push(inputs.a.data[x + y*w] + inputs.b.data[x + y*w]);
+                    const ind = x + y*w;
+                    result.data[ind] = inputs.a.data[ind] + inputs.b.data[ind];
                 }
             }
             resolve({
@@ -67,7 +68,8 @@ const channelAddNumber = <IBlockTemplate>{
             const result = new Channel(w, h);
             for (let y = 0; y < h; y++) {
                 for (let x = 0; x < w; x++) {
-                    result.data.push(inputs.a.data[x + y*w] + inputs.b);
+                    const ind = x + y*w;
+                    result.data[ind] = inputs.a.data[ind] + inputs.b;
                 }
             }
             resolve({
@@ -104,7 +106,8 @@ const channelSubtract = <IBlockTemplate>{
             const result = new Channel(w, h);
             for (let y = 0; y < h; y++) {
                 for (let x = 0; x < w; x++) {
-                    result.data.push(inputs.a.data[x + y*w] - inputs.b.data[x + y*w]);
+                    const ind = x + y*w;
+                    result.data[ind] = inputs.a.data[ind] - inputs.b.data[ind];
                 }
             }
             resolve({
@@ -141,7 +144,8 @@ const channelMultiply = <IBlockTemplate>{
             const result = new Channel(w, h);
             for (let y = 0; y < h; y++) {
                 for (let x = 0; x < w; x++) {
-                    result.data.push(inputs.a.data[x + y*w] * inputs.b.data[x + y*w] / 256);
+                    const ind = x + y*w;
+                    result.data[ind] = inputs.a.data[ind] * inputs.b.data[ind] / 256;
                 }
             }
             resolve({
@@ -178,7 +182,8 @@ const channelMultiplyNumber = <IBlockTemplate>{
             const result = new Channel(w, h);
             for (let y = 0; y < h; y++) {
                 for (let x = 0; x < w; x++) {
-                    result.data.push(inputs.a.data[x + y*w] * inputs.b);
+                    const ind = x + y*w;
+                    result.data[ind] = inputs.a.data[ind] * inputs.b;
                 }
             }
             resolve({
@@ -221,8 +226,9 @@ const channelDivide = <IBlockTemplate>{
             const result = new Channel(w, h);
             for (let y = 0; y < h; y++) {
                 for (let x = 0; x < w; x++) {
-                    const pixel = inputs.a.data[x + y*w] / inputs.b.data[x + y*w] * 256;
-                    result.data.push(isFinite(pixel)? pixel : (inputs.error || Infinity));
+                    const ind = x + y*w;
+                    const pixel = inputs.a.data[ind] / inputs.b.data[ind] * 256;
+                    result.data[ind] = isFinite(pixel)? pixel : (inputs.error || Infinity);
                 }
             }
             resolve({
@@ -254,7 +260,8 @@ const channelAbs = <IBlockTemplate>{
             const result = new Channel(w, h);
             for (let y = 0; y < h; y++) {
                 for (let x = 0; x < w; x++) {
-                    result.data.push(Math.abs(inputs.a.data[x + y*w]));
+                    const ind = x + y*w;
+                    result.data[ind] = Math.abs(inputs.a.data[ind]);
                 }
             }
             resolve({
@@ -291,7 +298,8 @@ const channelPower = <IBlockTemplate>{
             const result = new Channel(w, h);
             for (let y = 0; y < h; y++) {
                 for (let x = 0; x < w; x++) {
-                    result.data.push(Math.pow(inputs.a.data[x + y*w], inputs.power));
+                    const ind = x + y*w;
+                    result.data[ind] = Math.pow(inputs.a.data[ind], inputs.power);
                 }
             }
             resolve({
@@ -329,7 +337,8 @@ const channelModulo = <IBlockTemplate>{
             const result = new Channel(w, h);
             for (let y = 0; y < h; y++) {
                 for (let x = 0; x < w; x++) {
-                    result.data.push(inputs.a.data[x + y*w] % inputs.modulo);
+                    const ind = x + y*w;
+                    result.data[ind] = inputs.a.data[ind] % inputs.modulo;
                 }
             }
             resolve({
@@ -367,7 +376,8 @@ const channelMax = <IBlockTemplate>{
             const result = new Channel(w, h);
             for (let y = 0; y < h; y++) {
                 for (let x = 0; x < w; x++) {
-                    result.data.push(Math.max(inputs.a.data[x + y*w], inputs.b.data[x + y*w]));
+                    const ind = x + y*w;
+                    result.data[ind] = Math.max(inputs.a.data[ind], inputs.b.data[ind]);
                 }
             }
             resolve({
@@ -404,7 +414,8 @@ const channelMin = <IBlockTemplate>{
             const result = new Channel(w, h);
             for (let y = 0; y < h; y++) {
                 for (let x = 0; x < w; x++) {
-                    result.data.push(Math.min(inputs.a.data[x + y*w], inputs.b.data[x + y*w]));
+                    const ind = x + y*w;
+                    result.data[ind] = Math.min(inputs.a.data[ind], inputs.b.data[ind]);
                 }
             }
             resolve({

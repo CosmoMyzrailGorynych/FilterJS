@@ -22,7 +22,7 @@ const notifier = require('node-notifier'),
       stylint = require('gulp-stylint');
 
 var tsProject = typescript.createProject('./tsconfig.json');
-const nwVersion = '0.35.5';
+const nwVersion = '0.37.3';
 
 const makeErrorObj = (title, err) => ({
     title,
