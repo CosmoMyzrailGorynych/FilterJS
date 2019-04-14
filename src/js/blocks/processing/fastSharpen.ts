@@ -87,6 +87,7 @@ const boxSharpenNoOvershoot = new OSWebGL(glsl`
 
     gl_FragColor = max(minimum, min(gl_FragColor, maximum));
 `);
+
 const fastSharpen = <IBlockTemplate>{
     nameLoc: 'blocks.processing.fastSharpen.name',
     name: 'Fast sharpen',
@@ -94,7 +95,7 @@ const fastSharpen = <IBlockTemplate>{
         key: 'input',
         type: 'canvas',
         name: 'Input',
-        nameLoc: 'blocks.processing.fastSharpen.inputNormals'
+        nameLoc: 'blocks.processing.fastSharpen.input'
     }],
     outputs: [{
         key: 'output',
