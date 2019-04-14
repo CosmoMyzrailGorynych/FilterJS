@@ -261,6 +261,7 @@ const gammaCorrection = <IBlockTemplate>{
     }
 };
 
+const {fastSharpen} = require('./processing/fastSharpen.js');
 const {computeNormals, computeNormalsPixels} = require('./processing/normals.js');
 const {gaussianBlur} = require('./processing/blur.js');
 const {simpleShader} = require('./processing/shaders.js');
@@ -278,6 +279,7 @@ module.exports = {
         getSkinColors,
         brightnessContrast,
         gammaCorrection,
+        fastSharpen,
         gaussianBlur,
         bilateralFilter,
         median,
