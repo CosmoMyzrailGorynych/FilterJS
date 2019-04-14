@@ -145,7 +145,7 @@ editor-screen
         };
         this.copyToClipboard = e => {
             var clip = nw.Clipboard.get();
-            clip.set(this.currentResult.toDataURL(), 'png');
+            clip.set(this.currentResult.toDataURL? this.currentResult.toDataURL() : this.currentResult.src, 'png');
         };
         this.exportPNG = e => {
             this.imageSaveFormat = 'png';
@@ -160,9 +160,9 @@ editor-screen
         this.finishExportImage = e => {
             var data;
             if (this.imageSaveFormat === 'jpg') {
-                data = this.currentResult.toDataURL('image/jpeg');
+                data = this.currentResult.toDataURL? this.currentResult.toDataURL('image/jpeg') : this.currentResult.src;
             } else {
-                data = this.currentResult.toDataURL();
+                data = this.currentResult.toDataURL? this.currentResult.toDataURL() : this.currentResult.src;
             }
             data = data.replace(/^data:image\/\w+;base64,/, '');
             var buff = new Buffer(data, 'base64');
