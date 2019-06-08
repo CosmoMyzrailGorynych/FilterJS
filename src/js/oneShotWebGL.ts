@@ -25,6 +25,7 @@ class Renderer {
     private gl: WebGLRenderingContext;
     private vecShader: WebGLShader;
     private fragShader: WebGLShader;
+    private fragSource: string;
     private program: WebGLProgram;
     private paramNotation: object;
     constructor(fragCode: string, params?: object, functions?: string) {
@@ -33,21 +34,17 @@ class Renderer {
             params = {};
         }
         this.paramNotation = params || {};
-        const gl = this.gl;
+        /*
         this.canvas.addEventListener('webglcontextlost', e => {
+            this.setup(fragCode, this.paramNotation, functions);
             e.preventDefault();
         }, false);
-        this.canvas.addEventListener('webglcontextrestored', this.setup.bind(this, [fragCode, this.paramNotation]), false);
+        this.canvas.addEventListener('webglcontextrestored', e => {
+            this.setup(fragCode, this.paramNotation, functions);
+            e.preventDefault();
+        });
+        */
         this.canvas.width = this.canvas.height = 1;
-        this.setup(fragCode, this.paramNotation, functions);
-        return this;
-    }
-    setup(fragCode: string, params?: object, functions?: string) {
-        this.gl = this.canvas.getContext('webgl2');
-        const gl = this.gl;
-        this.vecShader = gl.createShader(VERT);
-        this.fragShader = gl.createShader(FRAG);
-        this.program = gl.createProgram();
         var fragSource = fragmentTemplate;
         // tslint:disable-next-line: no-invalid-template-strings
         fragSource = fragSource.replace('${source}', fragCode).replace('${functions}', functions || '');
@@ -72,18 +69,25 @@ class Renderer {
         }
         // tslint:disable-next-line: no-invalid-template-strings
         fragSource = fragSource.replace('${uniforms}', uniformsCode);
-        gl.shaderSource(this.fragShader, fragSource);
+        this.fragSource = fragSource;
+        return this;
+    }
+    render(image: HTMLImageElement | HTMLCanvasElement, params?: object, positions?: Array<number>) {this.gl = this.canvas.getContext('webgl2');
+        const gl = this.gl;
+        this.vecShader = gl.createShader(VERT);
+        this.fragShader = gl.createShader(FRAG);
+        this.program = gl.createProgram();gl.shaderSource(this.fragShader, this.fragSource);
         gl.shaderSource(this.vecShader, vectorShader);
         gl.compileShader(this.fragShader);
         gl.compileShader(this.vecShader);
         if (!gl.getShaderParameter(this.fragShader, gl.COMPILE_STATUS)) {
             console.error(gl.getShaderInfoLog(this.fragShader));
-            console.error(fragSource);
+            console.error(this.fragSource);
             return null;
         }
         if (!gl.getShaderParameter(this.vecShader, gl.COMPILE_STATUS)) {
             console.error(gl.getShaderInfoLog(this.vecShader));
-            console.error(fragSource);
+            console.error(this.fragSource);
             return null;
         }
         gl.attachShader(this.program, this.vecShader);
@@ -94,8 +98,6 @@ class Renderer {
             gl.deleteProgram(this.program);
             return null;
         }
-    }
-    render(image: HTMLImageElement | HTMLCanvasElement, params?: object, positions?: Array<number>) {
         return new Promise((resolve, reject) => {
             this.canvas.width = image.width;
             this.canvas.height = image.height;
@@ -135,10 +137,6 @@ class Renderer {
             gl.activeTexture(gl.TEXTURE0);
             gl.bindTexture(gl.TEXTURE_2D, texture);
 
-            // set an alias for the input image
-            let u_imageLocation = gl.getUniformLocation(this.program, 'u_image');
-            gl.uniform1i(u_imageLocation, 0);  // texture unit 0
-
             // Set the parameters so we can render any size image.
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
@@ -158,6 +156,10 @@ class Renderer {
             gl.clear(gl.COLOR_BUFFER_BIT);
 
             gl.useProgram(this.program);
+
+            // set an alias for the input image
+            let u_imageLocation = gl.getUniformLocation(this.program, 'u_image');
+            gl.uniform1i(u_imageLocation, 0);  // texture unit 0
 
             gl.enableVertexAttribArray(pal);
             gl.bindBuffer(gl.ARRAY_BUFFER, pBuf);
