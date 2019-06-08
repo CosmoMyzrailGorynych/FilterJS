@@ -261,15 +261,16 @@ const gammaCorrection = <IBlockTemplate>{
     }
 };
 
-const {fastSharpen} = require('./processing/fastSharpen.js');
 const {adaptiveSharpen} = require('./processing/adaptiveSharpen.js');
+const {bilateralFilter} = require('./processing/bilateralFilter.js');
 const {computeNormals, computeNormalsPixels} = require('./processing/normals.js');
 const {gaussianBlur} = require('./processing/blur.js');
-const {simpleShader} = require('./processing/shaders.js');
+const {getSkinColors} = require('./processing/skinColors.js');
+const {derivative, applyDerivative, combineDerivatives} = require('./processing/derivative.js');
+const {fastSharpen} = require('./processing/fastSharpen.js');
 const {median} = require('./processing/medianBlock.js');
 const {nearestNeighbor} = require('./processing/nearestNeighbor.js');
-const {getSkinColors} = require('./processing/skinColors.js');
-const {bilateralFilter} = require('./processing/bilateralFilter.js');
+const {simpleShader} = require('./processing/shaders.js');
 
 module.exports = {
     name: 'Processing',
@@ -287,6 +288,9 @@ module.exports = {
         median,
         nearestNeighbor,
         computeNormals,
-        simpleShader
+        simpleShader,
+        derivative,
+        applyDerivative,
+        combineDerivatives
     }
 };

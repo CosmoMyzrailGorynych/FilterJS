@@ -1,0 +1,139 @@
+{
+  "name": "New filter",
+  "graph": [
+    {
+      "id": 0,
+      "inputLinks": [
+        {
+          "inputKey": "image",
+          "outBlock": 5,
+          "outKey": "output"
+        }
+      ],
+      "x": 1000,
+      "y": -120,
+      "template": "outputImage",
+      "tagValues": {}
+    },
+    {
+      "id": 1,
+      "inputLinks": [],
+      "x": -500,
+      "y": -140,
+      "template": "inputImage",
+      "tagValues": {}
+    },
+    {
+      "id": 2,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 1,
+          "outKey": "image"
+        }
+      ],
+      "x": -240,
+      "y": -40,
+      "template": "derivative",
+      "tagValues": {
+        "direction": [
+          -0.9983713344239766,
+          -0.057049790538512946
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 1,
+          "outKey": "image"
+        },
+        {
+          "inputKey": "intensity",
+          "outBlock": 6,
+          "outKey": "number"
+        },
+        {
+          "inputKey": "derivative",
+          "outBlock": 9,
+          "outKey": "output"
+        }
+      ],
+      "x": 660,
+      "y": -140,
+      "template": "combineDerivatives",
+      "tagValues": {
+        "direction": [
+          -0.9992418817088269,
+          -0.03893150188475949
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "inputLinks": [],
+      "x": 300,
+      "y": 320,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 1
+      }
+    },
+    {
+      "id": 7,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 2,
+          "outKey": "output"
+        },
+        {
+          "inputKey": "size",
+          "outBlock": 8,
+          "outKey": "number"
+        }
+      ],
+      "x": -20,
+      "y": 60,
+      "template": "gaussianBlur",
+      "tagValues": {}
+    },
+    {
+      "id": 8,
+      "inputLinks": [],
+      "x": -340,
+      "y": 200,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 0.03
+      }
+    },
+    {
+      "id": 9,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 2,
+          "outKey": "output"
+        },
+        {
+          "inputKey": "blurred",
+          "outBlock": 7,
+          "outKey": "output"
+        }
+      ],
+      "x": 220,
+      "y": -40,
+      "template": "unblur",
+      "tagValues": {}
+    }
+  ],
+  "view": {
+    "x": -391,
+    "y": -77
+  },
+  "lastId": 10,
+  "seed": 0
+}
