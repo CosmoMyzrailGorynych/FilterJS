@@ -1,0 +1,165 @@
+{
+  "name": "New filter",
+  "graph": [
+    {
+      "id": 0,
+      "inputLinks": [
+        {
+          "inputKey": "image",
+          "outBlock": 2,
+          "outKey": "output"
+        }
+      ],
+      "x": 500,
+      "y": -60,
+      "template": "outputImage",
+      "tagValues": {}
+    },
+    {
+      "id": 1,
+      "inputLinks": [],
+      "x": -1160,
+      "y": -60,
+      "template": "inputImage",
+      "tagValues": {}
+    },
+    {
+      "id": 2,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 1,
+          "outKey": "image"
+        },
+        {
+          "inputKey": "blurred",
+          "outBlock": 5,
+          "outKey": "output"
+        }
+      ],
+      "x": 160,
+      "y": -60,
+      "template": "unblur",
+      "tagValues": {}
+    },
+    {
+      "id": 3,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 1,
+          "outKey": "image"
+        },
+        {
+          "inputKey": "size",
+          "outBlock": 13,
+          "outKey": "number"
+        }
+      ],
+      "x": -400,
+      "y": 80,
+      "template": "gaussianBlur",
+      "tagValues": {}
+    },
+    {
+      "id": 5,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 1,
+          "outKey": "image"
+        },
+        {
+          "inputKey": "size",
+          "outBlock": 13,
+          "outKey": "number"
+        },
+        {
+          "inputKey": "threshold",
+          "outBlock": 14,
+          "outKey": "number"
+        }
+      ],
+      "x": -400,
+      "y": 240,
+      "template": "bilateralFilter",
+      "tagValues": {}
+    },
+    {
+      "id": 10,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 12,
+          "outKey": "pixels"
+        },
+        {
+          "inputKey": "size",
+          "outBlock": 13,
+          "outKey": "number"
+        }
+      ],
+      "x": -400,
+      "y": 480,
+      "template": "median",
+      "tagValues": {
+        "mode": "circular",
+        "quality": false
+      }
+    },
+    {
+      "id": 11,
+      "inputLinks": [
+        {
+          "inputKey": "pixels",
+          "outBlock": 10,
+          "outKey": "output"
+        }
+      ],
+      "x": -100,
+      "y": 480,
+      "template": "pixelsToCanvas",
+      "tagValues": {}
+    },
+    {
+      "id": 12,
+      "inputLinks": [
+        {
+          "inputKey": "canvas",
+          "outBlock": 1,
+          "outKey": "image"
+        }
+      ],
+      "x": -740,
+      "y": 480,
+      "template": "canvasToPixels",
+      "tagValues": {}
+    },
+    {
+      "id": 13,
+      "inputLinks": [],
+      "x": -740,
+      "y": 120,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 0.01
+      }
+    },
+    {
+      "id": 14,
+      "inputLinks": [],
+      "x": -740,
+      "y": 300,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 0.1
+      }
+    }
+  ],
+  "view": {
+    "x": 75,
+    "y": -218
+  },
+  "lastId": 15,
+  "seed": 0
+}

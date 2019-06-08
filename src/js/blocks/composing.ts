@@ -123,10 +123,13 @@ const blend = <IBlockTemplate>{
     }
 };
 
+const {unblur} = require('./composing/unblur.js');
+
 module.exports = {
     name: 'Composing',
     blocks: {
         blend,
-        mask
+        mask,
+        unblur
     }
 };
