@@ -2,8 +2,8 @@
 // tslint:disable-next-line: no-implicit-dependencies
 const fs = require('fs-extra');
 const vectorShader = fs.readFileSync('./js/vertexShader.glsl', {
-    encoding: 'utf-8'
-}),
+        encoding: 'utf-8'
+    }),
     fragmentTemplate = fs.readFileSync('./js/fragmentShader.glsl', {
         encoding: 'utf-8'
     });
@@ -66,6 +66,8 @@ class Renderer {
                 uniformsCode += `uniform vec4 ${key};\n`;
             } else if (params[key].indexOf('int') !== -1) {
                 uniformsCode += `uniform ${params[key]} ${key};\n`;
+            } else if (params[key] === 'sampler2D' || params[key] === 'texture') {
+                uniformsCode += `uniform sampler2D ${key};\n`;
             }
         }
         // tslint:disable-next-line: no-invalid-template-strings
@@ -130,7 +132,12 @@ class Renderer {
 
             // Create a texture.
             const texture = gl.createTexture();
+            gl.activeTexture(gl.TEXTURE0);
             gl.bindTexture(gl.TEXTURE_2D, texture);
+
+            // set an alias for the input image
+            let u_imageLocation = gl.getUniformLocation(this.program, 'u_image');
+            gl.uniform1i(u_imageLocation, 0);  // texture unit 0
 
             // Set the parameters so we can render any size image.
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
@@ -163,6 +170,8 @@ class Renderer {
             gl.uniform2f(resolutionLocation, image.width, image.height);
             gl.uniform2f(textureSizeLocation, image.width, image.height);
 
+            var imageSamplerIndex = 1;
+
             for (const key in params) {
                 if (Object.hasOwnProperty.apply(params, [key])) {
                     const param = params[key];
@@ -184,6 +193,27 @@ class Renderer {
                         } else if (param.length === 4) {
                             gl.uniform4f(loc, param[0], param[1], param[2], param[3]);
                         }
+                    } else if (param instanceof HTMLImageElement || param instanceof HTMLCanvasElement) {
+                        // lookup the sampler locations.
+                        let u_imageLocation = gl.getUniformLocation(this.program, key);
+                        // set which texture units to render with.
+                        gl.uniform1i(u_imageLocation, imageSamplerIndex);
+
+                        // Create a texture.
+                        const texture = gl.createTexture();
+                        gl.activeTexture(gl['TEXTURE' + imageSamplerIndex]);
+                        gl.bindTexture(gl.TEXTURE_2D, texture);
+                        // Set the parameters so we can render any size image.
+                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+
+                        //
+                        //gl.bindTexture(gl.TEXTURE_2D, texture);
+
+                        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, param);
+                        imageSamplerIndex++;
                     }
                 }
             }
