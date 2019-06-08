@@ -28,7 +28,7 @@ const unblur = <IBlockTemplate>{
     }, {
         key: 'k',
         type: 'number',
-        name: 'Input',
+        name: 'Intensity',
         nameLoc: 'blocks.processing.unblur.k',
         optional: true,
         hint: 'Defaults to 1. A number larger than 0, usually between (0; 1], but not limited to this range.'
