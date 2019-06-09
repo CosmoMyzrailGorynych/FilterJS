@@ -12,6 +12,7 @@ module.exports = {
         getSkinColors,
         median,
         nearestNeighbor,
+        FXAA,
         computeNormals,
         simpleShader,
         derivative,
