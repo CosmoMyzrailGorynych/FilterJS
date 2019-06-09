@@ -271,6 +271,8 @@ const {fastSharpen} = require('./processing/fastSharpen.js');
 const {median} = require('./processing/medianBlock.js');
 const {nearestNeighbor} = require('./processing/nearestNeighbor.js');
 const {simpleShader} = require('./processing/shaders.js');
+const {walkingKnife} = require('./processing/walkingKnife.js');
+const {gradientKnife} = require('./processing/gradientKnife.js');
 
 module.exports = {
     name: 'Processing',
@@ -291,6 +293,8 @@ module.exports = {
         simpleShader,
         derivative,
         applyDerivative,
-        combineDerivatives
+        combineDerivatives,
+        walkingKnife,
+        gradientKnife
     }
 };

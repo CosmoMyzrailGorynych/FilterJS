@@ -1,0 +1,142 @@
+{
+  "name": "New filter",
+  "graph": [
+    {
+      "id": 0,
+      "inputLinks": [
+        {
+          "inputKey": "image",
+          "outBlock": 2,
+          "outKey": "output"
+        }
+      ],
+      "x": 420,
+      "y": -40,
+      "template": "outputImage",
+      "tagValues": {}
+    },
+    {
+      "id": 1,
+      "inputLinks": [],
+      "x": -720,
+      "y": -40,
+      "template": "inputImage",
+      "tagValues": {}
+    },
+    {
+      "id": 2,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 3,
+          "outKey": "output"
+        },
+        {
+          "inputKey": "percentile",
+          "outBlock": 5,
+          "outKey": "number"
+        },
+        {
+          "inputKey": "iterations",
+          "outBlock": 8,
+          "outKey": "number"
+        }
+      ],
+      "x": -20,
+      "y": -40,
+      "template": "gradientKnife",
+      "tagValues": {
+        "stopAtFailure": true
+      }
+    },
+    {
+      "id": 3,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 1,
+          "outKey": "image"
+        },
+        {
+          "inputKey": "size",
+          "outBlock": 4,
+          "outKey": "number"
+        }
+      ],
+      "x": -360,
+      "y": -40,
+      "template": "gaussianBlur",
+      "tagValues": {}
+    },
+    {
+      "id": 4,
+      "inputLinks": [],
+      "x": -600,
+      "y": 80,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 0.003
+      }
+    },
+    {
+      "id": 5,
+      "inputLinks": [],
+      "x": -340,
+      "y": 120,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 0.5
+      }
+    },
+    {
+      "id": 6,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 3,
+          "outKey": "output"
+        },
+        {
+          "inputKey": "percentile",
+          "outBlock": 5,
+          "outKey": "number"
+        },
+        {
+          "inputKey": "radius",
+          "outBlock": 7,
+          "outKey": "number"
+        }
+      ],
+      "x": -20,
+      "y": -240,
+      "template": "walkingKnife",
+      "tagValues": {}
+    },
+    {
+      "id": 7,
+      "inputLinks": [],
+      "x": -340,
+      "y": -240,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 0.01
+      }
+    },
+    {
+      "id": 8,
+      "inputLinks": [],
+      "x": -340,
+      "y": 300,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 25
+      }
+    }
+  ],
+  "view": {
+    "x": 0,
+    "y": -3
+  },
+  "lastId": 9,
+  "seed": 0
+}

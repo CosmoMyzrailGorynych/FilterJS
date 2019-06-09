@@ -1,0 +1,150 @@
+{
+  "name": "New filter",
+  "graph": [
+    {
+      "id": 0,
+      "inputLinks": [
+        {
+          "inputKey": "image",
+          "outBlock": 8,
+          "outKey": "output"
+        }
+      ],
+      "x": 260,
+      "y": -60,
+      "template": "outputImage",
+      "tagValues": {}
+    },
+    {
+      "id": 1,
+      "inputLinks": [],
+      "x": -160,
+      "y": -320,
+      "template": "inputImage",
+      "tagValues": {}
+    },
+    {
+      "id": 2,
+      "inputLinks": [
+        {
+          "inputKey": "color1",
+          "outBlock": 7,
+          "outKey": "color"
+        },
+        {
+          "inputKey": "color2",
+          "outBlock": 6,
+          "outKey": "color"
+        },
+        {
+          "inputKey": "color4",
+          "outBlock": 6,
+          "outKey": "color"
+        },
+        {
+          "inputKey": "color3",
+          "outBlock": 7,
+          "outKey": "color"
+        },
+        {
+          "inputKey": "color5",
+          "outBlock": 7,
+          "outKey": "color"
+        }
+      ],
+      "x": -400,
+      "y": -60,
+      "template": "gradientFill",
+      "tagValues": {
+        "rotate": false,
+        "radial": true
+      }
+    },
+    {
+      "id": 3,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 2,
+          "outKey": "image"
+        },
+        {
+          "inputKey": "radius",
+          "outBlock": 4,
+          "outKey": "number"
+        }
+      ],
+      "x": -140,
+      "y": -60,
+      "template": "walkingKnife",
+      "tagValues": {}
+    },
+    {
+      "id": 4,
+      "inputLinks": [],
+      "x": -400,
+      "y": 300,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 0.1
+      }
+    },
+    {
+      "id": 6,
+      "inputLinks": [],
+      "x": -740,
+      "y": 160,
+      "template": "colorInput",
+      "tagValues": {
+        "color": "#ffffff"
+      }
+    },
+    {
+      "id": 7,
+      "inputLinks": [],
+      "x": -740,
+      "y": -60,
+      "template": "colorInput",
+      "tagValues": {
+        "color": "#000000"
+      }
+    },
+    {
+      "id": 8,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 2,
+          "outKey": "image"
+        },
+        {
+          "inputKey": "iterations",
+          "outBlock": 9,
+          "outKey": "number"
+        }
+      ],
+      "x": -140,
+      "y": 140,
+      "template": "gradientKnife",
+      "tagValues": {
+        "stopAtFailure": false
+      }
+    },
+    {
+      "id": 9,
+      "inputLinks": [],
+      "x": -420,
+      "y": 500,
+      "template": "numberInput",
+      "tagValues": {
+        "number": 300
+      }
+    }
+  ],
+  "view": {
+    "x": 72,
+    "y": -300
+  },
+  "lastId": 10,
+  "seed": 0
+}
