@@ -6,11 +6,11 @@
       "inputLinks": [
         {
           "inputKey": "image",
-          "outBlock": 2,
+          "outBlock": 9,
           "outKey": "output"
         }
       ],
-      "x": 420,
+      "x": 740,
       "y": -40,
       "template": "outputImage",
       "tagValues": {}
@@ -131,12 +131,26 @@
       "tagValues": {
         "number": 25
       }
+    },
+    {
+      "id": 9,
+      "inputLinks": [
+        {
+          "inputKey": "input",
+          "outBlock": 2,
+          "outKey": "output"
+        }
+      ],
+      "x": 380,
+      "y": -40,
+      "template": "FXAA",
+      "tagValues": {}
     }
   ],
   "view": {
-    "x": 0,
-    "y": -3
+    "x": -334,
+    "y": -19
   },
-  "lastId": 9,
+  "lastId": 10,
   "seed": 0
 }

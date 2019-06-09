@@ -1,6 +1,6 @@
 var {MedianFilter} = require('./medianFilter.js');
 
-const median = <IBlockTemplate>{
+const medianBlock = <IBlockTemplate>{
     nameLoc: 'blocks.processing.median.name',
     name: 'Median & Percentile',
     inputs: [{
@@ -61,5 +61,5 @@ const median = <IBlockTemplate>{
 };
 
 module.exports = {
-    median
+    medianBlock
 };

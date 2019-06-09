@@ -110,10 +110,6 @@ const gradientKnife = <IBlockTemplate>{
                   stopAtFailure = block.tagValues.stopAtFailure || false;
             var method;
             const shot = gradientKnifeOGLCode.replace(/\$iterations/g, Math.floor(iterations).toString());
-            console.log({
-                percentile,
-                stopAtFailure
-            });
             (new OSWebGL(shot, {
                 percentile: 'float',
                 stopAtFailure: 'bool'

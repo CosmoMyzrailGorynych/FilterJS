@@ -1,5 +1,5 @@
-import OSWebGL = require('./../../oneShotWebGL.js');
-import BlockError = require('./../../types/BlockError.js');
+import OSWebGL = require('../../oneShotWebGL.js');
+import BlockError = require('../../types/BlockError.js');
 const glsl = e => e;
 
 /*
