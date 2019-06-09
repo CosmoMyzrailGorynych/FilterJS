@@ -25,6 +25,7 @@ editor-screen
         // .anOriginal
         .anOutput
             .anOutputWrap
+                .aLabel#theShowDifferenceLabel Show difference
                 .aLabel#theShowOriginalLabel Show original
                 div(ref="original")
                 div(ref="output")

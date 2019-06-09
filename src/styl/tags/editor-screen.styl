@@ -66,10 +66,12 @@ editor-screen
     flex 1 1 auto
     position relative
 
-#theShowOriginalLabel
+#theShowOriginalLabel, #theShowDifferenceLabel
     position fixed
     right 1rem
     top 4rem
+    z-index 2
+#theShowOriginalLabel
     & + div
         display none
         position absolute
@@ -77,4 +79,10 @@ editor-screen
         display block
     &:hover + div + div
         visibility hidden
-    z-index 2
+#theShowDifferenceLabel
+    top 7rem
+    &:hover + div + div, &:hover + div + div + div
+        display block
+        visibility visible
+    &:hover + div + div + div
+        mix-blend-mode difference
