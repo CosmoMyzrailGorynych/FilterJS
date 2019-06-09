@@ -28,6 +28,7 @@ interface IBlockTemplate {
     nameLoc: string;
     name: string;
     set?: string;
+    key?: string;
     noPreview?: boolean;
     noPalette?: boolean;
     isSingular?: boolean;

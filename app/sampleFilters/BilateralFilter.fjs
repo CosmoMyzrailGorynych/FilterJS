@@ -66,12 +66,24 @@
       "tagValues": {
         "number": 0.1
       }
+    },
+    {
+      "id": 5,
+      "inputLinks": [],
+      "x": -540,
+      "y": -280,
+      "template": "comment",
+      "tagValues": {
+        "comment": "Smart Blur aka Bilateral Blurring Filter blurs small details while leaving high contrast ones untouched. See how skin and coat gets smoother on the sample image \"A girl and a Book\", while face features stay crisp.",
+        "comment@width": "479px",
+        "comment@height": "113px"
+      }
     }
   ],
   "view": {
     "x": -23,
     "y": -60
   },
-  "lastId": 5,
+  "lastId": 6,
   "seed": 0
 }

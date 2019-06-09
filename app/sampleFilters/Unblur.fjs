@@ -154,12 +154,36 @@
       "tagValues": {
         "number": 0.1
       }
+    },
+    {
+      "id": 15,
+      "inputLinks": [],
+      "x": -740,
+      "y": -240,
+      "template": "comment",
+      "tagValues": {
+        "comment": "The \"Unblur\" block finds fine details on the image by comparing it with a blurred version, then boosting these details on the source image. When using it with Gaussian blur, you will get a result similar to regular unsharp mask, but, when using with other blur filters, you can get better results and get rid of \"halo\" rings",
+        "comment@width": "541px",
+        "comment@height": "139px"
+      }
+    },
+    {
+      "id": 16,
+      "inputLinks": [],
+      "x": 180,
+      "y": 300,
+      "template": "comment",
+      "tagValues": {
+        "comment": "Try piping different blurred variants here to see the variety of effects!",
+        "comment@width": "279px",
+        "comment@height": "67px"
+      }
     }
   ],
   "view": {
-    "x": 75,
-    "y": -218
+    "x": 2,
+    "y": -98
   },
-  "lastId": 15,
+  "lastId": 17,
   "seed": 0
 }

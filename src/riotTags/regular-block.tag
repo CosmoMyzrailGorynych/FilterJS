@@ -1,9 +1,12 @@
 regular-block(
     style="left: {block.x + parent.view.x + parent.width/2}px; top: {block.y + parent.view.y + parent.height/2}px"
     onclick="{selectBlock}"
-    class="{active: glob.selectedBlocks.indexOf(this) !== -1} {block.template.set}"
+    class="{active: glob.selectedBlocks.indexOf(this) !== -1} {block.template.set} {block.template.key}"
 )
-    h3(onmousedown="{startDragging}" title="{block.template.hint}") {block.template.name}
+    h3(onmousedown="{startDragging}" title="{block.template.hint}") 
+        icon(icon="comment" if="{block.template.key === 'comment'}")
+        | {block.template.name}
+        icon(icon="hint" if="{block.template.hint}")
     .flexwrap
         .fifty
             div.anInputPin(

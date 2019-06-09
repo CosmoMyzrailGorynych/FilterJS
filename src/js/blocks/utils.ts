@@ -42,9 +42,26 @@ const aspectRatio = <IBlockTemplate>{
     }
 };
 
+const comment = <IBlockTemplate>{
+    nameLoc: 'blocks.utils.comment.name',
+    name: 'Comment',
+    noPreview: true,
+    inputs: [],
+    outputs: [],
+    tags: [{
+        tag: 'textarea-input',
+        defaultValue: 'Write a comment here!',
+        key: 'comment'
+    }],
+    exec(inputs, block) {
+        return void 0;
+    }
+};
+
 module.exports = {
     name: 'Utils',
     blocks: {
-        aspectRatio
+        aspectRatio,
+        comment
     }
 };

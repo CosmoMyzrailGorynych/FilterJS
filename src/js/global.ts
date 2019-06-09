@@ -3,8 +3,8 @@ import Block = require('./types/Block.js');
 import LinkType = require('./types/LinkType.js');
 
 class GlobalData {
-    width: number = 512;
-    height: number = 512;
+    width: number = 1024;
+    height: number = 1024;
     seed: number = 0;
     sourceImage: HTMLCanvasElement;
     filter: Filter;

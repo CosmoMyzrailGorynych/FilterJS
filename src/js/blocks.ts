@@ -22,6 +22,7 @@ require('fs')
                     paletteCount ++;
                 }
                 category.blocks[key].set = category.set;
+                category.blocks[key].key = key;
             }
         }
         category.paletteCount = paletteCount;
