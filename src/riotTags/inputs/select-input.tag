@@ -1,5 +1,4 @@
 select-input
-    span(if="{opts.label}") {opts.label}
     select(ref="input" onchange="{onChange}" value="{option}")
         option(each="{option in opts.options}" selected="{option === parent.parent.block.tagValues[editedKey]}" value="{option}") {option}
     script.
