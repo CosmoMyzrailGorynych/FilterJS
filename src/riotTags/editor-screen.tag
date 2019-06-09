@@ -2,6 +2,8 @@ editor-screen
     .Tabs
         button(onclick="{openImage}" title="Open Image")
             icon(icon="loadImage")
+        button(onclick="{popUpSampleMenu}" title="Open a Sample Image")
+            icon(icon="sampleImages")
         button(onclick="{newImage}" title="New Image")
             icon(icon="newImage")
         .aTab(class="{active: tab === 'output'}" onclick="{switchTab('output')}") Rendered Image
@@ -43,13 +45,15 @@ editor-screen
               path = require('path');
         this.tab = 'edit';
         this.filter = glob.filter = new Filter('New filter');
-        this.loadSampleImage = () => {
+        this.loadSampleImage = image => {
             var sampleImage = document.createElement('img');
             sampleImage.onload = () => {
                 glob.sourceImage.getContext('2d').drawImage(sampleImage, 0, 0);
+                this.filter.width = sampleImage.width;
+                this.filter.height = sampleImage.height;
                 setTimeout(this.render, 0);
             };
-            sampleImage.src = 'img/sampleImage.png';
+            sampleImage.src = image || 'img/ThatGirl.png';
         };
         this.on('mount', this.loadSampleImage);
         this.imageSaveFormat = 'png';
@@ -98,9 +102,9 @@ editor-screen
             this.refs.imageFinder.click();
         };
         this.newImage = e => {
-            var width = Number(prompt('Image width:', 512));
+            var width = Number(prompt('Image width:', 1024));
             if (width && width > 0) {
-                var height = Number(prompt('Image height:', 512));
+                var height = Number(prompt('Image height:', 1024));
                 if (height && height > 0) { 
                     glob.sourceImage.width = glob.width = width;
                     glob.sourceImage.height = glob.height = height;
@@ -109,6 +113,42 @@ editor-screen
                 }
             }
         };
+        const sampleMenu = new nw.Menu();
+        sampleMenu.append(new nw.MenuItem({
+            label: 'A Girl and a Book',
+            click: () => {
+                this.loadSampleImage('img/ThatGirl.png');
+            }
+        }));
+        sampleMenu.append(new nw.MenuItem({
+            label: 'Speckles',
+            click: () => {
+                this.loadSampleImage('img/Speckles.png');
+            }
+        }));
+        sampleMenu.append(new nw.MenuItem({
+            label: 'A Doggo',
+            click: () => {
+                this.loadSampleImage('img/Doggo.png');
+            }
+        }));
+        sampleMenu.append(new nw.MenuItem({
+            label: 'The Duke',
+            click: () => {
+                this.loadSampleImage('img/TheDuke.png');
+            }
+        }));
+        sampleMenu.append(new nw.MenuItem({
+            label: 'A City',
+            click: () => {
+                this.loadSampleImage('img/City.png');
+            }
+        }));
+        this.popUpSampleMenu = e => {
+            sampleMenu.popup(e.clientX, e.clientY);
+            e.preventDefault();
+        };
+
         this.saveFilter = e => {
             this.refs.filterSaver.click();
         };

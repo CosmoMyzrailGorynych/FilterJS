@@ -79,7 +79,6 @@ graph-editor(style="background-position: {this.view.x + this.width/2}px {this.vi
         });
 
         this.keyListener = e => {
-            console.log(e);
             if ((e.key === 'Backspace' || e.key === 'Delete') && glob.selectedBlocks.length) {
                 var blockTagMap = glob.selectedBlocks.map(tag => tag.block);
                 // firstly, delete all the blocks from the graph
